@@ -373,9 +373,11 @@ function renderFlashcard(q, index, total, feedback) {
     } else {
       inputHtml = `<input type="text" id="plain-answer" placeholder="Type the Polish word…" autocomplete="off" autocorrect="off" autocapitalize="off">`;
     }
-    return `${meta}${prompt}${inputHtml}<br><br>
-      <button class="btn btn-primary" id="check-btn">Check →</button>
-      <a href="#" style="margin-left:12px;color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>`;
+    return `${meta}${prompt}${inputHtml}
+      <div class="question-actions">
+        <button class="btn btn-primary" id="check-btn">Check →</button>
+        <a href="#" style="margin-left:12px;color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>
+      </div>`;
   }
 
   let feedbackHtml;
@@ -392,7 +394,7 @@ function renderFlashcard(q, index, total, feedback) {
       <div class="answer">✗ Correct: ${escHtml(q.answer)}</div>
       <div class="note">${escHtml(q.hint)}</div></div>`;
   }
-  return `${meta}${prompt}${feedbackHtml}<br><a class="btn btn-primary" id="next-btn">Next →</a>`;
+  return `${meta}${prompt}${feedbackHtml}<div class="question-actions"><a class="btn btn-primary" id="next-btn">Next →</a></div>`;
 }
 
 function renderTextQuestion(q, index, total, feedback) {
@@ -403,7 +405,9 @@ function renderTextQuestion(q, index, total, feedback) {
   if (!feedback) {
     return `${meta}${prompt}
       <input type="text" id="plain-answer" placeholder="Your answer…" autocomplete="off">
-      <br><br><button class="btn btn-primary" id="check-btn">Check →</button>`;
+      <div class="question-actions">
+        <button class="btn btn-primary" id="check-btn">Check →</button>
+      </div>`;
   }
 
   let feedbackHtml;
@@ -415,7 +419,7 @@ function renderTextQuestion(q, index, total, feedback) {
       <div class="answer">✗ Correct: ${escHtml(q.answer)}</div>
       ${q.note ? `<div class="note">${escHtml(q.note)}</div>` : ''}</div>`;
   }
-  return `${meta}${prompt}${feedbackHtml}<br><a class="btn btn-primary" id="next-btn">Next →</a>`;
+  return `${meta}${prompt}${feedbackHtml}<div class="question-actions"><a class="btn btn-primary" id="next-btn">Next →</a></div>`;
 }
 
 function renderMultipleChoice(q, index, total, feedback) {
@@ -438,7 +442,7 @@ function renderMultipleChoice(q, index, total, feedback) {
 
   return `${meta}${prompt}<div class="options">${options}</div>
     ${q.note ? `<div style="margin-top:16px;font-size:0.9rem;color:#666">${escHtml(q.note)}</div>` : ''}
-    <br><a class="btn btn-primary" id="next-btn">Next →</a>`;
+    <div class="question-actions"><a class="btn btn-primary" id="next-btn">Next →</a></div>`;
 }
 
 function setupQuestionEvents(q, feedback) {
