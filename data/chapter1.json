@@ -1,0 +1,183 @@
+{
+  "chapter": 1,
+  "topic": "Polish Basics",
+  "vocabulary": [
+    {
+      "section": "colors",
+      "items": [
+        { "english": "yellow", "polish": "żółty", "pronunciation": "zhoow-ti" },
+        { "english": "orange", "polish": "pomarańczowy", "pronunciation": "po-mah-ran-cho-vi" },
+        { "english": "red", "polish": "czerwony", "pronunciation": "cher-vo-ni" },
+        { "english": "violet / purple", "polish": "fioletowy", "pronunciation": "fyo-le-to-vi" },
+        { "english": "blue", "polish": "niebieski", "pronunciation": "nye-bye-skee" },
+        { "english": "green", "polish": "zielony", "pronunciation": "zie-lo-ni" },
+        { "english": "pink", "polish": "różowy", "pronunciation": "roo-zho-vi" },
+        { "english": "brown", "polish": "brązowy", "pronunciation": "bron-zo-vi" },
+        { "english": "black", "polish": "czarny", "pronunciation": "char-ni" },
+        { "english": "white", "polish": "biały", "pronunciation": "bia-wy" },
+        { "english": "grey", "polish": "szary", "pronunciation": "sha-ri" },
+        { "english": "dark", "polish": "ciemny", "pronunciation": "tsiem-ni" },
+        { "english": "light", "polish": "jasny", "pronunciation": "yas-ni" }
+      ]
+    },
+    {
+      "section": "numbers",
+      "items": [
+        { "english": "0 (zero)", "polish": "zero", "pronunciation": "zeh-roh" },
+        { "english": "1 (one)", "polish": "jeden", "pronunciation": "ye-den" },
+        { "english": "2 (two)", "polish": "dwa", "pronunciation": "dva" },
+        { "english": "3 (three)", "polish": "trzy", "pronunciation": "tshi" },
+        { "english": "4 (four)", "polish": "cztery", "pronunciation": "chte-ri" },
+        { "english": "5 (five)", "polish": "pięć", "pronunciation": "piench" },
+        { "english": "6 (six)", "polish": "sześć", "pronunciation": "sheshch" },
+        { "english": "7 (seven)", "polish": "siedem", "pronunciation": "sye-dem" },
+        { "english": "8 (eight)", "polish": "osiem", "pronunciation": "o-syem" },
+        { "english": "9 (nine)", "polish": "dziewięć", "pronunciation": "dzye-viench" },
+        { "english": "10 (ten)", "polish": "dziesięć", "pronunciation": "dye-shyench" },
+        { "english": "11 (eleven)", "polish": "jedenaście", "pronunciation": "ye-de-nash-cye" },
+        { "english": "12 (twelve)", "polish": "dwanaście", "pronunciation": "dva-nash-cye" },
+        { "english": "13 (thirteen)", "polish": "trzynaście", "pronunciation": "tshi-nash-cye" },
+        { "english": "14 (fourteen)", "polish": "czternaście", "pronunciation": "chter-nash-cye" },
+        { "english": "15 (fifteen)", "polish": "piętnaście", "pronunciation": "pyent-nash-cye" },
+        { "english": "16 (sixteen)", "polish": "szesnaście", "pronunciation": "shes-nash-cye" },
+        { "english": "17 (seventeen)", "polish": "siedemnaście", "pronunciation": "sye-dem-nash-cye" },
+        { "english": "18 (eighteen)", "polish": "osiemnaście", "pronunciation": "o-syem-nash-cye" },
+        { "english": "19 (nineteen)", "polish": "dziewiętnaście", "pronunciation": "dzye-vyent-nash-cye" }
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "1.1",
+      "type": "short_answer",
+      "title": "Alphabet facts",
+      "questions": [
+        {
+          "question": "How many letters are there in the Polish alphabet? (official count)",
+          "answer": "32",
+          "note": "32 official + 3 foreign letters (q, v, x) = 35 total"
+        },
+        {
+          "question": "How many vowels are in the Polish alphabet?",
+          "answer": "9",
+          "note": "a, ą, e, ę, i, o, ó, u, y"
+        },
+        {
+          "question": "Is 'y' a consonant or a vowel in Polish?",
+          "answer": "vowel"
+        },
+        {
+          "question": "Which syllable does stress usually fall on in Polish?",
+          "answer": "second to last",
+          "note": "the penultimate syllable"
+        }
+      ]
+    },
+    {
+      "id": "1.3",
+      "type": "short_answer",
+      "title": "Grammar concepts",
+      "questions": [
+        {
+          "question": "What does SVO stand for?",
+          "answer": "subject-verb-object"
+        },
+        {
+          "question": "Which part of speech is most important in Polish?",
+          "answer": "the verb"
+        },
+        {
+          "question": "How many grammatical articles does Polish use?",
+          "answer": "0",
+          "note": "Polish does not use articles"
+        },
+        {
+          "question": "How many cases are there in Polish?",
+          "answer": "7",
+          "note": "nominative, genitive, dative, accusative, instrumental, locative, vocative"
+        }
+      ]
+    },
+    {
+      "id": "1.4",
+      "type": "multiple_choice",
+      "title": "Capitalization and punctuation",
+      "questions": [
+        {
+          "question": "Ona mówi po ___ (She speaks Polish.)",
+          "options": ["Polsku", "polsku"],
+          "answer": "polsku",
+          "note": "Language names are not capitalized in Polish"
+        },
+        {
+          "question": "Which opening quotation mark is correct in Polish: the standard double-quote \" or the Polish lower opening quote \u201e?",
+          "options": ["standard double-quote", "Polish lower opening quote \u201e"],
+          "answer": "Polish lower opening quote \u201e",
+          "note": "Polish uses lower-upper quotation marks (like \u201etext\u201d), not English upper-upper ones"
+        },
+        {
+          "question": "Tytuł artykułu to: ___ (The title of the article is: Three Years of Joy.)",
+          "options": ["Trzy Lata Radości", "Trzy lata radości"],
+          "answer": "Trzy lata radości",
+          "note": "Polish titles only capitalize the first word, unlike English"
+        },
+        {
+          "question": "W ___ mam urodziny. (My birthday is in May.)",
+          "options": ["Maju", "maju"],
+          "answer": "maju",
+          "note": "Months are not capitalized in Polish"
+        }
+      ]
+    },
+    {
+      "id": "1.5",
+      "type": "fill_in_the_blank",
+      "title": "Colors in Polish",
+      "questions": [
+        {
+          "question": "What color are oranges? (answer in Polish)",
+          "answer": "pomarańczowy"
+        },
+        {
+          "question": "What color do you get when you mix red and blue? (answer in Polish)",
+          "answer": "fioletowy"
+        },
+        {
+          "question": "What color is snow? (answer in Polish)",
+          "answer": "biały"
+        },
+        {
+          "question": "What color do you get when you add white to black? (answer in Polish)",
+          "answer": "szary"
+        }
+      ]
+    },
+    {
+      "id": "1.6",
+      "type": "fill_in_the_blank",
+      "title": "Numbers in Polish",
+      "questions": [
+        {
+          "question": "How many toes do people usually have? (answer in Polish)",
+          "answer": "dziesięć"
+        },
+        {
+          "question": "How many eyes do people usually have? (answer in Polish)",
+          "answer": "dwa"
+        },
+        {
+          "question": "How many limbs do people usually have? (answer in Polish)",
+          "answer": "cztery"
+        },
+        {
+          "question": "How much is a dozen? (answer in Polish)",
+          "answer": "dwanaście"
+        },
+        {
+          "question": "What is the number 5 in Polish?",
+          "answer": "pięć"
+        }
+      ]
+    }
+  ]
+}

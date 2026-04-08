@@ -1,0 +1,296 @@
+{
+  "chapter": 6,
+  "topic": "Having a House Party",
+  "vocabulary": [
+    {
+      "section": "appearance",
+      "items": [
+        { "english": "handsome", "polish": "przystojny", "pronunciation": "pshi-stoy-nih" },
+        { "english": "tall", "polish": "wysoki", "pronunciation": "vih-so-kee" },
+        { "english": "well-built", "polish": "dobrze zbudowany", "pronunciation": "dob-zheh zbu-do-va-nih" },
+        { "english": "slim", "polish": "szczupły", "pronunciation": "shchup-wih" },
+        { "english": "short (height)", "polish": "niski", "pronunciation": "nees-kee" },
+        { "english": "medium height", "polish": "średniego wzrostu", "pronunciation": "shred-nyeh-go vzros-tu" },
+        { "english": "pale", "polish": "blada", "pronunciation": "bla-dah" },
+        { "english": "tan / dark-skinned", "polish": "śniada", "pronunciation": "shnya-dah" },
+        { "english": "beautiful", "polish": "piękna", "pronunciation": "pyenk-nah" },
+        { "english": "elegant", "polish": "elegancki", "pronunciation": "e-le-gan-tskee" },
+        { "english": "well-groomed", "polish": "zadbany", "pronunciation": "zad-ba-nih" },
+        { "english": "light skin", "polish": "jasna karnacja", "pronunciation": "yas-nah kar-nats-yah" },
+        { "english": "beautiful smile", "polish": "piękny uśmiech", "pronunciation": "pyenk-nih ush-myeh" },
+        { "english": "blue eyes", "polish": "niebieskie oczy", "pronunciation": "nyeh-byes-kye o-chih" },
+        { "english": "brown eyes", "polish": "brązowe oczy", "pronunciation": "bron-zo-veh o-chih" },
+        { "english": "short hair", "polish": "krótkie włosy", "pronunciation": "krut-kye vwo-sih" },
+        { "english": "long hair", "polish": "długie włosy", "pronunciation": "dwu-gye vwo-sih" },
+        { "english": "straight hair", "polish": "proste włosy", "pronunciation": "pros-teh vwo-sih" },
+        { "english": "freckles", "polish": "piegi", "pronunciation": "pye-gee" },
+        { "english": "tattoo", "polish": "tatuaż", "pronunciation": "ta-tu-ash" }
+      ]
+    },
+    {
+      "section": "possessive_pronouns",
+      "items": [
+        { "english": "my (masculine)", "polish": "mój", "pronunciation": "mooy" },
+        { "english": "my (feminine)", "polish": "moja", "pronunciation": "mo-yah" },
+        { "english": "my (neuter/plural)", "polish": "moje", "pronunciation": "mo-yeh" },
+        { "english": "your (masculine)", "polish": "twój", "pronunciation": "tvooy" },
+        { "english": "your (feminine)", "polish": "twoja", "pronunciation": "tvo-yah" },
+        { "english": "your (neuter/plural)", "polish": "twoje", "pronunciation": "tvo-yeh" },
+        { "english": "his / its", "polish": "jego", "pronunciation": "ye-go" },
+        { "english": "her", "polish": "jej", "pronunciation": "yey" },
+        { "english": "our (masculine)", "polish": "nasz", "pronunciation": "nash" },
+        { "english": "our (feminine)", "polish": "nasza", "pronunciation": "na-shah" },
+        { "english": "our (neuter/plural)", "polish": "nasze", "pronunciation": "na-sheh" },
+        { "english": "your (pl, masculine)", "polish": "wasz", "pronunciation": "vash" },
+        { "english": "your (pl, feminine)", "polish": "wasza", "pronunciation": "va-shah" },
+        { "english": "your (pl, neuter/plural)", "polish": "wasze", "pronunciation": "va-sheh" },
+        { "english": "their", "polish": "ich", "pronunciation": "eeh" }
+      ]
+    },
+    {
+      "section": "family",
+      "items": [
+        { "english": "parents", "polish": "rodzice", "pronunciation": "ro-dzhi-tseh" },
+        { "english": "father / dad", "polish": "ojciec / tata", "pronunciation": "oy-chyets / ta-tah" },
+        { "english": "mother / mom", "polish": "matka / mama", "pronunciation": "mat-kah / ma-mah" },
+        { "english": "siblings", "polish": "rodzeństwo", "pronunciation": "ro-dzen-stvo" },
+        { "english": "brother", "polish": "brat", "pronunciation": "brat" },
+        { "english": "sister", "polish": "siostra", "pronunciation": "syos-trah" },
+        { "english": "grandparents", "polish": "dziadkowie", "pronunciation": "dzhat-ko-vye" },
+        { "english": "grandfather", "polish": "dziadek", "pronunciation": "dzha-dek" },
+        { "english": "grandmother", "polish": "babcia", "pronunciation": "bab-chah" },
+        { "english": "children", "polish": "dzieci", "pronunciation": "dzhe-chee" },
+        { "english": "son", "polish": "syn", "pronunciation": "sihn" },
+        { "english": "daughter", "polish": "córka", "pronunciation": "tsoor-kah" },
+        { "english": "uncle", "polish": "wuj / wujek", "pronunciation": "vooy / voo-yek" },
+        { "english": "aunt", "polish": "ciotka / ciocia", "pronunciation": "choyt-kah / cho-chah" },
+        { "english": "cousin (male)", "polish": "kuzyn", "pronunciation": "ku-zihn" },
+        { "english": "cousin (female)", "polish": "kuzynka", "pronunciation": "ku-zihn-kah" },
+        { "english": "grandchildren", "polish": "wnuki", "pronunciation": "vnu-kee" },
+        { "english": "grandson", "polish": "wnuk", "pronunciation": "vnuk" },
+        { "english": "granddaughter", "polish": "wnuczka", "pronunciation": "vnuch-kah" },
+        { "english": "nephew (brother's son)", "polish": "bratanek", "pronunciation": "bra-ta-nek" },
+        { "english": "niece (brother's daughter)", "polish": "bratanica", "pronunciation": "bra-ta-nee-tsah" },
+        { "english": "nephew (sister's son)", "polish": "siostrzeniec", "pronunciation": "syos-tshe-nyets" },
+        { "english": "niece (sister's daughter)", "polish": "siostrzenica", "pronunciation": "syos-tshe-nee-tsah" },
+        { "english": "father-in-law", "polish": "teść", "pronunciation": "teshch" },
+        { "english": "mother-in-law", "polish": "teściowa", "pronunciation": "tesh-cho-vah" },
+        { "english": "brother-in-law", "polish": "szwagier", "pronunciation": "shva-gyer" },
+        { "english": "sister-in-law", "polish": "szwagierka", "pronunciation": "shva-gyer-kah" },
+        { "english": "son-in-law", "polish": "zięć", "pronunciation": "zhyench" },
+        { "english": "daughter-in-law", "polish": "synowa", "pronunciation": "sih-no-vah" }
+      ]
+    },
+    {
+      "section": "body_parts",
+      "items": [
+        { "english": "head", "polish": "głowa", "pronunciation": "gwo-vah" },
+        { "english": "face", "polish": "twarz", "pronunciation": "tvash" },
+        { "english": "eyes", "polish": "oczy", "pronunciation": "o-chih" },
+        { "english": "nose", "polish": "nos", "pronunciation": "nos" },
+        { "english": "mouth", "polish": "usta", "pronunciation": "us-tah" },
+        { "english": "lips", "polish": "wargi", "pronunciation": "var-gee" },
+        { "english": "teeth", "polish": "zęby", "pronunciation": "zen-bih" },
+        { "english": "tongue", "polish": "język", "pronunciation": "yen-zihk" },
+        { "english": "chin", "polish": "broda", "pronunciation": "bro-dah" },
+        { "english": "jaw", "polish": "szczęka", "pronunciation": "shchen-kah" },
+        { "english": "cheek", "polish": "policzek", "pronunciation": "po-lee-chek" },
+        { "english": "forehead", "polish": "czoło", "pronunciation": "cho-wo" },
+        { "english": "eyebrows", "polish": "brwi", "pronunciation": "brvee" },
+        { "english": "eyelashes", "polish": "rzęsy", "pronunciation": "zhen-sih" },
+        { "english": "ear / ears", "polish": "ucho / uszy", "pronunciation": "u-ho / u-shih" },
+        { "english": "neck", "polish": "szyja", "pronunciation": "shih-yah" },
+        { "english": "throat", "polish": "gardło", "pronunciation": "gard-wo" },
+        { "english": "shoulder", "polish": "ramię", "pronunciation": "ra-myeh" },
+        { "english": "chest", "polish": "klatka piersiowa", "pronunciation": "klat-kah pyer-syo-vah" },
+        { "english": "arm", "polish": "ręka", "pronunciation": "ren-kah" },
+        { "english": "hand", "polish": "dłoń", "pronunciation": "dwon" },
+        { "english": "finger / toe", "polish": "palec", "pronunciation": "pa-lets" },
+        { "english": "elbow", "polish": "łokieć", "pronunciation": "wo-kyech" },
+        { "english": "armpit", "polish": "pacha", "pronunciation": "pa-hah" },
+        { "english": "stomach", "polish": "brzuch", "pronunciation": "bzhuh" },
+        { "english": "bellybutton", "polish": "pępek", "pronunciation": "pen-pek" },
+        { "english": "hip", "polish": "biodro", "pronunciation": "byod-ro" },
+        { "english": "leg", "polish": "noga", "pronunciation": "no-gah" },
+        { "english": "thigh", "polish": "udo", "pronunciation": "u-do" },
+        { "english": "knee", "polish": "kolano", "pronunciation": "ko-la-no" },
+        { "english": "calf", "polish": "łydka", "pronunciation": "wid-kah" },
+        { "english": "ankle", "polish": "kostka", "pronunciation": "kost-kah" },
+        { "english": "foot", "polish": "stopa", "pronunciation": "sto-pah" },
+        { "english": "heel", "polish": "pięta", "pronunciation": "pyen-tah" }
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "6.1",
+      "type": "multiple_choice",
+      "title": "Appearance vocabulary",
+      "questions": [
+        {
+          "question": "What does 'przystojny' mean?",
+          "options": ["slim", "tall", "handsome", "pale"],
+          "answer": "handsome"
+        },
+        {
+          "question": "What does 'śniada' mean?",
+          "options": ["pale", "short", "tan/dark-skinned", "slim"],
+          "answer": "tan/dark-skinned"
+        },
+        {
+          "question": "What are 'piegi'?",
+          "options": ["freckles", "dimples", "wrinkles", "tattoos"],
+          "answer": "freckles"
+        },
+        {
+          "question": "How do you say 'well-groomed' in Polish?",
+          "options": ["wysoki", "zadbany", "szczupły", "elegancki"],
+          "answer": "zadbany"
+        },
+        {
+          "question": "How do you describe someone's appearance using 'jest'?",
+          "options": ["He has blue eyes (jest niebieskie oczy)", "He is tall (jest wysoki)", "He has freckles (jest piegi)", "He has long hair (jest długie włosy)"],
+          "answer": "He is tall (jest wysoki)"
+        }
+      ]
+    },
+    {
+      "id": "6.2",
+      "type": "multiple_choice",
+      "title": "Possessive pronouns",
+      "questions": [
+        {
+          "question": "What is 'my' in Polish (possessive) for a masculine noun?",
+          "options": ["moje", "moja", "mój", "moich"],
+          "answer": "mój"
+        },
+        {
+          "question": "What is 'your' (singular) for a feminine noun?",
+          "options": ["twój", "twoje", "twoja", "twoi"],
+          "answer": "twoja"
+        },
+        {
+          "question": "What is 'her' (possessive) in Polish?",
+          "options": ["jego", "ich", "jej", "nasza"],
+          "answer": "jej"
+        },
+        {
+          "question": "What is 'our' for a masculine noun?",
+          "options": ["wasza", "nasze", "nasz", "nasi"],
+          "answer": "nasz"
+        },
+        {
+          "question": "Fill in: '_______ kot jest rudy.' (her cat is ginger)",
+          "options": ["Jego", "Jej", "Ich", "Mój"],
+          "answer": "Jej"
+        },
+        {
+          "question": "Fill in: 'To jest _______ syn.' (my son — masculine)",
+          "options": ["moja", "moje", "mój", "moich"],
+          "answer": "mój"
+        }
+      ]
+    },
+    {
+      "id": "6.3",
+      "type": "multiple_choice",
+      "title": "Family vocabulary",
+      "questions": [
+        {
+          "question": "What is 'babcia'?",
+          "options": ["aunt", "grandmother", "mother", "mother-in-law"],
+          "answer": "grandmother"
+        },
+        {
+          "question": "What is 'bratanek'?",
+          "options": ["nephew (sister's son)", "nephew (brother's son)", "son-in-law", "grandson"],
+          "answer": "nephew (brother's son)"
+        },
+        {
+          "question": "What is 'teściowa'?",
+          "options": ["sister-in-law", "daughter-in-law", "mother-in-law", "aunt"],
+          "answer": "mother-in-law"
+        },
+        {
+          "question": "What is 'rodzeństwo'?",
+          "options": ["parents", "siblings", "grandparents", "children"],
+          "answer": "siblings"
+        },
+        {
+          "question": "What is 'zięć'?",
+          "options": ["brother-in-law", "son-in-law", "nephew", "uncle"],
+          "answer": "son-in-law"
+        },
+        {
+          "question": "Syn mojego ojca to mój... (The son of my father is my...)",
+          "options": ["kuzyn", "wnuk", "bratanek", "brat"],
+          "answer": "brat"
+        }
+      ]
+    },
+    {
+      "id": "6.4",
+      "type": "multiple_choice",
+      "title": "Body parts",
+      "questions": [
+        {
+          "question": "What is 'łokieć'?",
+          "options": ["ankle", "knee", "elbow", "shoulder"],
+          "answer": "elbow"
+        },
+        {
+          "question": "What is 'brwi'?",
+          "options": ["eyelashes", "eyebrows", "lips", "cheeks"],
+          "answer": "eyebrows"
+        },
+        {
+          "question": "What is 'biodro'?",
+          "options": ["knee", "thigh", "hip", "shoulder"],
+          "answer": "hip"
+        },
+        {
+          "question": "What is 'pępek'?",
+          "options": ["ankle", "bellybutton", "chin", "heel"],
+          "answer": "bellybutton"
+        },
+        {
+          "question": "What is 'szczęka'?",
+          "options": ["cheek", "chin", "jaw", "forehead"],
+          "answer": "jaw"
+        },
+        {
+          "question": "What is 'łydka'?",
+          "options": ["ankle", "thigh", "calf", "heel"],
+          "answer": "calf"
+        }
+      ]
+    },
+    {
+      "id": "6.5",
+      "type": "multiple_choice",
+      "title": "Adjective gender agreement",
+      "questions": [
+        {
+          "question": "What ending does an adjective take for a feminine noun (singular)?",
+          "options": ["-y or -i", "-ie or -e", "-a", "-ów"],
+          "answer": "-a"
+        },
+        {
+          "question": "What is the feminine form of 'wysoki'?",
+          "options": ["wysokie", "wysocy", "wysoka", "wysoko"],
+          "answer": "wysoka"
+        },
+        {
+          "question": "What is the neuter form of 'szybki'?",
+          "options": ["szybka", "szybkie", "szybcy", "szybko"],
+          "answer": "szybkie"
+        },
+        {
+          "question": "What is the masculine personal plural form of 'zmęczony'?",
+          "options": ["zmęczone", "zmęczona", "zmęczony", "zmęczeni"],
+          "answer": "zmęczeni"
+        }
+      ]
+    }
+  ]
+}

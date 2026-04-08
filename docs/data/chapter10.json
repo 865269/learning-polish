@@ -1,0 +1,69 @@
+{
+  "chapter": 10,
+  "topic": "Grammar – A Summary",
+  "vocabulary": [
+    {
+      "section": "grammatical_cases",
+      "items": [
+        { "english": "Nominative case (subject: who/what is)", "polish": "Mianownik", "pronunciation": "mya-no-vneek" },
+        { "english": "Genitive case (possession/absence: whose/of what)", "polish": "Dopełniacz", "pronunciation": "do-pew-nyach" },
+        { "english": "Dative case (indirect object: to whom/for what)", "polish": "Celownik", "pronunciation": "tse-lov-neek" },
+        { "english": "Accusative case (direct object: who/what I see)", "polish": "Biernik", "pronunciation": "byer-neek" },
+        { "english": "Instrumental case (with whom/by means of what)", "polish": "Narzędnik", "pronunciation": "na-zhen-dneek" },
+        { "english": "Locative case (about whom/about what)", "polish": "Miejscownik", "pronunciation": "myeys-tsov-neek" },
+        { "english": "Vocative case (direct address: Oh!)", "polish": "Wołacz", "pronunciation": "vo-wach" },
+        { "english": "Nominative question words: Who? What? (is)", "polish": "Kto? Co?", "pronunciation": "kto tso" },
+        { "english": "Genitive question words: Whose? What? (there is no)", "polish": "Kogo? Czego?", "pronunciation": "ko-go che-go" },
+        { "english": "Dative question words: To whom? For what?", "polish": "Komu? Czemu?", "pronunciation": "ko-mu che-mu" },
+        { "english": "Accusative question words: Whom? What? (do I see)", "polish": "Kogo? Co?", "pronunciation": "ko-go tso" },
+        { "english": "Instrumental question words: With whom? With what?", "polish": "Z kim? Z czym?", "pronunciation": "z keem z chim" },
+        { "english": "Locative question words: About whom? About what?", "polish": "O kim? O czym?", "pronunciation": "o keem o chim" }
+      ]
+    },
+    {
+      "section": "adjective_comparison",
+      "items": [
+        { "english": "cheap (positive)", "polish": "tani", "pronunciation": "ta-nee" },
+        { "english": "cheaper (comparative)", "polish": "tańszy", "pronunciation": "tan-shih" },
+        { "english": "cheapest (superlative)", "polish": "najtańszy", "pronunciation": "nay-tan-shih" },
+        { "english": "old (positive)", "polish": "stary", "pronunciation": "sta-rih" },
+        { "english": "older (comparative)", "polish": "starszy", "pronunciation": "star-shih" },
+        { "english": "oldest (superlative)", "polish": "najstarszy", "pronunciation": "nay-star-shih" }
+      ]
+    },
+    {
+      "section": "modal_verb_moc",
+      "items": [
+        { "english": "I can / I am allowed to", "polish": "mogę", "pronunciation": "mo-gen" },
+        { "english": "you can / you are allowed to (sing.)", "polish": "możesz", "pronunciation": "mo-zhesh" },
+        { "english": "he/she/it can / is allowed to", "polish": "może", "pronunciation": "mo-zhe" },
+        { "english": "we can / we are allowed to", "polish": "możemy", "pronunciation": "mo-zhe-mih" },
+        { "english": "you can / you are allowed to (pl.)", "polish": "możecie", "pronunciation": "mo-zhe-cheh" },
+        { "english": "they can / they are allowed to", "polish": "mogą", "pronunciation": "mo-gon" }
+      ]
+    },
+    {
+      "section": "modal_verb_umiec",
+      "items": [
+        { "english": "I know how to / I am able to (skill)", "polish": "umiem", "pronunciation": "u-myem" },
+        { "english": "you know how to (sing.)", "polish": "umiesz", "pronunciation": "u-myesh" },
+        { "english": "he/she/it knows how to", "polish": "umie", "pronunciation": "u-mye" },
+        { "english": "we know how to", "polish": "umiemy", "pronunciation": "u-mye-mih" },
+        { "english": "you know how to (pl.)", "polish": "umiecie", "pronunciation": "u-mye-cheh" },
+        { "english": "they know how to", "polish": "umieją", "pronunciation": "u-mye-yon" }
+      ]
+    },
+    {
+      "section": "modal_verb_musiec",
+      "items": [
+        { "english": "I must / I have to", "polish": "muszę", "pronunciation": "mu-shen" },
+        { "english": "you must / you have to (sing.)", "polish": "musisz", "pronunciation": "mu-seesh" },
+        { "english": "he/she/it must / has to", "polish": "musi", "pronunciation": "mu-see" },
+        { "english": "we must / we have to", "polish": "musimy", "pronunciation": "mu-see-mih" },
+        { "english": "you must / you have to (pl.)", "polish": "musicie", "pronunciation": "mu-see-cheh" },
+        { "english": "they must / they have to", "polish": "muszą", "pronunciation": "mu-shon" }
+      ]
+    }
+  ],
+  "exercises": []
+}

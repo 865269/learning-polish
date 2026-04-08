@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% if frontier_num %}
+<div class="card" style="margin-bottom:16px">
+  <div class="meta" style="margin-bottom:6px">Currently studying</div>
+  <h2 style="margin:0 0 4px">Chapter {{ frontier_num }}: {{ frontier_topic }}</h2>
+  {% if next_num %}
+    <p style="color:#666;margin:4px 0 14px;font-size:0.9rem">
+      {{ mastery_pct }}% mastered — reach {{ unlock_threshold_pct }}% to unlock Chapter {{ next_num }}
+    </p>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" style="width:{{ unlock_bar_pct }}%;background:#2d9e5f"></div>
+    </div>
+  {% else %}
+    <p style="color:#2d9e5f;font-weight:600;margin:4px 0 0">All chapters unlocked! {{ mastery_pct }}% mastered on this chapter.</p>
+  {% endif %}
+</div>
+{% endif %}
+
+{% if due_count > 0 %}
+<div class="card" style="border:2px solid #e63946;margin-bottom:16px">
+  <h2 style="margin:0 0 8px">Review due</h2>
+  <p style="margin:0 0 12px;color:#555">{{ due_count }} card{{ 's' if due_count != 1 }} due — reviewing {{ [due_count, 20] | min }} at a time.</p>
+  <a href="/review" class="btn btn-primary">Review now →</a>
+</div>
+{% elif upcoming_count > 0 %}
+<div class="card" style="border:2px solid #aaa;margin-bottom:16px">
+  <h2 style="margin:0 0 8px">All done for today</h2>
+  <p style="margin:0 0 12px;color:#555">{{ upcoming_count }} card{{ 's' if upcoming_count != 1 }} scheduled in the next 7 days — study them early?</p>
+  <a href="/review?ahead=7" class="btn btn-secondary">Study ahead →</a>
+</div>
+{% else %}
+<div class="card" style="border:2px solid #2d9e5f;margin-bottom:16px">
+  <h2 style="margin:0 0 4px">All done for today</h2>
+  <p style="margin:0;color:#555">No cards due — check back tomorrow.</p>
+</div>
+{% endif %}
+
+<div class="card">
+  <h1>Choose a lesson</h1>
+  <h2>Pick a chapter and practice mode</h2>
+
+  <form action="/start" method="post">
+    <label for="chapter">Chapter</label>
+    <select name="chapter" id="chapter">
+      {% for ch in chapters %}
+      <option value="{{ ch.number }}">Chapter {{ ch.number }}: {{ ch.topic }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Mode</label>
+    <div class="mode-grid">
+      <input class="mode-option" type="radio" name="mode" id="m1" value="flashcards" checked>
+      <label for="m1">🗂 Flashcards<br><small style="font-weight:400;color:#666">Type the Polish word</small></label>
+
+      <input class="mode-option" type="radio" name="mode" id="m2" value="fill_in">
+      <label for="m2">✏️ Fill in blank<br><small style="font-weight:400;color:#666">Complete the phrase</small></label>
+
+      <input class="mode-option" type="radio" name="mode" id="m3" value="multiple_choice">
+      <label for="m3">☑️ Multiple choice<br><small style="font-weight:400;color:#666">Pick the right answer</small></label>
+
+      <input class="mode-option" type="radio" name="mode" id="m4" value="short_answer">
+      <label for="m4">💬 Short answer<br><small style="font-weight:400;color:#666">Grammar facts</small></label>
+    </div>
+
+    <!-- Section filter — only relevant for flashcards -->
+    <div id="section-row">
+      <label for="section">Category</label>
+      <select name="section" id="section">
+        <option value="all">All categories</option>
+      </select>
+    </div>
+
+    <label for="max_questions">Number of questions</label>
+    <select name="max_questions" id="max_questions">
+      <option value="0">All</option>
+      <option value="10">10</option>
+      <option value="20" selected>20</option>
+      <option value="30">30</option>
+      <option value="50">50</option>
+    </select>
+
+    <br>
+    <button type="submit" class="btn btn-primary" style="margin-top:8px">Start →</button>
+  </form>
+</div>
+
+<script>
+  const sectionsByChapter = {{ sections_by_chapter | tojson }};
+
+  const chapterEl  = document.getElementById("chapter");
+  const sectionEl  = document.getElementById("section");
+  const sectionRow = document.getElementById("section-row");
+  const modeInputs = document.querySelectorAll(".mode-option");
+
+  function updateSections() {
+    const chNum = parseInt(chapterEl.value);
+    const sections = sectionsByChapter[chNum] || [];
+    sectionEl.innerHTML = '<option value="all">All categories</option>';
+    sections.forEach(s => {
+      const opt = document.createElement("option");
+      opt.value = s;
+      opt.textContent = s.charAt(0).toUpperCase() + s.slice(1);
+      sectionEl.appendChild(opt);
+    });
+  }
+
+  function updateSectionVisibility() {
+    const mode = document.querySelector(".mode-option:checked").value;
+    sectionRow.style.display = mode === "flashcards" ? "" : "none";
+  }
+
+  chapterEl.addEventListener("change", updateSections);
+  modeInputs.forEach(el => el.addEventListener("change", updateSectionVisibility));
+
+  updateSections();
+  updateSectionVisibility();
+</script>
+{% endblock %}

@@ -1,0 +1,325 @@
+{
+  "chapter": 5,
+  "topic": "Going Sightseeing",
+  "vocabulary": [
+    {
+      "section": "directions",
+      "items": [
+        { "english": "Excuse me / I'm sorry", "polish": "Przepraszam", "pronunciation": "Pshe-pra-sham" },
+        { "english": "Where is the...?", "polish": "Gdzie jest...?", "pronunciation": "Gdzye yest" },
+        { "english": "I'm looking for...", "polish": "Szukam...", "pronunciation": "Shu-kam" },
+        { "english": "Is it far?", "polish": "Czy to daleko?", "pronunciation": "Chi to da-le-ko" },
+        { "english": "Which way to...?", "polish": "Którędy dojdę do...?", "pronunciation": "Ktoo-ren-dih doy-deh do" },
+        { "english": "straight ahead", "polish": "prosto", "pronunciation": "pros-to" },
+        { "english": "right", "polish": "w prawo", "pronunciation": "v pra-vo" },
+        { "english": "left", "polish": "w lewo", "pronunciation": "v le-vo" },
+        { "english": "at the intersection", "polish": "na skrzyżowaniu", "pronunciation": "na skshi-zho-va-nyu" },
+        { "english": "go back", "polish": "cofnąć się", "pronunciation": "tsof-nonch syeh" },
+        { "english": "first turn", "polish": "pierwszy zakręt", "pronunciation": "pyerv-shih za-krent" },
+        { "english": "second turn", "polish": "drugi zakręt", "pronunciation": "dru-gee za-krent" }
+      ]
+    },
+    {
+      "section": "places_in_the_city",
+      "items": [
+        { "english": "city hall", "polish": "urząd miejski", "pronunciation": "u-zhond myey-skee" },
+        { "english": "hospital", "polish": "szpital", "pronunciation": "shpee-tal" },
+        { "english": "church", "polish": "kościół", "pronunciation": "kosh-chyoow" },
+        { "english": "cathedral", "polish": "katedra", "pronunciation": "ka-ted-rah" },
+        { "english": "shopping center", "polish": "galeria handlowa", "pronunciation": "ga-le-ryah hand-lo-vah" },
+        { "english": "museum", "polish": "muzeum", "pronunciation": "mu-ze-um" },
+        { "english": "bus stop", "polish": "przystanek autobusowy", "pronunciation": "pshi-sta-nek au-to-bu-so-vih" },
+        { "english": "tram stop", "polish": "przystanek tramwajowy", "pronunciation": "pshi-sta-nek tram-va-yo-vih" },
+        { "english": "train station", "polish": "stacja kolejowa", "pronunciation": "stats-yah ko-le-yo-vah" }
+      ]
+    },
+    {
+      "section": "adverbs_of_place",
+      "items": [
+        { "english": "near / close", "polish": "niedaleko / blisko", "pronunciation": "nyeh-da-le-ko / blees-ko" },
+        { "english": "far", "polish": "daleko", "pronunciation": "da-le-ko" },
+        { "english": "everywhere", "polish": "wszędzie", "pronunciation": "fshen-dzhe" },
+        { "english": "nowhere", "polish": "nigdzie", "pronunciation": "neeg-dzhe" },
+        { "english": "anywhere", "polish": "gdziekolwiek", "pronunciation": "gdzhe-kol-vyek" },
+        { "english": "nobody", "polish": "nikt", "pronunciation": "neekt" },
+        { "english": "nothing", "polish": "nic", "pronunciation": "neets" },
+        { "english": "never", "polish": "nigdy", "pronunciation": "neeg-dih" },
+        { "english": "none", "polish": "żaden", "pronunciation": "zha-den" }
+      ]
+    },
+    {
+      "section": "transportation",
+      "items": [
+        { "english": "tram", "polish": "tramwaj", "pronunciation": "tram-vay" },
+        { "english": "bus (city)", "polish": "autobus", "pronunciation": "au-to-bus" },
+        { "english": "trolleybus", "polish": "trolejbus", "pronunciation": "tro-ley-bus" },
+        { "english": "underground / metro", "polish": "metro", "pronunciation": "me-tro" },
+        { "english": "ticket", "polish": "bilet", "pronunciation": "bee-let" },
+        { "english": "monthly ticket", "polish": "bilet miesięczny", "pronunciation": "bee-let mye-shench-nih" },
+        { "english": "taxi", "polish": "taksówka", "pronunciation": "tak-soov-kah" },
+        { "english": "train", "polish": "pociąg", "pronunciation": "po-chonk" },
+        { "english": "coach (intercity)", "polish": "bus", "pronunciation": "bus" },
+        { "english": "plane", "polish": "samolot", "pronunciation": "sa-mo-lot" },
+        { "english": "hitchhiking", "polish": "autostop", "pronunciation": "au-to-stop" },
+        { "english": "car", "polish": "samochód", "pronunciation": "sa-mo-hoot" },
+        { "english": "driver's license", "polish": "prawo jazdy", "pronunciation": "pra-vo yaz-dih" },
+        { "english": "motorcycle", "polish": "motor", "pronunciation": "mo-tor" },
+        { "english": "moped / scooter", "polish": "skuter", "pronunciation": "sku-ter" },
+        { "english": "bicycle", "polish": "rower", "pronunciation": "ro-ver" },
+        { "english": "scooter (electric)", "polish": "hulajnoga", "pronunciation": "hu-lay-no-gah" },
+        { "english": "rollerblades", "polish": "rolki", "pronunciation": "rol-kee" }
+      ]
+    },
+    {
+      "section": "transport_phrases",
+      "items": [
+        { "english": "Where can I buy a bus ticket?", "polish": "Gdzie kupię bilet na autobus?", "pronunciation": "Gdzye ku-pyeh bee-let na au-to-bus" },
+        { "english": "Where does the ... leave from?", "polish": "Skąd odjeżdża...?", "pronunciation": "Skont od-yezh-dzhah" },
+        { "english": "Will this bus take me to...?", "polish": "Czy tym busem dojadę do...?", "pronunciation": "Chi tim bu-sem do-ya-deh do" },
+        { "english": "Does this train stop in...?", "polish": "Czy ten pociąg zatrzymuje się w...?", "pronunciation": "Chi ten po-chonk za-tshi-mu-yeh syeh v" },
+        { "english": "Full price or reduced price?", "polish": "Normalny czy ulgowy?", "pronunciation": "Nor-mal-nih chi ul-go-vih" },
+        { "english": "Ticket check.", "polish": "Kontrola biletów.", "pronunciation": "Kon-tro-lah bee-le-toov" }
+      ]
+    },
+    {
+      "section": "modal_verbs",
+      "items": [
+        { "english": "to want", "polish": "chcieć", "pronunciation": "hchyech" },
+        { "english": "can / to be allowed to", "polish": "móc", "pronunciation": "moots" },
+        { "english": "to be able to (skill)", "polish": "umieć", "pronunciation": "u-myech" },
+        { "english": "must", "polish": "musieć", "pronunciation": "mu-shyech" },
+        { "english": "to need", "polish": "potrzebować", "pronunciation": "po-tsheh-bo-vach" },
+        { "english": "I want", "polish": "chcę", "pronunciation": "htseh" },
+        { "english": "I can (skill)", "polish": "umiem", "pronunciation": "u-myem" },
+        { "english": "I must", "polish": "muszę", "pronunciation": "mu-sheh" },
+        { "english": "I can / am allowed to", "polish": "mogę", "pronunciation": "mo-geh" }
+      ]
+    },
+    {
+      "section": "time_expressions",
+      "items": [
+        { "english": "now", "polish": "teraz", "pronunciation": "te-raz" },
+        { "english": "in this moment", "polish": "w tej chwili", "pronunciation": "v tey hvee-lee" },
+        { "english": "currently", "polish": "obecnie", "pronunciation": "ob-ets-nyeh" },
+        { "english": "today", "polish": "dzisiaj", "pronunciation": "dzhi-shay" },
+        { "english": "in the evening", "polish": "wieczorem", "pronunciation": "vye-cho-rem" },
+        { "english": "in the morning", "polish": "rano", "pronunciation": "ra-no" },
+        { "english": "this week", "polish": "w tym tygodniu", "pronunciation": "v tim tih-god-nyu" },
+        { "english": "this month", "polish": "w tym miesiącu", "pronunciation": "v tim mye-shon-tsu" },
+        { "english": "this year", "polish": "w tym roku", "pronunciation": "v tim ro-ku" },
+        { "english": "while / during", "polish": "podczas", "pronunciation": "pod-chas" },
+        { "english": "meanwhile", "polish": "w tym czasie", "pronunciation": "v tim cha-shyeh" },
+        { "english": "in the meantime", "polish": "tymczasem", "pronunciation": "tim-cha-sem" }
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "5.1",
+      "type": "multiple_choice",
+      "title": "Getting directions",
+      "questions": [
+        {
+          "question": "What polite word should you start with when asking a stranger for directions?",
+          "options": ["Dziękuję", "Przepraszam", "Proszę", "Cześć"],
+          "answer": "Przepraszam"
+        },
+        {
+          "question": "What does 'Gdzie jest...?' mean?",
+          "options": ["Is it far?", "Which way to...?", "Where is the...?", "I'm looking for..."],
+          "answer": "Where is the...?"
+        },
+        {
+          "question": "How do you say 'straight ahead'?",
+          "options": ["w prawo", "w lewo", "cofnąć się", "prosto"],
+          "answer": "prosto"
+        },
+        {
+          "question": "What does 'Szukam...' mean?",
+          "options": ["Where is...?", "Is it far?", "I'm looking for...", "Which way to...?"],
+          "answer": "I'm looking for..."
+        },
+        {
+          "question": "What is 'galeria handlowa'?",
+          "options": ["museum", "cathedral", "shopping center", "city hall"],
+          "answer": "shopping center"
+        },
+        {
+          "question": "What is 'stacja kolejowa'?",
+          "options": ["bus stop", "tram stop", "airport", "train station"],
+          "answer": "train station"
+        }
+      ]
+    },
+    {
+      "id": "5.2",
+      "type": "multiple_choice",
+      "title": "Adverbs of place and double negation",
+      "questions": [
+        {
+          "question": "What does 'nigdzie' mean?",
+          "options": ["everywhere", "anywhere", "nowhere", "somewhere"],
+          "answer": "nowhere"
+        },
+        {
+          "question": "What does 'wszędzie' mean?",
+          "options": ["nowhere", "anywhere", "somewhere", "everywhere"],
+          "answer": "everywhere"
+        },
+        {
+          "question": "In Polish, double negation is:",
+          "options": ["a mistake like in English", "optional", "the correct way", "only used in formal writing"],
+          "answer": "the correct way"
+        },
+        {
+          "question": "Which sentence uses double negation correctly?",
+          "options": ["Nigdzie mogę tego znaleźć.", "Nigdzie nie mogę tego znaleźć.", "Nie mogę tego znaleźć gdziekolwiek.", "Mogę tego nigdzie znaleźć."],
+          "answer": "Nigdzie nie mogę tego znaleźć."
+        },
+        {
+          "question": "What does 'nikt' mean?",
+          "options": ["nothing", "never", "none", "nobody"],
+          "answer": "nobody"
+        }
+      ]
+    },
+    {
+      "id": "5.3",
+      "type": "multiple_choice",
+      "title": "Modal verbs — chcieć, móc, umieć, musieć",
+      "questions": [
+        {
+          "question": "What is the difference between 'móc' and 'umieć'?",
+          "options": [
+            "No difference",
+            "'móc' = permission/ability, 'umieć' = learned skill",
+            "'umieć' = permission/ability, 'móc' = learned skill",
+            "'móc' = must, 'umieć' = want"
+          ],
+          "answer": "'móc' = permission/ability, 'umieć' = learned skill"
+        },
+        {
+          "question": "Ariana Grande _______ śpiewać. (has the skill to sing)",
+          "options": ["może", "musi", "umie", "chce"],
+          "answer": "umie"
+        },
+        {
+          "question": "Nie _______ pani tu parkować. (you are not allowed to park here)",
+          "options": ["umie", "chce", "może", "musi"],
+          "answer": "może"
+        },
+        {
+          "question": "What is the 'ja' form of 'musieć'?",
+          "options": ["muszę", "musisz", "musi", "musimy"],
+          "answer": "muszę"
+        },
+        {
+          "question": "What is the 'ty' form of 'chcieć'?",
+          "options": ["chcę", "chce", "chcemy", "chcesz"],
+          "answer": "chcesz"
+        },
+        {
+          "question": "What is the 'oni/one' form of 'móc'?",
+          "options": ["możemy", "mogą", "możecie", "może"],
+          "answer": "mogą"
+        }
+      ]
+    },
+    {
+      "id": "5.4",
+      "type": "multiple_choice",
+      "title": "Verb moods — indicative, imperative, conditional",
+      "questions": [
+        {
+          "question": "Which mood is used for commands and requests?",
+          "options": ["indicative", "conditional", "imperative", "subjunctive"],
+          "answer": "imperative"
+        },
+        {
+          "question": "What is the imperative 'ty' form of 'pisać' (to write)?",
+          "options": ["piszmy", "piszcie", "pisz", "piszę"],
+          "answer": "pisz"
+        },
+        {
+          "question": "What is the imperative 'my' form of 'czytać' (to read)?",
+          "options": ["czytaj", "czytajcie", "czytamy", "czytajmy"],
+          "answer": "czytajmy"
+        },
+        {
+          "question": "Which mood expresses a proposition dependent on a condition?",
+          "options": ["indicative", "conditional", "imperative", "infinitive"],
+          "answer": "conditional"
+        },
+        {
+          "question": "What is the conditional 'ja' (masculine) form of 'czytać'?",
+          "options": ["czytam", "czytaj", "czytałbym", "czytałabym"],
+          "answer": "czytałbym"
+        }
+      ]
+    },
+    {
+      "id": "5.5",
+      "type": "multiple_choice",
+      "title": "Transportation vocabulary",
+      "questions": [
+        {
+          "question": "What is 'pociąg'?",
+          "options": ["tram", "bus", "train", "plane"],
+          "answer": "train"
+        },
+        {
+          "question": "What is 'rower'?",
+          "options": ["motorcycle", "scooter", "bicycle", "moped"],
+          "answer": "bicycle"
+        },
+        {
+          "question": "Which transport goes between cities (intercity)?",
+          "options": ["tramwaj", "metro", "autobus", "pociąg"],
+          "answer": "pociąg"
+        },
+        {
+          "question": "What does 'Normalny czy ulgowy?' mean?",
+          "options": ["Single or return?", "Full price or reduced price?", "Cash or card?", "First or second class?"],
+          "answer": "Full price or reduced price?"
+        },
+        {
+          "question": "What is 'taksówka'?",
+          "options": ["bus", "tram", "taxi", "metro"],
+          "answer": "taxi"
+        }
+      ]
+    },
+    {
+      "id": "5.6",
+      "type": "multiple_choice",
+      "title": "Time expressions",
+      "questions": [
+        {
+          "question": "How do you say 'now' in Polish?",
+          "options": ["dzisiaj", "rano", "teraz", "wieczorem"],
+          "answer": "teraz"
+        },
+        {
+          "question": "How do you say 'in the morning'?",
+          "options": ["wieczorem", "teraz", "dzisiaj", "rano"],
+          "answer": "rano"
+        },
+        {
+          "question": "How do you say 'today'?",
+          "options": ["teraz", "dzisiaj", "rano", "podczas"],
+          "answer": "dzisiaj"
+        },
+        {
+          "question": "What does 'w tym tygodniu' mean?",
+          "options": ["this month", "this year", "this week", "today"],
+          "answer": "this week"
+        },
+        {
+          "question": "What does 'podczas' mean?",
+          "options": ["meanwhile", "in the meantime", "now", "while / during"],
+          "answer": "while / during"
+        }
+      ]
+    }
+  ]
+}

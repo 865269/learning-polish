@@ -1,0 +1,286 @@
+{
+  "chapter": 3,
+  "topic": "Checking Into Your Room",
+  "vocabulary": [
+    {
+      "section": "hotel_booking_phrases",
+      "items": [
+        { "english": "I want to book a room", "polish": "Chcę zarezerwować pokój", "pronunciation": "Htse za-re-zer-vo-vach po-kooy" },
+        { "english": "Do you have a free room?", "polish": "Czy macie Państwo wolny pokój?", "pronunciation": "Chi ma-chie pan-stvo vol-nih po-kooy" },
+        { "english": "on the dates…", "polish": "w terminie…", "pronunciation": "v ter-mee-nyeh" },
+        { "english": "for X days", "polish": "na X dni", "pronunciation": "na X dnee" },
+        { "english": "for one person", "polish": "dla jednej osoby", "pronunciation": "dla yed-ney o-so-bih" },
+        { "english": "for two people", "polish": "dla dwóch osób", "pronunciation": "dla dvooh o-soob" },
+        { "english": "for three people", "polish": "dla trzech osób", "pronunciation": "dla tsheh o-soob" },
+        { "english": "What's the price of the room?", "polish": "Jaka jest cena pokoju?", "pronunciation": "Ya-kah yest tse-nah po-ko-yu" },
+        { "english": "Does the price include breakfast?", "polish": "Czy cena uwzględnia śniadanie?", "pronunciation": "Chi tse-nah uv-zgled-nyah shnya-da-nyeh" },
+        { "english": "Is there an iron in the room?", "polish": "Czy w pokoju jest żelazko?", "pronunciation": "Chi v po-ko-yu yest zhe-laz-ko" },
+        { "english": "Do you accept card payments?", "polish": "Czy można tu płacić kartą?", "pronunciation": "Chi mozh-nah too pwa-chich kar-tom" },
+        { "english": "Card or cash?", "polish": "Karta czy gotówka?", "pronunciation": "Kar-tah chi go-tuv-kah" },
+        { "english": "What is the room number?", "polish": "Jaki jest numer pokoju?", "pronunciation": "Yah-kee yest nu-mer po-ko-yu" },
+        { "english": "May I have the wifi password?", "polish": "Czy mogę prosić o hasło do Wi-Fi?", "pronunciation": "Chi mo-geh pro-shich oh has-wo do vii-fii" },
+        { "english": "What time does the hotel night end?", "polish": "O której kończy się doba hotelowa?", "pronunciation": "Oh ktoo-rey kon-chi syeh do-bah ho-te-lo-vah" }
+      ]
+    },
+    {
+      "section": "rooms",
+      "items": [
+        { "english": "hallway", "polish": "przedpokój", "pronunciation": "pshed-poh-kooy" },
+        { "english": "living room", "polish": "salon", "pronunciation": "sah-lon" },
+        { "english": "bedroom", "polish": "sypialnia", "pronunciation": "si-pyal-nya" },
+        { "english": "dining room", "polish": "jadalnia", "pronunciation": "ya-dal-nya" },
+        { "english": "kitchen", "polish": "kuchnia", "pronunciation": "kooh-nya" },
+        { "english": "bathroom", "polish": "łazienka", "pronunciation": "wa-zyen-kah" },
+        { "english": "toilet", "polish": "toaleta", "pronunciation": "to-ah-le-tah" },
+        { "english": "basement", "polish": "piwnica", "pronunciation": "piv-nee-tsah" }
+      ]
+    },
+    {
+      "section": "furniture",
+      "items": [
+        { "english": "chair", "polish": "krzesło", "pronunciation": "kshe-swo" },
+        { "english": "table", "polish": "stół", "pronunciation": "stoow" },
+        { "english": "bed", "polish": "łóżko", "pronunciation": "woozh-ko" },
+        { "english": "closet / wardrobe", "polish": "szafa", "pronunciation": "sha-fah" },
+        { "english": "armchair", "polish": "fotel", "pronunciation": "fo-tel" },
+        { "english": "desk", "polish": "biurko", "pronunciation": "byur-ko" },
+        { "english": "couch / sofa", "polish": "kanapa", "pronunciation": "kah-nah-pah" },
+        { "english": "chest of drawers", "polish": "komoda", "pronunciation": "ko-mo-dah" }
+      ]
+    },
+    {
+      "section": "appliances",
+      "items": [
+        { "english": "TV set", "polish": "telewizor", "pronunciation": "te-le-vee-zor" },
+        { "english": "washing machine", "polish": "pralka", "pronunciation": "pral-kah" },
+        { "english": "microwave", "polish": "mikrofalówka", "pronunciation": "mee-kro-fah-loov-kah" },
+        { "english": "fridge", "polish": "lodówka", "pronunciation": "lo-doov-kah" },
+        { "english": "freezer", "polish": "zamrażarka", "pronunciation": "zam-ra-zhar-kah" },
+        { "english": "hair dryer", "polish": "suszarka do włosów", "pronunciation": "su-shar-kah do vwo-soov" },
+        { "english": "iron", "polish": "żelazko", "pronunciation": "zhe-laz-ko" },
+        { "english": "kettle", "polish": "czajnik", "pronunciation": "chay-neek" }
+      ]
+    },
+    {
+      "section": "accessories",
+      "items": [
+        { "english": "mirror", "polish": "lustro", "pronunciation": "lus-tro" },
+        { "english": "vase", "polish": "wazon", "pronunciation": "vah-zon" },
+        { "english": "rug", "polish": "dywan", "pronunciation": "dih-van" },
+        { "english": "painting", "polish": "obraz", "pronunciation": "ob-raz" },
+        { "english": "laundry basket", "polish": "kosz na pranie", "pronunciation": "kosh na pra-nyeh" },
+        { "english": "drying rack", "polish": "suszarka na pranie", "pronunciation": "su-shar-kah na pra-nyeh" },
+        { "english": "pillow", "polish": "poduszka", "pronunciation": "po-dush-kah" },
+        { "english": "blanket", "polish": "koc", "pronunciation": "kots" }
+      ]
+    },
+    {
+      "section": "prepositions_of_place",
+      "items": [
+        { "english": "in", "polish": "w", "pronunciation": "v" },
+        { "english": "outside", "polish": "poza", "pronunciation": "po-zah" },
+        { "english": "above", "polish": "nad", "pronunciation": "nad" },
+        { "english": "under", "polish": "pod", "pronunciation": "pod" },
+        { "english": "in front of", "polish": "przed", "pronunciation": "pshed" },
+        { "english": "behind", "polish": "za", "pronunciation": "zah" },
+        { "english": "on", "polish": "na", "pronunciation": "nah" },
+        { "english": "next to", "polish": "obok", "pronunciation": "o-bok" },
+        { "english": "between", "polish": "pomiędzy", "pronunciation": "po-myen-dzih" },
+        { "english": "opposite", "polish": "naprzeciw", "pronunciation": "nah-pshe-chiv" }
+      ]
+    },
+    {
+      "section": "descriptive_adjectives",
+      "items": [
+        { "english": "good (neuter/plural)", "polish": "dobre", "pronunciation": "dob-reh" },
+        { "english": "good (masculine)", "polish": "dobry", "pronunciation": "dob-rih" },
+        { "english": "beautiful / nice (masculine)", "polish": "piękny", "pronunciation": "pyenk-nih" },
+        { "english": "bright / light", "polish": "jasny", "pronunciation": "yas-nih" },
+        { "english": "pretty", "polish": "ładny", "pronunciation": "wad-nih" },
+        { "english": "sunny", "polish": "słoneczny", "pronunciation": "swo-nech-nih" },
+        { "english": "comfortable (neuter)", "polish": "wygodne", "pronunciation": "vih-god-neh" },
+        { "english": "nice / kind (masculine)", "polish": "miły", "pronunciation": "mee-wih" },
+        { "english": "helpful", "polish": "uczynny", "pronunciation": "u-chin-nih" },
+        { "english": "neat / tidy (feminine)", "polish": "schludna", "pronunciation": "shlud-nah" },
+        { "english": "I recommend", "polish": "polecam", "pronunciation": "po-le-tsam" },
+        { "english": "small (masculine)", "polish": "mały", "pronunciation": "mah-wih" },
+        { "english": "dark", "polish": "ciemny", "pronunciation": "chyem-nih" },
+        { "english": "hopeless / terrible", "polish": "beznadziejny", "pronunciation": "bez-nad-zyey-nih" },
+        { "english": "ugly", "polish": "brzydki", "pronunciation": "bzhid-kee" },
+        { "english": "noise", "polish": "hałas", "pronunciation": "hah-was" }
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "3.1",
+      "type": "short_answer",
+      "title": "Hotel questions (write the question)",
+      "questions": [
+        {
+          "question": "What question would get this answer: 'Niestety, przyjmujemy tylko gotówkę.' (Unfortunately we only accept cash.)",
+          "answer": "Czy można tu płacić kartą?",
+          "note": "The answer mentions only accepting cash, so the question asks about card payment."
+        },
+        {
+          "question": "What question would get this answer: 'Śniadanie jest płatne dodatkowo.' (Breakfast is extra.)",
+          "answer": "Czy cena uwzględnia śniadanie?",
+          "note": "The answer is about breakfast pricing, so the question asks if breakfast is included."
+        },
+        {
+          "question": "What question would get this answer: 'Pokój numer 34, do końca korytarza i w lewo.' (Room 34, straight through the corridor and to the left.)",
+          "answer": "Jaki jest numer pokoju?",
+          "note": "The answer gives a room number, so the question asks for the room number."
+        },
+        {
+          "question": "What question would get this answer: 'Oczywiście, mamy kilka pokoi w tym terminie.' (Of course, we have a few rooms available on this date.)",
+          "answer": "Czy macie Państwo wolny pokój w tym terminie?",
+          "note": "The answer confirms room availability, so the question asks about availability."
+        },
+        {
+          "question": "What question would get this answer: 'Doba hotelowa kończy się o 11:00.' (The hotel night ends at 11 AM.)",
+          "answer": "O której kończy się doba hotelowa?",
+          "note": "The answer gives the checkout time."
+        }
+      ]
+    },
+    {
+      "id": "3.2",
+      "type": "multiple_choice",
+      "title": "Positive or negative review?",
+      "questions": [
+        {
+          "question": "Which word means the room is pleasant and well-lit?",
+          "options": ["ciemny", "jasny", "brzydki", "mały"],
+          "answer": "jasny"
+        },
+        {
+          "question": "Which word would you use to say a place is terrible?",
+          "options": ["schludna", "wygodne", "beznadziejny", "ładny"],
+          "answer": "beznadziejny"
+        },
+        {
+          "question": "Which phrase means 'I recommend'?",
+          "options": ["nie polecam", "polecam", "hałas", "minus"],
+          "answer": "polecam"
+        },
+        {
+          "question": "Which word describes a place that is noisy?",
+          "options": ["słoneczny", "hałas", "miły", "jasny"],
+          "answer": "hałas"
+        }
+      ]
+    },
+    {
+      "id": "3.3",
+      "type": "multiple_choice",
+      "title": "Yes/no questions and prepositions",
+      "questions": [
+        {
+          "question": "How do you form a yes/no question in Polish?",
+          "options": ["Start with 'tak'", "Start with 'czy' (or raise intonation at end)", "Invert verb and subject like English", "Add '?' only"],
+          "answer": "Start with 'czy' (or raise intonation at end)"
+        },
+        {
+          "question": "How do you say 'Really?' in Polish?",
+          "options": ["Tak?", "Naprawdę?", "Czy?", "Jasne?"],
+          "answer": "Naprawdę?"
+        },
+        {
+          "question": "The iron is ___ the table. (on)",
+          "options": ["w", "pod", "na", "za"],
+          "answer": "na"
+        },
+        {
+          "question": "The closet is ___ the desk. (next to)",
+          "options": ["między", "obok", "przed", "nad"],
+          "answer": "obok"
+        },
+        {
+          "question": "The book is ___ the table. (under)",
+          "options": ["na", "w", "pod", "za"],
+          "answer": "pod"
+        },
+        {
+          "question": "Would you like some coffee? (translate)",
+          "options": ["Czy jesteś głodny?", "Czy masz ochotę na kawę?", "Czy można tu płacić kartą?", "Gdzie jest kuchnia?"],
+          "answer": "Czy masz ochotę na kawę?"
+        }
+      ]
+    },
+    {
+      "id": "3.4",
+      "type": "multiple_choice",
+      "title": "Rooms and furniture",
+      "questions": [
+        {
+          "question": "What is 'łazienka'?",
+          "options": ["bedroom", "bathroom", "kitchen", "hallway"],
+          "answer": "bathroom"
+        },
+        {
+          "question": "What is 'sypialnia'?",
+          "options": ["living room", "dining room", "bedroom", "basement"],
+          "answer": "bedroom"
+        },
+        {
+          "question": "What is 'lodówka'?",
+          "options": ["washing machine", "microwave", "fridge", "freezer"],
+          "answer": "fridge"
+        },
+        {
+          "question": "What is 'żelazko'?",
+          "options": ["kettle", "iron", "hair dryer", "TV set"],
+          "answer": "iron"
+        },
+        {
+          "question": "What is 'lustro'?",
+          "options": ["rug", "vase", "mirror", "painting"],
+          "answer": "mirror"
+        },
+        {
+          "question": "What is 'pralka'?",
+          "options": ["washing machine", "fridge", "freezer", "microwave"],
+          "answer": "washing machine"
+        },
+        {
+          "question": "What is 'poduszka'?",
+          "options": ["blanket", "pillow", "rug", "laundry basket"],
+          "answer": "pillow"
+        },
+        {
+          "question": "What is 'przedpokój'?",
+          "options": ["living room", "dining room", "bathroom", "hallway"],
+          "answer": "hallway"
+        }
+      ]
+    },
+    {
+      "id": "3.5",
+      "type": "multiple_choice",
+      "title": "Which room does it belong in?",
+      "questions": [
+        {
+          "question": "Where would you find a 'pralka' (washing machine)?",
+          "options": ["salon", "sypialnia", "łazienka", "jadalnia"],
+          "answer": "łazienka"
+        },
+        {
+          "question": "Where would you find a 'lodówka' (fridge)?",
+          "options": ["salon", "kuchnia", "sypialnia", "przedpokój"],
+          "answer": "kuchnia"
+        },
+        {
+          "question": "Where would you find a 'łóżko' (bed)?",
+          "options": ["kuchnia", "jadalnia", "sypialnia", "łazienka"],
+          "answer": "sypialnia"
+        },
+        {
+          "question": "Where would you find a 'kanapa' (couch)?",
+          "options": ["kuchnia", "salon", "piwnica", "łazienka"],
+          "answer": "salon"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,396 @@
+{
+  "chapter": 4,
+  "topic": "Going Shopping",
+  "vocabulary": [
+    {
+      "section": "shopping_words",
+      "items": [
+        { "english": "size", "polish": "rozmiar", "pronunciation": "roz-myar" },
+        { "english": "discount", "polish": "przecena", "pronunciation": "pshe-tse-nah" },
+        { "english": "special offer", "polish": "promocja", "pronunciation": "pro-mots-yah" },
+        { "english": "sale", "polish": "wyprzedaż", "pronunciation": "vih-pshe-dash" },
+        { "english": "price", "polish": "cena", "pronunciation": "tse-nah" },
+        { "english": "price tag", "polish": "metka", "pronunciation": "met-kah" },
+        { "english": "return", "polish": "zwrot", "pronunciation": "zvrot" },
+        { "english": "sweatshirts", "polish": "bluzy dresowe", "pronunciation": "blu-zih dre-so-veh" },
+        { "english": "trousers", "polish": "spodnie", "pronunciation": "spod-nyeh" },
+        { "english": "on the left", "polish": "po lewej", "pronunciation": "po le-vey" },
+        { "english": "on the right", "polish": "po prawej", "pronunciation": "po pra-vey" },
+        { "english": "too small", "polish": "za małe", "pronunciation": "zah mah-weh" },
+        { "english": "discounted / on sale", "polish": "przecenione", "pronunciation": "pshe-tse-nyo-neh" },
+        { "english": "previous collection", "polish": "poprzednia kolekcja", "pronunciation": "po-pshed-nyah ko-lek-tsyah" },
+        { "english": "shipment / delivery", "polish": "dostawa", "pronunciation": "dos-ta-vah" }
+      ]
+    },
+    {
+      "section": "shopping_phrases",
+      "items": [
+        { "english": "How much does it cost?", "polish": "Ile to kosztuje?", "pronunciation": "Ee-leh to kosh-tu-yeh" },
+        { "english": "What's the cost of...?", "polish": "Ile kosztuje...?", "pronunciation": "Ee-leh kosh-tu-yeh" },
+        { "english": "I'll have... / I'd like...", "polish": "Poproszę...", "pronunciation": "Po-pro-sheh" },
+        { "english": "Do you have this in Medium size?", "polish": "Czy macie to w rozmiarze M?", "pronunciation": "Chi ma-chie to v roz-mya-zheh em" },
+        { "english": "Try them on!", "polish": "Proszę przymierzyć!", "pronunciation": "Pro-sheh pshi-mye-zhich" },
+        { "english": "What time do you open?", "polish": "O której otwieracie?", "pronunciation": "Oh ktoo-rey ot-vye-ra-chie" },
+        { "english": "We open at 9 AM.", "polish": "Otwieramy o 9 rano.", "pronunciation": "Ot-vye-ra-mih oh dze-vyont-ah ra-no" },
+        { "english": "You're welcome.", "polish": "Proszę bardzo.", "pronunciation": "Pro-sheh bar-dzo" }
+      ]
+    },
+    {
+      "section": "why_and_because",
+      "items": [
+        { "english": "why", "polish": "dlaczego", "pronunciation": "dla-che-go" },
+        { "english": "because (formal)", "polish": "ponieważ", "pronunciation": "po-nyeh-vash" },
+        { "english": "because (informal)", "polish": "bo", "pronunciation": "bo" }
+      ]
+    },
+    {
+      "section": "demonstrative_articles",
+      "items": [
+        { "english": "this (neuter)", "polish": "to", "pronunciation": "to" },
+        { "english": "this (feminine)", "polish": "ta", "pronunciation": "tah" },
+        { "english": "this (masculine)", "polish": "ten", "pronunciation": "ten" },
+        { "english": "these (plural)", "polish": "te", "pronunciation": "teh" },
+        { "english": "that (neuter)", "polish": "tamto", "pronunciation": "tam-to" },
+        { "english": "that (feminine)", "polish": "tamta", "pronunciation": "tam-tah" },
+        { "english": "that (masculine)", "polish": "tamten", "pronunciation": "tam-ten" },
+        { "english": "those (plural)", "polish": "tamte", "pronunciation": "tam-teh" }
+      ]
+    },
+    {
+      "section": "indefinite_numerals",
+      "items": [
+        { "english": "a few (2–9)", "polish": "parę / kilka", "pronunciation": "pa-reh / keel-kah" },
+        { "english": "a dozen or so (11–19)", "polish": "kilkanaście", "pronunciation": "keel-ka-nash-chyeh" },
+        { "english": "several tens (20–99)", "polish": "kilkadziesiąt", "pronunciation": "keel-ka-dzhe-shont" },
+        { "english": "several hundreds (200–999)", "polish": "kilkaset", "pronunciation": "keel-ka-set" },
+        { "english": "a lot / many", "polish": "dużo / mnóstwo / wiele", "pronunciation": "du-zho / mnoost-vo / vyeh-leh" },
+        { "english": "little / not many", "polish": "mało / odrobinę / niewiele", "pronunciation": "mah-wo / od-ro-bee-neh / nyeh-vyeh-leh" }
+      ]
+    },
+    {
+      "section": "interrogative_pronouns",
+      "items": [
+        { "english": "who", "polish": "kto", "pronunciation": "kto" },
+        { "english": "what", "polish": "co", "pronunciation": "tso" },
+        { "english": "what kind", "polish": "jaki", "pronunciation": "ya-kee" },
+        { "english": "which", "polish": "który", "pronunciation": "ktoo-rih" },
+        { "english": "where", "polish": "gdzie", "pronunciation": "gdzye" },
+        { "english": "when", "polish": "kiedy", "pronunciation": "kyeh-dih" }
+      ]
+    },
+    {
+      "section": "fruits",
+      "items": [
+        { "english": "fruit", "polish": "owoc", "pronunciation": "o-vots", "gender": "m", "plural": "owoce" },
+        { "english": "apple", "polish": "jabłko", "pronunciation": "yab-wko", "gender": "n", "plural": "jabłka" },
+        { "english": "orange", "polish": "pomarańcza", "pronunciation": "po-ma-ran-chah", "gender": "f", "plural": "pomarańcze" },
+        { "english": "peach", "polish": "brzoskwinia", "pronunciation": "bzhos-kvee-nyah", "gender": "f", "plural": "brzoskwinie" },
+        { "english": "banana", "polish": "banan", "pronunciation": "ba-nan", "gender": "m", "plural": "banany" },
+        { "english": "lemon", "polish": "cytryna", "pronunciation": "tsih-trih-nah", "gender": "f", "plural": "cytryny" },
+        { "english": "watermelon", "polish": "arbuz", "pronunciation": "ar-buz", "gender": "m", "plural": "arbuzy" },
+        { "english": "strawberry", "polish": "truskawka", "pronunciation": "trus-kav-kah", "gender": "f", "plural": "truskawki" },
+        { "english": "raspberry", "polish": "malina", "pronunciation": "ma-lee-nah", "gender": "f", "plural": "maliny" },
+        { "english": "pineapple", "polish": "ananas", "pronunciation": "a-na-nas", "gender": "m", "plural": "ananasy" }
+      ]
+    },
+    {
+      "section": "vegetables",
+      "items": [
+        { "english": "vegetable", "polish": "warzywo", "pronunciation": "va-zhih-vo", "gender": "n", "plural": "warzywa" },
+        { "english": "cucumber", "polish": "ogórek", "pronunciation": "o-goo-rek", "gender": "m", "plural": "ogórki" },
+        { "english": "tomato", "polish": "pomidor", "pronunciation": "po-mee-dor", "gender": "m", "plural": "pomidory" },
+        { "english": "pepper", "polish": "papryka", "pronunciation": "pap-rih-kah", "gender": "f", "plural": "papryki" },
+        { "english": "onion", "polish": "cebula", "pronunciation": "tse-bu-lah", "gender": "f", "plural": "cebule" },
+        { "english": "cauliflower", "polish": "kalafior", "pronunciation": "ka-la-fyor", "gender": "m", "plural": "kalafiory" },
+        { "english": "broccoli", "polish": "brokuł", "pronunciation": "bro-kuw", "gender": "m", "plural": "brokuły" },
+        { "english": "radish", "polish": "rzodkiewka", "pronunciation": "zhod-kyev-kah", "gender": "f", "plural": "rzodkiewki" },
+        { "english": "carrot", "polish": "marchewka", "pronunciation": "mar-hev-kah", "gender": "f", "plural": "marchewki" },
+        { "english": "lettuce", "polish": "sałata", "pronunciation": "sa-wa-tah", "gender": "f", "plural": "sałaty" },
+        { "english": "leek", "polish": "por", "pronunciation": "por", "gender": "m", "plural": "pory" }
+      ]
+    },
+    {
+      "section": "kitchen_staples",
+      "items": [
+        { "english": "flour", "polish": "mąka", "pronunciation": "mon-kah", "gender": "f" },
+        { "english": "sugar", "polish": "cukier", "pronunciation": "tsoo-kyer", "gender": "m" },
+        { "english": "milk", "polish": "mleko", "pronunciation": "mle-ko", "gender": "n" },
+        { "english": "egg", "polish": "jajko", "pronunciation": "yay-ko", "gender": "n", "plural": "jajka" },
+        { "english": "bread", "polish": "chleb", "pronunciation": "hleb", "gender": "m", "plural": "chleby" },
+        { "english": "butter", "polish": "masło", "pronunciation": "mas-wo", "gender": "n" },
+        { "english": "cheese", "polish": "ser", "pronunciation": "ser", "gender": "m" },
+        { "english": "sausage", "polish": "kiełbasa", "pronunciation": "kyew-ba-sah", "gender": "f" },
+        { "english": "quark / cottage cheese", "polish": "twaróg", "pronunciation": "tva-roog", "gender": "m" },
+        { "english": "sour cream", "polish": "śmietana", "pronunciation": "shmye-ta-nah", "gender": "f" },
+        { "english": "salt", "polish": "sól", "pronunciation": "sool", "gender": "f" },
+        { "english": "black pepper", "polish": "pieprz", "pronunciation": "pyepsh", "gender": "m" }
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "4.1",
+      "type": "multiple_choice",
+      "title": "Shopping dialogue vocabulary",
+      "questions": [
+        {
+          "question": "How do you say 'discounted' in Polish?",
+          "options": ["przecenione", "zwrot", "promocja", "dostawa"],
+          "answer": "przecenione"
+        },
+        {
+          "question": "How do you say 'too small' in Polish?",
+          "options": ["za duże", "za małe", "za drogie", "za tanie"],
+          "answer": "za małe"
+        },
+        {
+          "question": "What does 'po lewej' mean?",
+          "options": ["on the right", "on the left", "straight ahead", "in the back"],
+          "answer": "on the left"
+        },
+        {
+          "question": "What does 'Proszę przymierzyć!' mean?",
+          "options": ["Please pay!", "Try them on!", "What's the price?", "We're open!"],
+          "answer": "Try them on!"
+        },
+        {
+          "question": "What is 'rozmiar'?",
+          "options": ["price", "discount", "size", "sale"],
+          "answer": "size"
+        }
+      ]
+    },
+    {
+      "id": "4.2",
+      "type": "multiple_choice",
+      "title": "Why questions — dlaczego, ponieważ, bo",
+      "questions": [
+        {
+          "question": "How do you say 'why' in Polish?",
+          "options": ["gdzie", "kiedy", "dlaczego", "który"],
+          "answer": "dlaczego"
+        },
+        {
+          "question": "Which word means 'because' (informal, everyday use)?",
+          "options": ["ponieważ", "bo", "dlaczego", "że"],
+          "answer": "bo"
+        },
+        {
+          "question": "Which word means 'because' (can be used in formal writing)?",
+          "options": ["bo", "ale", "ponieważ", "więc"],
+          "answer": "ponieważ"
+        },
+        {
+          "question": "Complete: 'Koszula jest na wyprzedaży, ___ to ostatnia para.'",
+          "options": ["dlaczego", "gdzie", "bo", "który"],
+          "answer": "bo"
+        }
+      ]
+    },
+    {
+      "id": "4.3",
+      "type": "multiple_choice",
+      "title": "Demonstrative articles — ten/ta/to/te",
+      "questions": [
+        {
+          "question": "What is the demonstrative 'this' for a masculine noun?",
+          "options": ["ta", "to", "ten", "te"],
+          "answer": "ten"
+        },
+        {
+          "question": "What is the demonstrative 'this' for a feminine noun?",
+          "options": ["to", "ta", "ten", "tamto"],
+          "answer": "ta"
+        },
+        {
+          "question": "What is the demonstrative 'this' for a neuter noun?",
+          "options": ["ten", "ta", "te", "to"],
+          "answer": "to"
+        },
+        {
+          "question": "What is the demonstrative 'these' (plural)?",
+          "options": ["ta", "ten", "te", "tamte"],
+          "answer": "te"
+        },
+        {
+          "question": "What is 'that' for a feminine noun?",
+          "options": ["tamten", "tamto", "tamta", "te"],
+          "answer": "tamta"
+        },
+        {
+          "question": "Chcę kupić ___ komodę. (this — feminine)",
+          "options": ["ten", "to", "ta", "te"],
+          "answer": "ta"
+        }
+      ]
+    },
+    {
+      "id": "4.4",
+      "type": "multiple_choice",
+      "title": "Indefinite numerals — quantity words",
+      "questions": [
+        {
+          "question": "Which word means 'between 11 and 19'?",
+          "options": ["kilka", "kilkaset", "kilkanaście", "kilkadziesiąt"],
+          "answer": "kilkanaście"
+        },
+        {
+          "question": "You ate pizza about 4 times this week. Which word fits?",
+          "options": ["kilkaset", "kilka", "mnóstwo", "kilkadziesiąt"],
+          "answer": "kilka"
+        },
+        {
+          "question": "An expensive gift probably cost... złotych?",
+          "options": ["parę", "kilkaset", "mało", "niewiele"],
+          "answer": "kilkaset"
+        },
+        {
+          "question": "You are 'odrobinę' sleepy. What does that mean?",
+          "options": ["very sleepy", "not sleepy at all", "a little sleepy", "extremely sleepy"],
+          "answer": "a little sleepy"
+        },
+        {
+          "question": "Which phrase means 'a lot'?",
+          "options": ["mało", "odrobinę", "mnóstwo", "parę"],
+          "answer": "mnóstwo"
+        }
+      ]
+    },
+    {
+      "id": "4.5",
+      "type": "multiple_choice",
+      "title": "Interrogative pronouns — kto, co, jaki, który, gdzie, kiedy",
+      "questions": [
+        {
+          "question": "How do you say 'who' in Polish?",
+          "options": ["co", "kto", "gdzie", "kiedy"],
+          "answer": "kto"
+        },
+        {
+          "question": "How do you say 'where' in Polish?",
+          "options": ["kiedy", "który", "gdzie", "jaki"],
+          "answer": "gdzie"
+        },
+        {
+          "question": "Which interrogative matches: 'Co jadłeś na kolację?' (What did you have for dinner?)",
+          "options": ["kto", "co", "kiedy", "który"],
+          "answer": "co"
+        },
+        {
+          "question": "Which interrogative means 'what kind'?",
+          "options": ["który", "kiedy", "jaki", "kto"],
+          "answer": "jaki"
+        },
+        {
+          "question": "'Kiedy ostatnio byłaś w kinie?' means:",
+          "options": ["Where did you last go to the cinema?", "When was the last time you went to the cinema?", "Who went to the cinema?", "What did you see at the cinema?"],
+          "answer": "When was the last time you went to the cinema?"
+        }
+      ]
+    },
+    {
+      "id": "4.6",
+      "type": "multiple_choice",
+      "title": "Present tense verb conjugations",
+      "questions": [
+        {
+          "question": "What is the 'ja' (I) form of 'mówić' (to talk)?",
+          "options": ["mówię", "mówisz", "mówi", "mówimy"],
+          "answer": "mówię"
+        },
+        {
+          "question": "What is the 'ty' form of 'słyszeć' (to hear)?",
+          "options": ["słyszę", "słyszy", "słyszysz", "słyszą"],
+          "answer": "słyszysz"
+        },
+        {
+          "question": "What is the 'my' (we) form of 'rozumieć' (to understand)?",
+          "options": ["rozumiem", "rozumiesz", "rozumiemy", "rozumieją"],
+          "answer": "rozumiemy"
+        },
+        {
+          "question": "What is the 'oni/one' form of 'pić' (to drink)?",
+          "options": ["pijemy", "piją", "pije", "pijecie"],
+          "answer": "piją"
+        },
+        {
+          "question": "What is the 'ty' form of 'pracować' (to work)?",
+          "options": ["pracuję", "pracuje", "pracujesz", "pracujemy"],
+          "answer": "pracujesz"
+        },
+        {
+          "question": "What is the 'ja' form of 'widzieć' (to see)?",
+          "options": ["widzisz", "widzi", "widzę", "widzimy"],
+          "answer": "widzę"
+        },
+        {
+          "question": "What is the 'on/ona/ono' form of 'lubić' (to like)?",
+          "options": ["lubię", "lubisz", "lubimy", "lubi"],
+          "answer": "lubi"
+        },
+        {
+          "question": "What is the 'wy' form of 'żyć' (to live)?",
+          "options": ["żyję", "żyjemy", "żyjecie", "żyją"],
+          "answer": "żyjecie"
+        }
+      ]
+    },
+    {
+      "id": "4.7",
+      "type": "multiple_choice",
+      "title": "Fruits, vegetables, and kitchen items",
+      "questions": [
+        {
+          "question": "What is 'truskawka'?",
+          "options": ["raspberry", "strawberry", "peach", "lemon"],
+          "answer": "strawberry"
+        },
+        {
+          "question": "What is 'ogórek'?",
+          "options": ["tomato", "onion", "cucumber", "pepper"],
+          "answer": "cucumber"
+        },
+        {
+          "question": "What is 'mąka'?",
+          "options": ["sugar", "butter", "milk", "flour"],
+          "answer": "flour"
+        },
+        {
+          "question": "What is 'masło'?",
+          "options": ["cheese", "butter", "sour cream", "milk"],
+          "answer": "butter"
+        },
+        {
+          "question": "What is 'kiełbasa'?",
+          "options": ["quark", "sausage", "cheese", "bread"],
+          "answer": "sausage"
+        },
+        {
+          "question": "What gender is 'jabłko' (apple)?",
+          "options": ["masculine", "feminine", "neuter", "plural"],
+          "answer": "neuter"
+        },
+        {
+          "question": "What is the plural of 'pomidor'?",
+          "options": ["pomidory", "pomidorki", "pomidore", "pomidorów"],
+          "answer": "pomidory"
+        },
+        {
+          "question": "What is 'arbuz'?",
+          "options": ["pineapple", "peach", "watermelon", "lemon"],
+          "answer": "watermelon"
+        },
+        {
+          "question": "What is 'śmietana'?",
+          "options": ["butter", "sour cream", "milk", "flour"],
+          "answer": "sour cream"
+        },
+        {
+          "question": "What is 'marchewka'?",
+          "options": ["leek", "radish", "lettuce", "carrot"],
+          "answer": "carrot"
+        }
+      ]
+    }
+  ]
+}

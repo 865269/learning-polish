@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <!-- Progress -->
+  <div class="header-row">
+    <span style="font-size:0.9rem;color:#888">{{ chapter_topic }}</span>
+    <span class="score-badge">{{ score }} / {{ index }}</span>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" style="width: {{ (index / total * 100)|round|int }}%"></div>
+  </div>
+
+  <!-- Question -->
+  {% if question.type == "flashcard" %}
+    <div class="meta">{{ question.section }} · flashcard {{ index + 1 }} of {{ total }}</div>
+    <div class="prompt">{{ question.prompt }}</div>
+
+    {% if feedback is none %}
+      <form action="/answer" method="post" id="flashcard-form">
+        {% if question.answer_chars is defined %}
+          <div class="char-cell-wrap" id="gapped-word">
+            {% for ac in question.answer_chars %}
+              {% if ac.char == ' ' %}
+                <span class="char-space" data-pos="{{ loop.index0 }}" data-fixed="{{ ac.char }}"> </span>
+              {% elif ac.gap %}
+                <input class="char-input" data-pos="{{ loop.index0 }}" maxlength="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+              {% else %}
+                <span class="char-fixed" data-pos="{{ loop.index0 }}" data-fixed="{{ ac.char }}">{{ ac.char }}</span>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <input type="hidden" name="answer" id="reconstructed-answer">
+        {% else %}
+          <input type="text" name="answer" id="plain-answer" placeholder="Type the Polish word…" autofocus autocomplete="off">
+        {% endif %}
+        <br><br>
+        <button type="submit" class="btn btn-primary">Check →</button>
+        <a href="#" style="margin-left:12px;color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>
+      </form>
+
+      <style>
+        .char-cell-wrap { display: inline-flex; flex-wrap: wrap; gap: 4px; margin-top: 20px; align-items: center; }
+        .char-fixed {
+          display: inline-flex; align-items: center; justify-content: center;
+          width: 38px; height: 46px; background: #f0f4f8; border-radius: 8px;
+          font-size: 1.4rem; font-weight: 700; color: #333;
+        }
+        .char-space { display: inline-block; width: 14px; }
+        .char-input {
+          width: 38px; height: 46px; text-align: center; padding: 0;
+          border: 2px solid #e63946; border-radius: 8px;
+          font-size: 1.4rem; font-weight: 700; color: #333; outline: none;
+        }
+        .char-input:focus { border-color: #c1121f; box-shadow: 0 0 0 3px rgba(230,57,70,0.2); }
+      </style>
+
+      <script>
+        (function () {
+          var gapInputs = Array.from(document.querySelectorAll('.char-input'));
+          var form = document.getElementById('flashcard-form');
+          var hidden = document.getElementById('reconstructed-answer');
+          var revealLink = document.getElementById('reveal-link');
+
+          function reconstruct() {
+            var allEls = Array.from(document.querySelectorAll('[data-pos]'))
+              .sort(function(a, b) { return +a.dataset.pos - +b.dataset.pos; });
+            return allEls.map(function(el) {
+              return el.tagName === 'INPUT' ? (el.value || '') : (el.dataset.fixed || '');
+            }).join('');
+          }
+
+          if (gapInputs.length) {
+            gapInputs[0].focus();
+
+            gapInputs.forEach(function(inp, idx) {
+              inp.addEventListener('input', function() {
+                if (inp.value.length > 1) inp.value = inp.value.slice(-1);
+                if (inp.value && idx + 1 < gapInputs.length) {
+                  gapInputs[idx + 1].focus();
+                }
+              });
+              inp.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && inp.value === '' && idx > 0) {
+                  gapInputs[idx - 1].value = '';
+                  gapInputs[idx - 1].focus();
+                  e.preventDefault();
+                }
+              });
+            });
+
+            form.addEventListener('submit', function() {
+              hidden.value = reconstruct();
+            });
+
+            revealLink.addEventListener('click', function(e) {
+              e.preventDefault();
+              hidden.value = '?';
+              form.submit();
+            });
+          } else {
+            // plain input path
+            revealLink.addEventListener('click', function(e) {
+              e.preventDefault();
+              document.getElementById('plain-answer').value = '?';
+              form.submit();
+            });
+          }
+        })();
+      </script>
+    {% else %}
+      {% if feedback.correct %}
+        <div class="feedback-correct">✓ Correct! — <strong>{{ question.answer }}</strong>
+          <div style="font-weight:400;margin-top:4px;color:#444">{{ question.hint }}</div>
+        </div>
+      {% elif feedback.user_answer == "?" %}
+        <div class="feedback-wrong">
+          <div>Revealed:</div>
+          <div class="answer">{{ question.answer }}</div>
+          <div class="note">{{ question.hint }}</div>
+        </div>
+      {% else %}
+        <div class="feedback-wrong">
+          <div>Your answer: <em>{{ feedback.user_answer or "(blank)" }}</em></div>
+          <div class="answer">✗ Correct: {{ question.answer }}</div>
+          <div class="note">{{ question.hint }}</div>
+        </div>
+      {% endif %}
+      <br>
+      <a id="next-btn" href="/next" class="btn btn-primary" autofocus>Next →</a>
+    {% endif %}
+
+  {% elif question.type in ("fill_in", "short_answer") %}
+    <div class="meta">exercise {{ question.exercise }} · {{ index + 1 }} of {{ total }}</div>
+    <div class="prompt">{{ question.prompt }}</div>
+
+    {% if feedback is none %}
+      <form action="/answer" method="post">
+        <input type="text" name="answer" placeholder="Your answer…" autofocus autocomplete="off">
+        <br><br>
+        <button type="submit" class="btn btn-primary">Check →</button>
+      </form>
+    {% else %}
+      {% if feedback.correct %}
+        <div class="feedback-correct">✓ Correct! — <strong>{{ question.answer }}</strong></div>
+      {% else %}
+        <div class="feedback-wrong">
+          <div>Your answer: <em>{{ feedback.user_answer or "(blank)" }}</em></div>
+          <div class="answer">✗ Correct: {{ question.answer }}</div>
+          {% if question.note %}<div class="note">{{ question.note }}</div>{% endif %}
+        </div>
+      {% endif %}
+      <br>
+      <a id="next-btn" href="/next" class="btn btn-primary" autofocus>Next →</a>
+    {% endif %}
+
+  {% elif question.type == "multiple_choice" %}
+    <div class="meta">exercise {{ question.exercise }} · {{ index + 1 }} of {{ total }}</div>
+    <div class="prompt">{{ question.prompt }}</div>
+
+    {% if feedback is none %}
+      <form action="/answer" method="post" id="mc-form">
+        <div class="options">
+          {% for opt in question.options %}
+          <button type="submit" name="answer" value="{{ opt }}" class="option-btn">{{ opt }}</button>
+          {% endfor %}
+        </div>
+      </form>
+    {% else %}
+      <div class="options">
+        {% for opt in question.options %}
+          {% if opt == question.answer and feedback.correct %}
+            <div class="option-btn selected-correct">✓ {{ opt }}</div>
+          {% elif opt == feedback.user_answer and not feedback.correct %}
+            <div class="option-btn selected-wrong">✗ {{ opt }}</div>
+          {% elif opt == question.answer and not feedback.correct %}
+            <div class="option-btn reveal-correct">✓ {{ opt }}</div>
+          {% else %}
+            <div class="option-btn" style="opacity:0.5">{{ opt }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if question.note %}
+        <div style="margin-top:16px;font-size:0.9rem;color:#666">{{ question.note }}</div>
+      {% endif %}
+      <br>
+      <a id="next-btn" href="/next" class="btn btn-primary" autofocus>Next →</a>
+    {% endif %}
+  {% endif %}
+
+</div>
+
+{% if feedback is not none %}
+<script>
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      window.location.href = "/next";
+    }
+  });
+  var btn = document.getElementById("next-btn");
+  if (btn) btn.focus();
+</script>
+{% endif %}
+
+{% endblock %}

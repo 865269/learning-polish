@@ -1,0 +1,12 @@
+# Book PDF – do not distribute
+*.pdf
+
+# SRS progress – personal state, stays on each device
+data/srs.json
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.env
