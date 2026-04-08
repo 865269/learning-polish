@@ -1,6 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const APP_VERSION = 'v2';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -204,6 +205,7 @@ function showHome() {
     <div class="card">
       <h1>Choose a lesson</h1>
       <h2>Pick a chapter and practice mode</h2>
+      <div style="font-size:0.75rem;color:#ccc;margin-top:-12px;margin-bottom:16px">${APP_VERSION}</div>
 
       <label for="chapter">Chapter</label>
       <select id="chapter">
