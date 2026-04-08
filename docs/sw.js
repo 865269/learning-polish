@@ -1,4 +1,4 @@
-const CACHE = 'polish-v1';
+const CACHE = 'polish-v2';
 const ASSETS = [
   './',
   './index.html',
