@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.6';
+const APP_VERSION = 'v3.7';
 const REVIEW_BATCH = 20;
 
 const appState = {
