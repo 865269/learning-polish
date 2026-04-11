@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.3';
+const APP_VERSION = 'v3.4';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -470,6 +470,7 @@ function setupQuestionEvents(q, feedback) {
         if (inp.value && idx + 1 < gapInputs.length) gapInputs[idx + 1].focus();
       });
       inp.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); submitAnswer(); }
         if (e.key === 'Backspace' && inp.value === '' && idx > 0) {
           gapInputs[idx - 1].value = '';
           gapInputs[idx - 1].focus();
@@ -480,7 +481,12 @@ function setupQuestionEvents(q, feedback) {
   }
 
   const plainInput = document.getElementById('plain-answer');
-  if (plainInput) plainInput.focus();
+  if (plainInput) {
+    plainInput.focus();
+    plainInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { e.preventDefault(); submitAnswer(); }
+    });
+  }
 
   // Check button + Go key (form submit fires when mobile keyboard Go is tapped)
   const checkBtn = document.getElementById('check-btn');
@@ -504,14 +510,17 @@ function setupQuestionEvents(q, feedback) {
 }
 
 function onEnterAdvance(e) {
-  if (e.key === 'Enter') {
+  if (e.key === 'Enter' && Date.now() - _lastSubmitAt > 300) {
     e.preventDefault();
     document.removeEventListener('keydown', onEnterAdvance);
     advanceQuestion();
   }
 }
 
+let _lastSubmitAt = 0;
 function submitAnswer() {
+  if (!document.getElementById('answer-form')) return; // guard: already submitted
+  _lastSubmitAt = Date.now();
   document.activeElement?.blur(); // dismiss keyboard so feedback is visible
   const gapInputs = Array.from(document.querySelectorAll('.char-input'));
   let userAnswer;
