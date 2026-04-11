@@ -682,3 +682,17 @@ document.getElementById('nav-home').addEventListener('click', e => { e.preventDe
 document.getElementById('nav-stats').addEventListener('click', e => { e.preventDefault(); showStats(); });
 
 init();
+
+// Keep the Check/Next button above the keyboard on mobile.
+// interactive-widget=resizes-content handles Chrome 108+; this covers older browsers.
+if (window.visualViewport) {
+  window.visualViewport.addEventListener('resize', () => {
+    const el = document.querySelector('.question-actions');
+    if (!el) return;
+    const vpBottom = window.visualViewport.offsetTop + window.visualViewport.height;
+    const elBottom = el.getBoundingClientRect().bottom;
+    if (elBottom > vpBottom) {
+      window.scrollBy({ top: elBottom - vpBottom + 8, behavior: 'instant' });
+    }
+  });
+}
