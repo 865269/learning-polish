@@ -366,18 +366,20 @@ function renderFlashcard(q, index, total, feedback) {
   if (!feedback) {
     let inputHtml;
     if (q.answerChars) {
+      const gapIndices = q.answerChars.reduce((a, ac, i) => (ac.gap ? [...a, i] : a), []);
+      const lastGap = gapIndices[gapIndices.length - 1];
       const cells = q.answerChars.map((ac, i) => {
         if (ac.char === ' ') return `<span class="char-space" data-pos="${i}" data-fixed=" "> </span>`;
-        if (ac.gap) return `<input class="char-input" data-pos="${i}" maxlength="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">`;
+        if (ac.gap) return `<input class="char-input" data-pos="${i}" maxlength="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"${i === lastGap ? ' enterkeyhint="go"' : ''}>`;
         return `<span class="char-fixed" data-pos="${i}" data-fixed="${escHtml(ac.char)}">${escHtml(ac.char)}</span>`;
       }).join('');
       inputHtml = `<div class="char-cell-wrap" id="gapped-word">${cells}</div><input type="hidden" id="reconstructed-answer">`;
     } else {
-      inputHtml = `<input type="text" id="plain-answer" placeholder="Type the Polish word…" autocomplete="off" autocorrect="off" autocapitalize="off">`;
+      inputHtml = `<input type="text" id="plain-answer" placeholder="Type the Polish word…" autocomplete="off" autocorrect="off" autocapitalize="off" enterkeyhint="go">`;
     }
     return `<div class="question-actions">
+        <a href="#" style="color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>
         <button class="btn btn-primary" id="check-btn">Check →</button>
-        <a href="#" style="margin-left:12px;color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>
       </div>${prompt}${inputHtml}${meta}`;
   }
 
@@ -407,7 +409,7 @@ function renderTextQuestion(q, index, total, feedback) {
     return `<div class="question-actions">
         <button class="btn btn-primary" id="check-btn">Check →</button>
       </div>${prompt}
-      <input type="text" id="plain-answer" placeholder="Your answer…" autocomplete="off">
+      <input type="text" id="plain-answer" placeholder="Your answer…" autocomplete="off" enterkeyhint="go">
       ${meta}`;
   }
 
@@ -468,6 +470,7 @@ function setupQuestionEvents(q, feedback) {
         if (inp.value && idx + 1 < gapInputs.length) gapInputs[idx + 1].focus();
       });
       inp.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); submitAnswer(); }
         if (e.key === 'Backspace' && inp.value === '' && idx > 0) {
           gapInputs[idx - 1].value = '';
           gapInputs[idx - 1].focus();

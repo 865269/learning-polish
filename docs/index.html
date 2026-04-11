@@ -118,6 +118,7 @@
       border: 2px solid #ddd;
       border-radius: 12px;
       margin-top: 16px;
+      margin-bottom: 24px;
       outline: none;
       transition: border-color 0.2s;
     }
@@ -207,7 +208,7 @@
     .results-actions { display: flex; gap: 12px; justify-content: center; margin-top: 28px; }
 
     /* Gapped word */
-    .char-cell-wrap { display: inline-flex; flex-wrap: wrap; gap: 4px; margin-top: 20px; align-items: center; }
+    .char-cell-wrap { display: inline-flex; flex-wrap: wrap; gap: 4px; margin-top: 20px; margin-bottom: 24px; align-items: center; }
     .char-fixed {
       display: inline-flex; align-items: center; justify-content: center;
       width: 38px; height: 46px; background: #f0f4f8; border-radius: 8px;
@@ -249,6 +250,10 @@
     .mini-bar-amber { background: #f59e0b; height: 100%; }
 
     .question-actions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 16px;
       padding: 0 0 8px;
       margin-bottom: 16px;
     }
