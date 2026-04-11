@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.4';
+const APP_VERSION = 'v3.5';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -397,7 +397,7 @@ function renderFlashcard(q, index, total, feedback) {
       <div class="answer">✗ Correct: ${escHtml(q.answer)}</div>
       <div class="note">${escHtml(q.hint)}</div></div>`;
   }
-  return `${meta}${prompt}${feedbackHtml}<div class="question-actions"><a class="btn btn-primary" id="next-btn">Next →</a></div>`;
+  return `${meta}${prompt}${feedbackHtml}<a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
 }
 
 function renderTextQuestion(q, index, total, feedback) {
@@ -422,7 +422,7 @@ function renderTextQuestion(q, index, total, feedback) {
       <div class="answer">✗ Correct: ${escHtml(q.answer)}</div>
       ${q.note ? `<div class="note">${escHtml(q.note)}</div>` : ''}</div>`;
   }
-  return `${meta}${prompt}${feedbackHtml}<div class="question-actions"><a class="btn btn-primary" id="next-btn">Next →</a></div>`;
+  return `${meta}${prompt}${feedbackHtml}<a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
 }
 
 function renderMultipleChoice(q, index, total, feedback) {
@@ -445,7 +445,7 @@ function renderMultipleChoice(q, index, total, feedback) {
 
   return `${meta}${prompt}<div class="options">${options}</div>
     ${q.note ? `<div style="margin-top:16px;font-size:0.9rem;color:#666">${escHtml(q.note)}</div>` : ''}
-    <div class="question-actions"><a class="btn btn-primary" id="next-btn">Next →</a></div>`;
+    <a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
 }
 
 function setupQuestionEvents(q, feedback) {
