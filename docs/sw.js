@@ -49,9 +49,9 @@ self.addEventListener('fetch', e => {
       }))
     );
   } else {
-    // Network-first: always try to get fresh app shell, fall back to cache offline
+    // Network-first: revalidate bypassing HTTP cache, fall back to cache offline
     e.respondWith(
-      fetch(e.request).then(res => {
+      fetch(new Request(e.request, { cache: 'no-cache' })).then(res => {
         const clone = res.clone();
         caches.open(CACHE).then(c => c.put(e.request, clone));
         return res;
