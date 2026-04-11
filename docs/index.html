@@ -278,6 +278,31 @@
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
+
+      // Show reload banner when a new SW takes over (update deployed).
+      // Guard with hadController so we don't show on first install.
+      let hadController = !!navigator.serviceWorker.controller;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (hadController) showUpdateBanner();
+        hadController = true;
+      });
+    }
+
+    function showUpdateBanner() {
+      const b = document.createElement('div');
+      b.style.cssText = [
+        'position:fixed', 'bottom:0', 'left:0', 'right:0',
+        'background:#2e7d32', 'color:#fff',
+        'padding:12px 16px',
+        'display:flex', 'justify-content:space-between', 'align-items:center',
+        'z-index:9999', 'font-size:0.9rem', 'gap:12px',
+      ].join(';');
+      b.innerHTML =
+        '<span>App updated \u2014 your study progress is safe and won\'t be affected.</span>' +
+        '<button onclick="location.reload()" style="background:#fff;color:#2e7d32;border:none;' +
+        'padding:6px 14px;border-radius:4px;cursor:pointer;font-weight:bold;white-space:nowrap;">' +
+        'Reload</button>';
+      document.body.appendChild(b);
     }
   </script>
 </body>

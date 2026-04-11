@@ -1,10 +1,16 @@
-const CACHE = 'polish-v2';
-const ASSETS = [
+const CACHE = 'polish-v3';
+
+// App shell — served network-first so updates deploy automatically
+const SHELL = [
   './',
   './index.html',
   './srs.js',
   './app.js',
   './manifest.json',
+];
+
+// Chapter data — served cache-first (rarely changes, large-ish)
+const DATA = [
   './data/chapter1.json',
   './data/chapter2.json',
   './data/chapter3.json',
@@ -18,7 +24,7 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll([...SHELL, ...DATA])));
   self.skipWaiting();
 });
 
@@ -30,7 +36,26 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request))
-  );
+  const url = new URL(e.request.url);
+  const isData = url.pathname.includes('/data/');
+
+  if (isData) {
+    // Cache-first: serve cached chapter JSON, fall back to network
+    e.respondWith(
+      caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return res;
+      }))
+    );
+  } else {
+    // Network-first: always try to get fresh app shell, fall back to cache offline
+    e.respondWith(
+      fetch(e.request).then(res => {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return res;
+      }).catch(() => caches.match(e.request))
+    );
+  }
 });
