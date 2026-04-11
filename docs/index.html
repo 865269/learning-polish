@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Polish Practice</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#e63946">
@@ -248,14 +248,14 @@
     .mini-bar-green { background: #2d9e5f; height: 100%; }
     .mini-bar-amber { background: #f59e0b; height: 100%; }
 
-    /* Sticky action bar — pins input+button above the keyboard on mobile */
     .question-actions {
-      position: sticky;
-      bottom: 0;
-      background: white;
-      padding: 16px 0 8px;
-      margin-top: 16px;
-      box-shadow: 0 -12px 16px white;
+      padding: 0 0 8px;
+      margin-bottom: 16px;
+    }
+
+    /* Hide nav header when mobile keyboard is open to free up vertical space */
+    .keyboard-open header {
+      display: none;
     }
 
     @media (max-width: 480px) {

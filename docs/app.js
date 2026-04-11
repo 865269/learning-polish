@@ -355,7 +355,7 @@ function showQuestion(feedback = null) {
     body = renderMultipleChoice(q, index, total, feedback);
   }
 
-  setMain(`<div class="card">${header}${body}</div>`);
+  setMain(`<div class="card">${body}${header}</div>`);
   setupQuestionEvents(q, feedback);
 }
 
@@ -375,11 +375,10 @@ function renderFlashcard(q, index, total, feedback) {
     } else {
       inputHtml = `<input type="text" id="plain-answer" placeholder="Type the Polish word…" autocomplete="off" autocorrect="off" autocapitalize="off">`;
     }
-    return `${meta}${prompt}${inputHtml}
-      <div class="question-actions">
+    return `<div class="question-actions">
         <button class="btn btn-primary" id="check-btn">Check →</button>
         <a href="#" style="margin-left:12px;color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>
-      </div>`;
+      </div>${prompt}${inputHtml}${meta}`;
   }
 
   let feedbackHtml;
@@ -405,11 +404,11 @@ function renderTextQuestion(q, index, total, feedback) {
   const prompt = `<div class="prompt">${escHtml(q.prompt)}</div>`;
 
   if (!feedback) {
-    return `${meta}${prompt}
-      <input type="text" id="plain-answer" placeholder="Your answer…" autocomplete="off">
-      <div class="question-actions">
+    return `<div class="question-actions">
         <button class="btn btn-primary" id="check-btn">Check →</button>
-      </div>`;
+      </div>${prompt}
+      <input type="text" id="plain-answer" placeholder="Your answer…" autocomplete="off">
+      ${meta}`;
   }
 
   let feedbackHtml;
@@ -683,16 +682,11 @@ document.getElementById('nav-stats').addEventListener('click', e => { e.preventD
 
 init();
 
-// Keep the Check/Next button above the keyboard on mobile.
-// interactive-widget=resizes-content handles Chrome 108+; this covers older browsers.
+// Hide the nav header when the keyboard opens to free up vertical space.
+// Keyboard is considered open when the visual viewport shrinks to <75% of window height.
 if (window.visualViewport) {
   window.visualViewport.addEventListener('resize', () => {
-    const el = document.querySelector('.question-actions');
-    if (!el) return;
-    const vpBottom = window.visualViewport.offsetTop + window.visualViewport.height;
-    const elBottom = el.getBoundingClientRect().bottom;
-    if (elBottom > vpBottom) {
-      window.scrollBy({ top: elBottom - vpBottom + 8, behavior: 'instant' });
-    }
+    const ratio = window.visualViewport.height / window.innerHeight;
+    document.body.classList.toggle('keyboard-open', ratio < 0.75);
   });
 }
