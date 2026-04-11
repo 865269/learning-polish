@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3';
+const APP_VERSION = 'v3.1';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -373,9 +373,9 @@ function renderFlashcard(q, index, total, feedback) {
         if (ac.gap) return `<input class="char-input" data-pos="${i}" maxlength="1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"${i === lastGap ? ' enterkeyhint="go"' : ''}>`;
         return `<span class="char-fixed" data-pos="${i}" data-fixed="${escHtml(ac.char)}">${escHtml(ac.char)}</span>`;
       }).join('');
-      inputHtml = `<div class="char-cell-wrap" id="gapped-word">${cells}</div><input type="hidden" id="reconstructed-answer">`;
+      inputHtml = `<form id="answer-form"><div class="char-cell-wrap" id="gapped-word">${cells}</div><input type="hidden" id="reconstructed-answer"></form>`;
     } else {
-      inputHtml = `<input type="text" id="plain-answer" placeholder="Type the Polish word…" autocomplete="off" autocorrect="off" autocapitalize="off" enterkeyhint="go">`;
+      inputHtml = `<form id="answer-form"><input type="text" id="plain-answer" placeholder="Type the Polish word…" autocomplete="off" autocorrect="off" autocapitalize="off" enterkeyhint="go"></form>`;
     }
     return `<div class="question-actions">
         <a href="#" style="color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>
@@ -409,7 +409,7 @@ function renderTextQuestion(q, index, total, feedback) {
     return `<div class="question-actions">
         <button class="btn btn-primary" id="check-btn">Check →</button>
       </div>${prompt}
-      <input type="text" id="plain-answer" placeholder="Your answer…" autocomplete="off" enterkeyhint="go">
+      <form id="answer-form"><input type="text" id="plain-answer" placeholder="Your answer…" autocomplete="off" enterkeyhint="go"></form>
       ${meta}`;
   }
 
@@ -489,9 +489,11 @@ function setupQuestionEvents(q, feedback) {
     });
   }
 
-  // Check button
+  // Check button + Go key (form submit fires when mobile keyboard Go is tapped)
   const checkBtn = document.getElementById('check-btn');
   if (checkBtn) checkBtn.addEventListener('click', submitAnswer);
+  const answerForm = document.getElementById('answer-form');
+  if (answerForm) answerForm.addEventListener('submit', e => { e.preventDefault(); submitAnswer(); });
 
   // Reveal link
   const revealLink = document.getElementById('reveal-link');
@@ -674,6 +676,7 @@ function showStats() {
 // ── Boot ──────────────────────────────────────────────────────────────────────
 
 async function init() {
+  document.getElementById('app-version').textContent = APP_VERSION;
   setMain('<div style="text-align:center;padding:60px;color:#888">Loading…</div>');
   await loadAllChapters();
   showHome();
