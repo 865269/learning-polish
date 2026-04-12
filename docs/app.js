@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.8';
+const APP_VERSION = 'v3.9';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -338,12 +338,26 @@ function showQuestion(feedback = null) {
   const q = questions[index];
 
   const progressPct = Math.round(index / total * 100);
-  const header = `
-    <div class="header-row">
-      <span style="font-size:0.9rem;color:#888">${escHtml(chapterTopic)}</span>
-      <span class="score-badge">${score} / ${index}</span>
-    </div>
-    <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${progressPct}%"></div></div>`;
+
+  // Meta text varies by question type
+  let metaText;
+  if (q.type === 'flashcard') {
+    metaText = `${escHtml(q.section)} · ${index + 1} of ${total}`;
+  } else {
+    metaText = `exercise ${escHtml(q.exercise)} · ${index + 1} of ${total}`;
+  }
+
+  // Footer always sits at the bottom of the card, separated by a thin rule.
+  // Putting score + progress here (not at the top) means the keyboard can push
+  // them offscreen without obscuring the prompt or input.
+  const footer = `
+    <div class="session-footer">
+      <div class="session-footer-row">
+        <span class="meta" style="margin-bottom:0">${metaText}</span>
+        <span class="score-badge">${score} / ${index}</span>
+      </div>
+      <div class="progress-bar-wrap" style="margin-bottom:0"><div class="progress-bar-fill" style="width:${progressPct}%"></div></div>
+    </div>`;
 
   let body = '';
 
@@ -355,12 +369,11 @@ function showQuestion(feedback = null) {
     body = renderMultipleChoice(q, index, total, feedback);
   }
 
-  setMain(`<div class="card">${header}${body}</div>`);
+  setMain(`<div class="card">${body}${footer}</div>`);
   setupQuestionEvents(q, feedback);
 }
 
 function renderFlashcard(q, index, total, feedback) {
-  const meta = `<div class="meta">${escHtml(q.section)} · flashcard ${index + 1} of ${total}</div>`;
   const prompt = `<div class="prompt">${escHtml(q.prompt)}</div>`;
 
   if (!feedback) {
@@ -380,7 +393,7 @@ function renderFlashcard(q, index, total, feedback) {
     return `<div class="question-actions">
         <a href="#" style="color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>
         <button class="btn btn-primary" id="check-btn">Check →</button>
-      </div>${prompt}${inputHtml}${meta}`;
+      </div>${prompt}${inputHtml}`;
   }
 
   let feedbackHtml;
@@ -397,20 +410,17 @@ function renderFlashcard(q, index, total, feedback) {
       <div class="answer">✗ Correct: ${escHtml(q.answer)}</div>
       <div class="note">${escHtml(q.hint)}</div></div>`;
   }
-  return `${meta}${prompt}${feedbackHtml}<a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
+  return `${prompt}${feedbackHtml}<a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
 }
 
 function renderTextQuestion(q, index, total, feedback) {
-  const label = q.type === 'fill_in' ? `exercise ${escHtml(q.exercise)}` : `exercise ${escHtml(q.exercise)}`;
-  const meta = `<div class="meta">${label} · ${index + 1} of ${total}</div>`;
   const prompt = `<div class="prompt">${escHtml(q.prompt)}</div>`;
 
   if (!feedback) {
     return `<div class="question-actions">
         <button class="btn btn-primary" id="check-btn">Check →</button>
       </div>${prompt}
-      <form id="answer-form"><input type="text" id="plain-answer" placeholder="Your answer…" autocomplete="off" enterkeyhint="go"></form>
-      ${meta}`;
+      <form id="answer-form"><input type="text" id="plain-answer" placeholder="Your answer…" autocomplete="off" enterkeyhint="go"></form>`;
   }
 
   let feedbackHtml;
@@ -422,18 +432,17 @@ function renderTextQuestion(q, index, total, feedback) {
       <div class="answer">✗ Correct: ${escHtml(q.answer)}</div>
       ${q.note ? `<div class="note">${escHtml(q.note)}</div>` : ''}</div>`;
   }
-  return `${meta}${prompt}${feedbackHtml}<a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
+  return `${prompt}${feedbackHtml}<a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
 }
 
 function renderMultipleChoice(q, index, total, feedback) {
-  const meta = `<div class="meta">exercise ${escHtml(q.exercise)} · ${index + 1} of ${total}</div>`;
   const prompt = `<div class="prompt">${escHtml(q.prompt)}</div>`;
 
   if (!feedback) {
     const buttons = q.options.map(opt =>
       `<button class="option-btn" data-value="${escHtml(opt)}">${escHtml(opt)}</button>`
     ).join('');
-    return `${meta}${prompt}<div class="options">${buttons}</div>`;
+    return `${prompt}<div class="options">${buttons}</div>`;
   }
 
   const options = q.options.map(opt => {
@@ -443,7 +452,7 @@ function renderMultipleChoice(q, index, total, feedback) {
     return `<div class="option-btn" style="opacity:0.5">${escHtml(opt)}</div>`;
   }).join('');
 
-  return `${meta}${prompt}<div class="options">${options}</div>
+  return `${prompt}<div class="options">${options}</div>
     ${q.note ? `<div style="margin-top:16px;font-size:0.9rem;color:#666">${escHtml(q.note)}</div>` : ''}
     <a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
 }
