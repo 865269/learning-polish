@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.10'; // mixed EN↔PL flashcards + full SRS for both directions
+const APP_VERSION = 'v3.11';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -113,8 +113,29 @@ function annotatePartialAnswers(questions, chapterNum) {
   }
 }
 
+function checkReverseAnswer(userAnswer, expected) {
+  if (answersMatch(userAnswer, expected)) return true;
+  // Strip parenthetical clarifications: "cheap (positive)" → "cheap"
+  const stripped = expected.replace(/\s*\([^)]*\)/g, '').trim();
+  if (stripped && answersMatch(userAnswer, stripped)) return true;
+  // Also accept content inside parens: "0 (zero)" → accept "zero"
+  const inner = expected.match(/\(([^)]+)\)/);
+  if (inner && answersMatch(userAnswer, inner[1])) return true;
+  // Accept any slash-separated alternative: "you can / you are allowed to" → accept either part
+  const parts = stripped.split('/').map(p => p.trim()).filter(Boolean);
+  if (parts.length > 1) {
+    for (const part of parts) {
+      if (answersMatch(userAnswer, part)) return true;
+    }
+  }
+  return false;
+}
+
 function checkAnswer(question, userAnswer) {
-  if (question.type === 'flashcard' || question.type === 'flashcard_reverse' || question.type === 'fill_in') {
+  if (question.type === 'flashcard_reverse') {
+    return checkReverseAnswer(userAnswer, question.answer);
+  }
+  if (question.type === 'flashcard' || question.type === 'fill_in') {
     return answersMatch(userAnswer, question.answer);
   }
   if (question.type === 'multiple_choice') {
