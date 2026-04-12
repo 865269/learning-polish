@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.7';
+const APP_VERSION = 'v3.8';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -355,7 +355,7 @@ function showQuestion(feedback = null) {
     body = renderMultipleChoice(q, index, total, feedback);
   }
 
-  setMain(`<div class="card">${body}${header}</div>`);
+  setMain(`<div class="card">${header}${body}</div>`);
   setupQuestionEvents(q, feedback);
 }
 
@@ -590,10 +590,15 @@ function showResults() {
   appState.session = null;
 
   document.getElementById('home-btn').focus();
-  document.getElementById('home-btn').addEventListener('click', showHome);
-  document.addEventListener('keydown', function onEnter(e) {
-    if (e.key === 'Enter') { e.preventDefault(); document.removeEventListener('keydown', onEnter); showHome(); }
+
+  function onEnterGoHome(e) {
+    if (e.key === 'Enter') { e.preventDefault(); document.removeEventListener('keydown', onEnterGoHome); showHome(); }
+  }
+  document.getElementById('home-btn').addEventListener('click', () => {
+    document.removeEventListener('keydown', onEnterGoHome);
+    showHome();
   });
+  document.addEventListener('keydown', onEnterGoHome);
 }
 
 // ── Stats screen ──────────────────────────────────────────────────────────────
@@ -668,7 +673,7 @@ function showStats() {
         <thead><tr>
           <th style="text-align:left">Chapter</th>
           <th>Total</th><th>Not started</th><th>Learning</th><th>Mastered</th>
-          <th style="min-width:120px"></th>
+          <th style="min-width:60px"></th>
         </tr></thead>
         <tbody>${chapterRows}</tbody>
       </table>
