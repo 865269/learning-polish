@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.9';
+const APP_VERSION = 'v3.10'; // mixed EN↔PL flashcards + full SRS for both directions
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -56,10 +56,18 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
     for (const sec of chapterData.vocabulary) {
       if (section !== 'all' && sec.section !== section) continue;
       for (const item of sec.items) {
+        // Both directions in every session, shuffled together below
         questions.push({
           type: 'flashcard',
           prompt: item.english,
           answer: item.polish,
+          hint: item.pronunciation,
+          section: sec.section,
+        });
+        questions.push({
+          type: 'flashcard_reverse',
+          prompt: item.polish,
+          answer: item.english,
           hint: item.pronunciation,
           section: sec.section,
         });
@@ -106,7 +114,7 @@ function annotatePartialAnswers(questions, chapterNum) {
 }
 
 function checkAnswer(question, userAnswer) {
-  if (question.type === 'flashcard' || question.type === 'fill_in') {
+  if (question.type === 'flashcard' || question.type === 'flashcard_reverse' || question.type === 'fill_in') {
     return answersMatch(userAnswer, question.answer);
   }
   if (question.type === 'multiple_choice') {
@@ -341,8 +349,9 @@ function showQuestion(feedback = null) {
 
   // Meta text varies by question type
   let metaText;
-  if (q.type === 'flashcard') {
-    metaText = `${escHtml(q.section)} · ${index + 1} of ${total}`;
+  if (q.type === 'flashcard' || q.type === 'flashcard_reverse') {
+    const dirLabel = q.type === 'flashcard_reverse' ? 'PL→EN' : 'EN→PL';
+    metaText = `${escHtml(q.section)} · ${dirLabel} · ${index + 1} of ${total}`;
   } else {
     metaText = `exercise ${escHtml(q.exercise)} · ${index + 1} of ${total}`;
   }
@@ -361,7 +370,7 @@ function showQuestion(feedback = null) {
 
   let body = '';
 
-  if (q.type === 'flashcard') {
+  if (q.type === 'flashcard' || q.type === 'flashcard_reverse') {
     body = renderFlashcard(q, index, total, feedback);
   } else if (q.type === 'fill_in' || q.type === 'short_answer') {
     body = renderTextQuestion(q, index, total, feedback);
@@ -379,6 +388,7 @@ function renderFlashcard(q, index, total, feedback) {
   if (!feedback) {
     let inputHtml;
     if (q.answerChars) {
+      // Gapped input — only for forward flashcards (annotatePartialAnswers skips flashcard_reverse)
       const gapIndices = q.answerChars.reduce((a, ac, i) => (ac.gap ? [...a, i] : a), []);
       const lastGap = gapIndices[gapIndices.length - 1];
       const cells = q.answerChars.map((ac, i) => {
@@ -388,10 +398,14 @@ function renderFlashcard(q, index, total, feedback) {
       }).join('');
       inputHtml = `<form id="answer-form"><div class="char-cell-wrap" id="gapped-word">${cells}</div><input type="hidden" id="reconstructed-answer"></form>`;
     } else {
-      inputHtml = `<form id="answer-form"><input type="text" id="plain-answer" placeholder="Type the Polish word…" autocomplete="off" autocorrect="off" autocapitalize="off" enterkeyhint="go"></form>`;
+      const placeholder = q.type === 'flashcard_reverse' ? 'Type the English word…' : 'Type the Polish word…';
+      inputHtml = `<form id="answer-form"><input type="text" id="plain-answer" placeholder="${placeholder}" autocomplete="off" autocorrect="off" autocapitalize="off" enterkeyhint="go"></form>`;
     }
+    const revealLink = q.type === 'flashcard_reverse'
+      ? '' // no reveal for reverse — the user knows the English word
+      : `<a href="#" style="color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>`;
     return `<div class="question-actions">
-        <a href="#" style="color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>
+        ${revealLink}
         <button class="btn btn-primary" id="check-btn">Check →</button>
       </div>${prompt}${inputHtml}`;
   }

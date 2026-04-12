@@ -7,6 +7,10 @@ function cardId(chapterNum, section, polish) {
   return `${chapterNum}:${section}:${polish}`;
 }
 
+function reverseCardId(chapterNum, section, polish) {
+  return `rev:${chapterNum}:${section}:${polish}`;
+}
+
 function loadSrs() {
   try {
     const raw = localStorage.getItem('srs_state');
@@ -57,10 +61,11 @@ function chapterMastery(srsState, chapterData) {
   let total = 0, mastered = 0;
   for (const sec of chapterData.vocabulary) {
     for (const item of sec.items) {
-      const cid = cardId(chapterData.chapter, sec.section, item.polish);
-      total++;
-      const card = srsState[cid];
-      if (card && card.reps >= MASTERED_REPS) mastered++;
+      const fwd = cardId(chapterData.chapter, sec.section, item.polish);
+      const rev = reverseCardId(chapterData.chapter, sec.section, item.polish);
+      total += 2;
+      if ((srsState[fwd]?.reps || 0) >= MASTERED_REPS) mastered++;
+      if ((srsState[rev]?.reps || 0) >= MASTERED_REPS) mastered++;
     }
   }
   return total ? mastered / total : 0;
@@ -117,23 +122,26 @@ function getStats(allChapters, chaptersData) {
   const forecastMap = {};
   for (let i = 0; i < 7; i++) forecastMap[addDays(i)] = 0;
 
+  function countCard(card) {
+    if (!card) return 'notStarted';
+    if (card.reps >= MASTERED_REPS) return 'mastered';
+    return 'learning';
+  }
+
   const chapterStats = [];
   for (const n of allChapters) {
     const ch = chaptersData[n];
     let chTotal = 0, chNotStarted = 0, chLearning = 0, chMastered = 0;
     for (const sec of ch.vocabulary) {
       for (const item of sec.items) {
-        const cid = cardId(n, sec.section, item.polish);
-        const card = srsState[cid];
-        total++; chTotal++;
-        if (!card) {
-          notStarted++; chNotStarted++;
-        } else if (card.reps >= MASTERED_REPS) {
-          mastered++; chMastered++;
-          if (card.due in forecastMap) forecastMap[card.due]++;
-        } else {
-          learning++; chLearning++;
-          if (card.due in forecastMap) forecastMap[card.due]++;
+        // Count forward and reverse cards separately
+        for (const cid of [cardId(n, sec.section, item.polish), reverseCardId(n, sec.section, item.polish)]) {
+          const card = srsState[cid];
+          const bucket = countCard(card);
+          total++; chTotal++;
+          if (bucket === 'notStarted') { notStarted++; chNotStarted++; }
+          else if (bucket === 'mastered') { mastered++; chMastered++; if (card.due in forecastMap) forecastMap[card.due]++; }
+          else { learning++; chLearning++; if (card.due in forecastMap) forecastMap[card.due]++; }
         }
       }
     }
@@ -159,16 +167,27 @@ function getDueCards(activeChapters, chaptersData, extraDays = 0) {
     const ch = chaptersData[n];
     for (const sec of ch.vocabulary) {
       for (const item of sec.items) {
-        const cid = cardId(n, sec.section, item.polish);
-        const card = srsState[cid];
-        if (!card || card.due <= cutoff) {
+        const fwdId = cardId(n, sec.section, item.polish);
+        const revId = reverseCardId(n, sec.section, item.polish);
+
+        if (!srsState[fwdId] || srsState[fwdId].due <= cutoff) {
           due.push({
             type: 'flashcard',
             prompt: item.english,
             answer: item.polish,
             hint: item.pronunciation,
             section: sec.section,
-            cardId: cid,
+            cardId: fwdId,
+          });
+        }
+        if (!srsState[revId] || srsState[revId].due <= cutoff) {
+          due.push({
+            type: 'flashcard_reverse',
+            prompt: item.polish,
+            answer: item.english,
+            hint: item.pronunciation,
+            section: sec.section,
+            cardId: revId,
           });
         }
       }
