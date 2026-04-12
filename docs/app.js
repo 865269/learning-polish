@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.11';
+const APP_VERSION = 'v3.12';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -14,12 +14,30 @@ const appState = {
 const DIACRITIC_MAP = { ą:'a', ć:'c', ę:'e', ł:'l', ń:'n', ó:'o', ś:'s', ź:'z', ż:'z' };
 const PUNCT_RE = /[?!.,;:'"]/g;
 
+// Common English contractions expanded to full form so "I'm" matches "I am" etc.
+const CONTRACTIONS = {
+  "i'm":"i am", "it's":"it is", "he's":"he is", "she's":"she is",
+  "we're":"we are", "you're":"you are", "they're":"they are",
+  "there's":"there is", "that's":"that is", "what's":"what is", "who's":"who is",
+  "i've":"i have", "you've":"you have", "we've":"we have", "they've":"they have",
+  "i'll":"i will", "you'll":"you will", "he'll":"he will", "she'll":"she will",
+  "we'll":"we will", "they'll":"they will", "it'll":"it will",
+  "don't":"do not", "doesn't":"does not", "didn't":"did not",
+  "can't":"cannot", "won't":"will not", "isn't":"is not",
+  "aren't":"are not", "wasn't":"was not", "weren't":"were not",
+};
+
 function stripDiacritics(text) {
   return text.replace(/[ąćęłńóśźż]/g, c => DIACRITIC_MAP[c] || c);
 }
 
+function expandContractions(text) {
+  // Must run before PUNCT_RE strips apostrophes
+  return text.replace(/\b\w+'\w+\b/g, m => CONTRACTIONS[m] || m);
+}
+
 function answersMatch(user, expected) {
-  const norm = s => stripDiacritics(s.trim().toLowerCase()).replace(PUNCT_RE, '');
+  const norm = s => expandContractions(stripDiacritics(s.trim().toLowerCase())).replace(PUNCT_RE, '');
   return norm(user) === norm(expected);
 }
 
@@ -53,10 +71,22 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
   const questions = [];
 
   if (mode === 'flashcards') {
+    // Group all items in the chapter by base English (parens stripped) to detect
+    // gender/form pairs like "a Pole (male)"/"a Pole (female)". Reverse questions
+    // for ambiguous groups become multiple-choice instead of free-text.
+    const baseEnglishGroups = {};
+    for (const sec of chapterData.vocabulary) {
+      for (const item of sec.items) {
+        const base = item.english.replace(/\s*\([^)]*\)/g, '').trim().toLowerCase();
+        if (!baseEnglishGroups[base]) baseEnglishGroups[base] = [];
+        baseEnglishGroups[base].push(item.english);
+      }
+    }
+
     for (const sec of chapterData.vocabulary) {
       if (section !== 'all' && sec.section !== section) continue;
       for (const item of sec.items) {
-        // Both directions in every session, shuffled together below
+        // Forward: EN → PL (unchanged)
         questions.push({
           type: 'flashcard',
           prompt: item.english,
@@ -64,13 +94,21 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
           hint: item.pronunciation,
           section: sec.section,
         });
-        questions.push({
+        // Reverse: PL → EN
+        const base = item.english.replace(/\s*\([^)]*\)/g, '').trim().toLowerCase();
+        const group = baseEnglishGroups[base];
+        const revQ = {
           type: 'flashcard_reverse',
           prompt: item.polish,
           answer: item.english,
           hint: item.pronunciation,
           section: sec.section,
-        });
+        };
+        if (group.length > 1) {
+          // Ambiguous pair/group → show as multiple choice so the user picks the gender/form
+          revQ.choices = group;
+        }
+        questions.push(revQ);
       }
     }
   } else if (mode === 'fill_in') {
@@ -405,6 +443,26 @@ function showQuestion(feedback = null) {
 
 function renderFlashcard(q, index, total, feedback) {
   const prompt = `<div class="prompt">${escHtml(q.prompt)}</div>`;
+
+  // Choice-based reverse flashcard (gender/form pairs detected in buildQuestions)
+  if (q.choices) {
+    if (!feedback) {
+      const btns = q.choices.map(opt =>
+        `<button class="option-btn" data-value="${escHtml(opt)}">${escHtml(opt)}</button>`
+      ).join('');
+      return `${prompt}<div class="options">${btns}</div>`;
+    }
+    // Feedback: highlight correct/wrong like multiple choice
+    const opts = q.choices.map(opt => {
+      if (opt === q.answer && feedback.correct)    return `<div class="option-btn selected-correct">✓ ${escHtml(opt)}</div>`;
+      if (opt === feedback.userAnswer && !feedback.correct) return `<div class="option-btn selected-wrong">✗ ${escHtml(opt)}</div>`;
+      if (opt === q.answer && !feedback.correct)   return `<div class="option-btn reveal-correct">✓ ${escHtml(opt)}</div>`;
+      return `<div class="option-btn" style="opacity:0.5">${escHtml(opt)}</div>`;
+    }).join('');
+    return `${prompt}<div class="options">${opts}</div>
+      <div style="margin-top:12px;font-size:0.9rem;color:#666">${escHtml(q.hint)}</div>
+      <a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
+  }
 
   if (!feedback) {
     let inputHtml;
