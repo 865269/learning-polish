@@ -7,7 +7,7 @@
       "items": [
         { "english": "Good morning / Good day", "polish": "Dzień dobry", "pronunciation": "Jane-doh-brih" },
         { "english": "Good evening", "polish": "Dobry wieczór", "pronunciation": "Doh-brih vieh-choor" },
-        { "english": "Hello (informal)", "polish": "Cześć", "pronunciation": "Cheshch" },
+        { "english": "Hi / Hello (informal)", "polish": "Cześć", "pronunciation": "Cheshch" },
         { "english": "Hi (informal)", "polish": "Hej", "pronunciation": "Hey" },
         { "english": "How are you?", "polish": "Jak się masz?", "pronunciation": "Yahk sheh mash" },
         { "english": "How have you been?", "polish": "Co u Ciebie?", "pronunciation": "Tso u chie-bie" },
@@ -15,7 +15,7 @@
         { "english": "My first name is", "polish": "Mam na imię", "pronunciation": "Maam na ee-myeh" },
         { "english": "My name is", "polish": "Nazywam się", "pronunciation": "Nah-zy-vam shyeh" },
         { "english": "This is ... (introducing someone)", "polish": "To jest", "pronunciation": "Toh yest" },
-        { "english": "Hi, I'm ...", "polish": "Cześć, jestem", "pronunciation": "Cheshch yes-tehm" },
+        { "english": "Hi, I'm ... / Hello, I'm ...", "polish": "Cześć, jestem", "pronunciation": "Cheshch yes-tehm" },
         { "english": "I'm from ...", "polish": "Jestem z", "pronunciation": "Yes-tem z" },
         { "english": "Nice to meet you", "polish": "Miło cię poznać", "pronunciation": "Miwo chye poz-nach" },
         { "english": "What's your name?", "polish": "Jak się nazywasz?", "pronunciation": "Yak syeh na-zih-vash" },

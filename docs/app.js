@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.12';
+const APP_VERSION = 'v3.13';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -37,7 +37,7 @@ function expandContractions(text) {
 }
 
 function answersMatch(user, expected) {
-  const norm = s => expandContractions(stripDiacritics(s.trim().toLowerCase())).replace(PUNCT_RE, '');
+  const norm = s => expandContractions(stripDiacritics(s.trim().toLowerCase())).replace(PUNCT_RE, '').replace(/\s+/g, ' ').trim();
   return norm(user) === norm(expected);
 }
 
@@ -71,17 +71,11 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
   const questions = [];
 
   if (mode === 'flashcards') {
-    // Group all items in the chapter by base English (parens stripped) to detect
-    // gender/form pairs like "a Pole (male)"/"a Pole (female)". Reverse questions
-    // for ambiguous groups become multiple-choice instead of free-text.
-    const baseEnglishGroups = {};
-    for (const sec of chapterData.vocabulary) {
-      for (const item of sec.items) {
-        const base = item.english.replace(/\s*\([^)]*\)/g, '').trim().toLowerCase();
-        if (!baseEnglishGroups[base]) baseEnglishGroups[base] = [];
-        baseEnglishGroups[base].push(item.english);
-      }
-    }
+    // Group all items in the chapter by normalised base English to detect gender/form
+    // pairs like "a Pole (male)"/"a Pole (female)" and suffix pairs like
+    // "an Englishman"/"an Englishwoman". Reverse questions for ambiguous groups
+    // become multiple-choice instead of free-text.
+    const genderGroups = buildGenderGroups(chapterData);
 
     for (const sec of chapterData.vocabulary) {
       if (section !== 'all' && sec.section !== section) continue;
@@ -95,8 +89,7 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
           section: sec.section,
         });
         // Reverse: PL → EN
-        const base = item.english.replace(/\s*\([^)]*\)/g, '').trim().toLowerCase();
-        const group = baseEnglishGroups[base];
+        const group = genderGroups[genderNormBase(item.english)];
         const revQ = {
           type: 'flashcard_reverse',
           prompt: item.polish,

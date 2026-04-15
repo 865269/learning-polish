@@ -11,6 +11,41 @@ function reverseCardId(chapterNum, section, polish) {
   return `rev:${chapterNum}:${section}:${polish}`;
 }
 
+// Compute a normalised base key for grouping gender/form pairs.
+// Strips parentheticals first ("a Pole (male)" → "a pole"), then strips
+// gender words at word boundaries so suffix pairs also group:
+//   "an Englishman" → "an english",  "an Englishwoman" → "an english"
+// "Germany" is safe: "many" is not a word-boundary match for "man".
+function genderNormBase(english) {
+  // 1. Strip parentheticals: "a Pole (male)" → "a Pole"
+  // 2. Lowercase
+  // 3. Strip standalone male/female: "a German (male)" → "a german"
+  // 4. Strip man/woman compound suffixes: "Englishman" → "english"
+  //    Uses \w{4,} so "german" (prefix "ger" = 3 chars) is NOT stripped.
+  return english
+    .replace(/\s*\([^)]*\)/g, '')
+    .trim()
+    .toLowerCase()
+    .replace(/\b(male|female)\b/gi, '')
+    .replace(/\b(\w{4,})woman\b/gi, '$1')
+    .replace(/\b(\w{4,})man\b/gi, '$1')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Build a map of genderNormBase → [english strings] for one chapter's vocabulary.
+function buildGenderGroups(chapterData) {
+  const groups = {};
+  for (const sec of chapterData.vocabulary) {
+    for (const item of sec.items) {
+      const base = genderNormBase(item.english);
+      if (!groups[base]) groups[base] = [];
+      groups[base].push(item.english);
+    }
+  }
+  return groups;
+}
+
 function loadSrs() {
   try {
     const raw = localStorage.getItem('srs_state');
@@ -165,6 +200,7 @@ function getDueCards(activeChapters, chaptersData, extraDays = 0) {
   const due = [];
   for (const n of activeChapters) {
     const ch = chaptersData[n];
+    const genderGroups = buildGenderGroups(ch);
     for (const sec of ch.vocabulary) {
       for (const item of sec.items) {
         const fwdId = cardId(n, sec.section, item.polish);
@@ -181,14 +217,17 @@ function getDueCards(activeChapters, chaptersData, extraDays = 0) {
           });
         }
         if (!srsState[revId] || srsState[revId].due <= cutoff) {
-          due.push({
+          const group = genderGroups[genderNormBase(item.english)];
+          const revCard = {
             type: 'flashcard_reverse',
             prompt: item.polish,
             answer: item.english,
             hint: item.pronunciation,
             section: sec.section,
             cardId: revId,
-          });
+          };
+          if (group && group.length > 1) revCard.choices = group;
+          due.push(revCard);
         }
       }
     }
