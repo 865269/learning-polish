@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.14';
+const APP_VERSION = 'v3.15';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -80,13 +80,15 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
     for (const sec of chapterData.vocabulary) {
       if (section !== 'all' && sec.section !== section) continue;
       for (const item of sec.items) {
-        // Forward: EN → PL (unchanged)
+        const chNum = chapterData.chapter;
+        // Forward: EN → PL
         questions.push({
           type: 'flashcard',
           prompt: item.english,
           answer: item.polish,
           hint: item.pronunciation,
           section: sec.section,
+          cardId: cardId(chNum, sec.section, item.polish),
         });
         // Reverse: PL → EN
         const group = genderGroups[genderNormBase(item.english)];
@@ -96,9 +98,9 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
           answer: item.english,
           hint: item.pronunciation,
           section: sec.section,
+          cardId: reverseCardId(chNum, sec.section, item.polish),
         };
         if (group.length > 1) {
-          // Ambiguous pair/group → show as multiple choice so the user picks the gender/form
           revQ.choices = group;
         }
         questions.push(revQ);
@@ -638,8 +640,8 @@ function processAnswer(userAnswer) {
 
   if (correct) sess.score++;
 
-  // Update SRS if this is a review session
-  if (sess.mode === 'srs' && q.cardId) {
+  // Update SRS for any flashcard with a cardId (review sessions and direct flashcard sessions)
+  if (q.cardId) {
     const state = loadSrs();
     updateCard(state, q.cardId, correct);
     saveSrs(state);
