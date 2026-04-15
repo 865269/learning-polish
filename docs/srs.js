@@ -102,6 +102,7 @@ function updateCard(state, cid, correct) {
   // Record when card first reaches (or re-reaches after lapse) mastered threshold
   if (correct && card.reps >= MASTERED_REPS && !card.mastered_on) {
     card.mastered_on = todayStr();
+    card.mastered_in = card.total;  // total attempts at time of first mastery
   }
 
   state[cid] = card;
@@ -221,8 +222,8 @@ function getChapterWordStats(chapterNum, chapterData) {
         english: item.english,
         polish: item.polish,
         section: sec.section,
-        fwd: { total: fwd.total||0, correct: fwd.correct||0, reps: fwd.reps||0, mastered_on: fwd.mastered_on||null },
-        rev: { total: rev.total||0, correct: rev.correct||0, reps: rev.reps||0, mastered_on: rev.mastered_on||null },
+        fwd: { total: fwd.total||0, correct: fwd.correct||0, reps: fwd.reps||0, mastered_on: fwd.mastered_on||null, mastered_in: fwd.mastered_in||null },
+        rev: { total: rev.total||0, correct: rev.correct||0, reps: rev.reps||0, mastered_on: rev.mastered_on||null, mastered_in: rev.mastered_in||null },
       });
     }
   }

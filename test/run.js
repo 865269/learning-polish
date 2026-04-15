@@ -162,7 +162,10 @@ function updateCard(state, cid, correct) {
   card.due = addDays(card.interval);
   card.total = (card.total||0) + 1;
   if (correct) card.correct = (card.correct||0) + 1;
-  if (correct && card.reps >= MASTERED_REPS && !card.mastered_on) card.mastered_on = todayStr();
+  if (correct && card.reps >= MASTERED_REPS && !card.mastered_on) {
+    card.mastered_on = todayStr();
+    card.mastered_in = card.total;
+  }
   state[cid] = card;
   return state;
 }
@@ -184,10 +187,12 @@ console.log('\nupdateCard — mastered_on');
   updateCard(state, 'y', true); // reps=1
   updateCard(state, 'y', true); // reps=2
   expect('not mastered yet', state.y.mastered_on, undefined);
-  updateCard(state, 'y', true); // reps=3 = MASTERED_REPS
+  updateCard(state, 'y', true); // reps=3 = MASTERED_REPS, total=3
   expect('mastered_on set on reaching threshold', state.y.mastered_on, todayStr());
+  expect('mastered_in set to total at time of mastery', state.y.mastered_in, 3);
   updateCard(state, 'y', true); // reps=4, already set
   expect('mastered_on not overwritten', state.y.mastered_on, todayStr());
+  expect('mastered_in not overwritten', state.y.mastered_in, 3);
   updateCard(state, 'y', false); // lapse
   expect('mastered_on cleared on lapse', state.y.mastered_on, undefined);
   expect('reps reset on lapse', state.y.reps, 0);

@@ -257,6 +257,16 @@
     .mini-bar-green { background: #2d9e5f; height: 100%; }
     .mini-bar-amber { background: #f59e0b; height: 100%; }
 
+    .btn-detail {
+      display: inline-block; margin-top: 6px;
+      padding: 3px 10px; font-size: 0.78rem; font-weight: 600;
+      border: 1px solid #ddd; border-radius: 8px;
+      background: white; color: #555; cursor: pointer;
+    }
+    .btn-detail:hover { border-color: #e63946; color: #e63946; }
+
+    .lang-flag { font-size: 1.5rem; margin-right: auto; line-height: 1; }
+
     .question-actions {
       display: flex;
       justify-content: flex-end;
@@ -293,7 +303,10 @@
 <body>
   <header>
     <a href="#" id="nav-home">🇵🇱 Polish Practice <span id="app-version" style="font-size:0.75rem;font-weight:400;opacity:0.7;margin-left:4px"></span></a>
-    <a href="#" id="nav-stats" style="color:white;text-decoration:none;font-size:0.95rem;opacity:0.85;margin-left:8px">Stats</a>
+    <div style="display:flex;gap:16px;margin-left:auto">
+      <a href="#" id="nav-practice" style="color:white;text-decoration:none;font-size:0.95rem;opacity:0.85">Practice</a>
+      <a href="#" id="nav-stats" style="color:white;text-decoration:none;font-size:0.95rem;opacity:0.85">Stats</a>
+    </div>
   </header>
   <main id="main"></main>
 

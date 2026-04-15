@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.15';
+const APP_VERSION = 'v3.16';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -201,83 +201,96 @@ function showHome() {
   const dueCards = getDueCards(unlock.active, cd);
   const dueCount = dueCards.length;
   const upcomingCount = Math.max(0, getDueCards(unlock.active, cd, 7).length - dueCount);
+  const stats = getStats(ALL_CHAPTERS, cd);
+  const frontierStats = stats.chapters.find(c => c.number === unlock.frontier);
 
-  const frontierTopic = unlock.frontier ? cd[unlock.frontier].topic : '';
-  const nextTopic = unlock.nextNum ? cd[unlock.nextNum].topic : '';
-  const masteryPct = Math.round(unlock.mastery * 100);
-  const unlockBarPct = Math.min(100, Math.round(unlock.mastery / UNLOCK_THRESHOLD * 100));
-  const unlockThresholdPct = Math.round(UNLOCK_THRESHOLD * 100);
-
-  // Sections by chapter for the category dropdown
-  const sectionsByChapter = {};
-  for (const n of ALL_CHAPTERS) {
-    sectionsByChapter[n] = cd[n].vocabulary.map(s => s.section);
+  // Current chapter card
+  let chapterCard = '';
+  if (unlock.frontier) {
+    const topic = cd[unlock.frontier].topic;
+    const masteryPct = Math.round(unlock.mastery * 100);
+    const threshPct = Math.round(UNLOCK_THRESHOLD * 100);
+    const unlockLine = unlock.nextNum
+      ? `<p style="font-size:0.85rem;color:#666;margin:6px 0 12px">${masteryPct}% mastered · ${threshPct}% needed to unlock Ch ${unlock.nextNum}: ${escHtml(cd[unlock.nextNum].topic)}</p>
+         ${progressBarHtml(unlock.mastery, UNLOCK_THRESHOLD, '#2d9e5f')}`
+      : `<p style="font-size:0.85rem;color:#2d9e5f;font-weight:600;margin:6px 0 12px">All chapters unlocked — ${masteryPct}% mastered</p>`;
+    const ns = frontierStats?.notStarted ?? '—';
+    const lrn = frontierStats?.learning ?? '—';
+    const mst = frontierStats?.mastered ?? '—';
+    chapterCard = `
+      <div class="card" style="margin-bottom:16px">
+        <div class="meta" style="margin-bottom:4px">Currently studying</div>
+        <h1 style="font-size:1.3rem;margin-bottom:0">Chapter ${unlock.frontier}: ${escHtml(topic)}</h1>
+        ${unlockLine}
+        <div class="stat-grid">
+          <div class="stat-box stat-new"><div class="stat-num">${ns}</div><div class="stat-label">Not started</div></div>
+          <div class="stat-box stat-learning"><div class="stat-num">${lrn}</div><div class="stat-label">Learning</div></div>
+          <div class="stat-box stat-mastered"><div class="stat-num">${mst}</div><div class="stat-label">Mastered</div></div>
+        </div>
+      </div>`;
   }
 
-  // Status card
-  let statusCard = '';
+  // Review status card
+  let reviewCard = '';
   if (dueCount > 0) {
-    statusCard = `
+    reviewCard = `
       <div class="card" style="border:2px solid #e63946;margin-bottom:16px">
-        <h2 style="margin:0 0 8px">Review due</h2>
-        <p style="margin:0 0 12px;color:#555">${dueCount} card${dueCount !== 1 ? 's' : ''} due — reviewing up to ${REVIEW_BATCH} at a time.</p>
+        <h2 style="margin:0 0 8px">Reviews due</h2>
+        <p style="margin:0 0 12px;color:#555">${dueCount} card${dueCount !== 1 ? 's' : ''} due — up to ${REVIEW_BATCH} at a time.</p>
         <button class="btn btn-primary" data-action="review">Review now →</button>
       </div>`;
   } else if (upcomingCount > 0) {
-    statusCard = `
+    reviewCard = `
       <div class="card" style="border:2px solid #aaa;margin-bottom:16px">
         <h2 style="margin:0 0 8px">All done for today</h2>
-        <p style="margin:0 0 12px;color:#555">${upcomingCount} card${upcomingCount !== 1 ? 's' : ''} scheduled in the next 7 days — study them early?</p>
+        <p style="margin:0 0 12px;color:#555">${upcomingCount} card${upcomingCount !== 1 ? 's' : ''} scheduled in the next 7 days.</p>
         <button class="btn btn-secondary" data-action="review-ahead">Study ahead →</button>
       </div>`;
   } else {
-    statusCard = `
-      <div class="card" style="border:2px solid #2d9e5f;margin-bottom:16px">
+    reviewCard = `
+      <div class="card" style="border:2px solid #2d9e5f">
         <h2 style="margin:0 0 4px">All done for today</h2>
         <p style="margin:0;color:#555">No cards due — check back tomorrow.</p>
       </div>`;
   }
 
-  // Unlock card
-  let unlockCard = '';
-  if (unlock.frontier) {
-    const progressHtml = unlock.nextNum
-      ? `<p style="color:#666;margin:4px 0 14px;font-size:0.9rem">${masteryPct}% mastered — reach ${unlockThresholdPct}% to unlock Chapter ${unlock.nextNum}</p>
-         ${progressBarHtml(unlock.mastery, UNLOCK_THRESHOLD, '#2d9e5f')}`
-      : `<p style="color:#2d9e5f;font-weight:600;margin:4px 0 0">All chapters unlocked! ${masteryPct}% mastered on this chapter.</p>`;
+  setMain(`${chapterCard}${reviewCard}`);
 
-    unlockCard = `
-      <div class="card" style="margin-bottom:16px">
-        <div class="meta" style="margin-bottom:6px">Currently studying</div>
-        <h2 style="margin:0 0 4px">Chapter ${unlock.frontier}: ${escHtml(frontierTopic)}</h2>
-        ${progressHtml}
-      </div>`;
+  const reviewBtn = document.querySelector('[data-action="review"]');
+  if (reviewBtn) reviewBtn.addEventListener('click', () => startReview(0));
+  const aheadBtn = document.querySelector('[data-action="review-ahead"]');
+  if (aheadBtn) aheadBtn.addEventListener('click', () => startReview(7));
+}
+
+// ── Practice screen (lesson chooser) ─────────────────────────────────────────
+
+function showPractice() {
+  const cd = appState.chaptersData;
+  const unlock = chapterUnlockInfo(ALL_CHAPTERS, cd);
+
+  const sectionsByChapter = {};
+  for (const n of ALL_CHAPTERS) {
+    sectionsByChapter[n] = cd[n].vocabulary.map(s => s.section);
   }
 
-  // Chapter options
   const chapterOptions = ALL_CHAPTERS.map(n => {
     const isActive = unlock.active.includes(n);
-    const label = isActive ? `Chapter ${n}: ${escHtml(cd[n].topic)}` : `🔒 Chapter ${n}: ${escHtml(cd[n].topic)}`;
-    return `<option value="${n}" ${!isActive ? 'disabled' : ''}>${label}</option>`;
+    const label = isActive ? `Chapter ${n}: ${cd[n].topic}` : `🔒 Chapter ${n}: ${cd[n].topic}`;
+    return `<option value="${n}" ${!isActive ? 'disabled' : ''}>${escHtml(label)}</option>`;
   }).join('');
 
-  const html = `
-    ${unlockCard}
-    ${statusCard}
+  setMain(`
     <div class="card">
-      <h1>Choose a lesson</h1>
-      <h2>Pick a chapter and practice mode</h2>
-
+      <h1>Practice</h1>
+      <h2>Pick a chapter and mode</h2>
 
       <label for="chapter">Chapter</label>
-      <select id="chapter">
-        ${chapterOptions}
-      </select>
+      <select id="chapter">${chapterOptions}</select>
 
       <label>Mode</label>
       <div class="mode-grid">
         <input class="mode-option" type="radio" name="mode" id="m1" value="flashcards" checked>
-        <label for="m1">🗂 Flashcards<br><small style="font-weight:400;color:#666">Type the Polish word</small></label>
+        <label for="m1">🗂 Flashcards<br><small style="font-weight:400;color:#666">Type the translation</small></label>
         <input class="mode-option" type="radio" name="mode" id="m2" value="fill_in">
         <label for="m2">✏️ Fill in blank<br><small style="font-weight:400;color:#666">Complete the phrase</small></label>
         <input class="mode-option" type="radio" name="mode" id="m3" value="multiple_choice">
@@ -288,9 +301,7 @@ function showHome() {
 
       <div id="section-row">
         <label for="section">Category</label>
-        <select id="section">
-          <option value="all">All categories</option>
-        </select>
+        <select id="section"><option value="all">All categories</option></select>
       </div>
 
       <label for="max_questions">Number of questions</label>
@@ -304,12 +315,8 @@ function showHome() {
 
       <br>
       <button class="btn btn-primary" style="margin-top:8px" data-action="start">Start →</button>
-    </div>`;
+    </div>`);
 
-  setMain(html);
-
-  // Wire up home screen JS
-  const sectionsByChapterData = sectionsByChapter;
   const chapterEl = document.getElementById('chapter');
   const sectionEl = document.getElementById('section');
   const sectionRow = document.getElementById('section-row');
@@ -317,9 +324,8 @@ function showHome() {
 
   function updateSections() {
     const n = parseInt(chapterEl.value);
-    const sections = sectionsByChapterData[n] || [];
     sectionEl.innerHTML = '<option value="all">All categories</option>';
-    sections.forEach(s => {
+    (sectionsByChapter[n] || []).forEach(s => {
       const opt = document.createElement('option');
       opt.value = s;
       opt.textContent = s.charAt(0).toUpperCase() + s.slice(1).replace(/_/g, ' ');
@@ -328,8 +334,7 @@ function showHome() {
   }
 
   function updateSectionVisibility() {
-    const mode = document.querySelector('.mode-option:checked').value;
-    sectionRow.style.display = mode === 'flashcards' ? '' : 'none';
+    sectionRow.style.display = document.querySelector('.mode-option:checked').value === 'flashcards' ? '' : 'none';
   }
 
   chapterEl.addEventListener('change', updateSections);
@@ -338,18 +343,13 @@ function showHome() {
   updateSectionVisibility();
 
   document.querySelector('[data-action="start"]').addEventListener('click', () => {
-    const chapterNum = parseInt(chapterEl.value);
-    const mode = document.querySelector('.mode-option:checked').value;
-    const section = sectionEl.value;
-    const maxQ = parseInt(document.getElementById('max_questions').value);
-    startSession(chapterNum, mode, section, maxQ);
+    startSession(
+      parseInt(chapterEl.value),
+      document.querySelector('.mode-option:checked').value,
+      sectionEl.value,
+      parseInt(document.getElementById('max_questions').value)
+    );
   });
-
-  const reviewBtn = document.querySelector('[data-action="review"]');
-  if (reviewBtn) reviewBtn.addEventListener('click', () => startReview(0));
-
-  const aheadBtn = document.querySelector('[data-action="review-ahead"]');
-  if (aheadBtn) aheadBtn.addEventListener('click', () => startReview(7));
 }
 
 // ── Session start ─────────────────────────────────────────────────────────────
@@ -437,6 +437,7 @@ function showQuestion(feedback = null) {
 }
 
 function renderFlashcard(q, index, total, feedback) {
+  const flag = q.type === 'flashcard_reverse' ? '🇬🇧' : '🇵🇱';
   const prompt = `<div class="prompt">${escHtml(q.prompt)}</div>`;
 
   // Choice-based reverse flashcard (gender/form pairs detected in buildQuestions)
@@ -445,16 +446,15 @@ function renderFlashcard(q, index, total, feedback) {
       const btns = q.choices.map(opt =>
         `<button class="option-btn" data-value="${escHtml(opt)}">${escHtml(opt)}</button>`
       ).join('');
-      return `${prompt}<div class="options">${btns}</div>`;
+      return `<span class="lang-flag">${flag}</span>${prompt}<div class="options">${btns}</div>`;
     }
-    // Feedback: highlight correct/wrong like multiple choice
     const opts = q.choices.map(opt => {
       if (opt === q.answer && feedback.correct)    return `<div class="option-btn selected-correct">✓ ${escHtml(opt)}</div>`;
       if (opt === feedback.userAnswer && !feedback.correct) return `<div class="option-btn selected-wrong">✗ ${escHtml(opt)}</div>`;
       if (opt === q.answer && !feedback.correct)   return `<div class="option-btn reveal-correct">✓ ${escHtml(opt)}</div>`;
       return `<div class="option-btn" style="opacity:0.5">${escHtml(opt)}</div>`;
     }).join('');
-    return `${prompt}<div class="options">${opts}</div>
+    return `<span class="lang-flag">${flag}</span>${prompt}<div class="options">${opts}</div>
       <div style="margin-top:12px;font-size:0.9rem;color:#666">${escHtml(q.hint)}</div>
       <a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
   }
@@ -462,7 +462,6 @@ function renderFlashcard(q, index, total, feedback) {
   if (!feedback) {
     let inputHtml;
     if (q.answerChars) {
-      // Gapped input — only for forward flashcards (annotatePartialAnswers skips flashcard_reverse)
       const gapIndices = q.answerChars.reduce((a, ac, i) => (ac.gap ? [...a, i] : a), []);
       const lastGap = gapIndices[gapIndices.length - 1];
       const cells = q.answerChars.map((ac, i) => {
@@ -472,13 +471,14 @@ function renderFlashcard(q, index, total, feedback) {
       }).join('');
       inputHtml = `<form id="answer-form"><div class="char-cell-wrap" id="gapped-word">${cells}</div><input type="hidden" id="reconstructed-answer"></form>`;
     } else {
-      const placeholder = q.type === 'flashcard_reverse' ? 'Type the English word…' : 'Type the Polish word…';
+      const placeholder = q.type === 'flashcard_reverse' ? 'Type the English…' : 'Type the Polish…';
       inputHtml = `<form id="answer-form"><input type="text" id="plain-answer" placeholder="${placeholder}" autocomplete="off" autocorrect="off" autocapitalize="off" enterkeyhint="go"></form>`;
     }
     const revealLink = q.type === 'flashcard_reverse'
-      ? '' // no reveal for reverse — the user knows the English word
+      ? ''
       : `<a href="#" style="color:#aaa;font-size:0.9rem;text-decoration:none" id="reveal-link">reveal</a>`;
     return `<div class="question-actions">
+        <span class="lang-flag">${flag}</span>
         ${revealLink}
         <button class="btn btn-primary" id="check-btn">Check →</button>
       </div>${prompt}${inputHtml}`;
@@ -498,7 +498,7 @@ function renderFlashcard(q, index, total, feedback) {
       <div class="answer">✗ Correct: ${escHtml(q.answer)}</div>
       <div class="note">${escHtml(q.hint)}</div></div>`;
   }
-  return `${prompt}${feedbackHtml}<a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
+  return `<span class="lang-flag">${flag}</span>${prompt}${feedbackHtml}<a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
 }
 
 function renderTextQuestion(q, index, total, feedback) {
@@ -787,70 +787,107 @@ function showStats() {
 
 // ── Word stats screen ─────────────────────────────────────────────────────────
 
-function showWordStats(chapterNum) {
+function showWordStats(chapterNum, sortMode = 'section') {
   const cd = appState.chaptersData[chapterNum];
   const words = getChapterWordStats(chapterNum, cd);
 
-  // Group rows by section
-  let lastSection = null;
-  const rows = words.map(w => {
-    let sectionRow = '';
-    if (w.section !== lastSection) {
-      lastSection = w.section;
-      const label = w.section.charAt(0).toUpperCase() + w.section.slice(1).replace(/_/g, ' ');
-      sectionRow = `<tr><td colspan="5" style="padding:10px 4px 4px;font-size:0.8rem;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.05em">${escHtml(label)}</td></tr>`;
+  // Build a flat list of card rows (one per direction)
+  const allRows = [];
+  for (const w of words) {
+    allRows.push({ word: w, dir: 'EN→PL', prompt: w.english, answer: w.polish, s: w.fwd });
+    allRows.push({ word: w, dir: 'PL→EN', prompt: w.polish, answer: w.english, s: w.rev });
+  }
+
+  const makeRow = ({ word, dir, prompt, answer, s }) => {
+    const wrong = s.total - s.correct;
+    const mastered = s.reps >= MASTERED_REPS;
+    const days = mastered ? daysSince(s.mastered_on) : null;
+    const heldCell = mastered
+      ? (days === null ? '—' : days === 0 ? 'today' : `${days}d`)
+      : '—';
+    // Progress: "1/3", "2/3", "✓ in X" (or "✓" if mastered_in not tracked yet)
+    let progress;
+    if (mastered) {
+      progress = s.mastered_in ? `✓ ${s.mastered_in}` : '✓';
+    } else if (s.total === 0) {
+      progress = '—';
+    } else {
+      progress = `${Math.min(s.reps, MASTERED_REPS - 1)}/${MASTERED_REPS}`;
     }
+    const dimStyle = s.total === 0 ? ' style="opacity:0.35"' : '';
+    const progressStyle = mastered ? ' style="color:#2d9e5f;font-weight:600"' : '';
+    const flag = dir === 'EN→PL' ? '🇵🇱' : '🇬🇧';
+    return `<tr${dimStyle}>
+      <td style="font-size:0.85rem">${escHtml(prompt)}</td>
+      <td style="font-size:0.8rem;color:#666">${escHtml(answer)}</td>
+      <td class="num" style="font-size:1rem">${flag}</td>
+      <td class="num">${s.total || '—'}</td>
+      <td class="num">${s.total ? `${s.correct}/${wrong}` : '—'}</td>
+      <td class="num"${progressStyle}>${progress}</td>
+      <td class="num">${heldCell}</td>
+    </tr>`;
+  };
 
-    const row = (prompt, answer, dir, s) => {
-      const wrong = s.total - s.correct;
-      const mastered = s.reps >= MASTERED_REPS;
-      const days = mastered ? daysSince(s.mastered_on) : null;
-      const daysCell = mastered
-        ? (days === null ? '—' : days === 0 ? 'today' : `${days}d`)
-        : (s.total > 0 ? '' : '');
-      const dimStyle = s.total === 0 ? ' style="opacity:0.35"' : '';
-      const masteredStyle = mastered ? ' style="color:#2d9e5f;font-weight:600"' : '';
-      return `<tr${dimStyle}>
-        <td style="font-size:0.85rem">${escHtml(prompt)}</td>
-        <td style="font-size:0.8rem;color:#666">${escHtml(answer)}</td>
-        <td class="num" style="font-size:0.75rem;color:#999">${dir}</td>
-        <td class="num">${s.total || '—'}</td>
-        <td class="num">${s.total ? `${s.correct}/${wrong}` : '—'}</td>
-        <td class="num"${masteredStyle}>${daysCell || '—'}</td>
-      </tr>`;
-    };
+  let tableBody;
+  if (sortMode === 'worst') {
+    // Flat list sorted by wrong count desc, then by total desc; skip not-attempted
+    const sorted = allRows
+      .filter(r => r.s.total > 0)
+      .sort((a, b) => (b.s.total - b.s.correct) - (a.s.total - a.s.correct) || b.s.total - a.s.total);
+    tableBody = sorted.map(makeRow).join('');
+    if (!tableBody) tableBody = `<tr><td colspan="7" style="text-align:center;color:#aaa;padding:20px">No attempts recorded yet</td></tr>`;
+  } else {
+    // Group by section
+    let lastSection = null;
+    tableBody = allRows.map(r => {
+      let sectionRow = '';
+      if (r.word.section !== lastSection) {
+        lastSection = r.word.section;
+        const label = r.word.section.charAt(0).toUpperCase() + r.word.section.slice(1).replace(/_/g, ' ');
+        sectionRow = `<tr><td colspan="7" style="padding:10px 4px 4px;font-size:0.8rem;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.05em">${escHtml(label)}</td></tr>`;
+      }
+      return sectionRow + makeRow(r);
+    }).join('');
+  }
 
-    return sectionRow
-      + row(w.english, w.polish, 'EN→PL', w.fwd)
-      + row(w.polish, w.english, 'PL→EN', w.rev);
-  }).join('');
+  const sortBtn = sortMode === 'section'
+    ? `<button class="btn btn-secondary" id="sort-toggle" style="font-size:0.8rem;padding:6px 12px">Sort: worst first</button>`
+    : `<button class="btn btn-secondary" id="sort-toggle" style="font-size:0.8rem;padding:6px 12px">Sort: by section</button>`;
 
   setMain(`
     <div class="card">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
         <button class="btn btn-secondary" id="back-to-stats">← Stats</button>
-        <div>
+        <div style="flex:1;min-width:0">
           <div style="font-size:0.8rem;color:#888">Chapter ${chapterNum}</div>
           <strong>${escHtml(cd.topic)}</strong>
         </div>
+        ${sortBtn}
       </div>
       <div style="overflow-x:auto">
-        <table class="ch-table" style="min-width:420px">
+        <table class="ch-table" style="min-width:440px">
           <thead><tr>
             <th style="text-align:left">Prompt</th>
             <th style="text-align:left">Answer</th>
-            <th>Dir</th>
+            <th></th>
             <th>Tries</th>
             <th title="Correct / Wrong">✓/✗</th>
-            <th title="Days since mastered">Held</th>
+            <th title="Reps toward mastery, or total attempts when mastered">Progress</th>
+            <th title="Days held since mastered">Held</th>
           </tr></thead>
-          <tbody>${rows}</tbody>
+          <tbody>${tableBody}</tbody>
         </table>
       </div>
-      <p style="font-size:0.8rem;color:#aaa;margin-top:12px">Held = days since mastered &nbsp;·&nbsp; Dimmed = not yet attempted</p>
+      <p style="font-size:0.8rem;color:#aaa;margin-top:12px">
+        Progress: reps/3 while learning · ✓ N = mastered in N total tries &nbsp;·&nbsp;
+        Held = days since mastered
+      </p>
     </div>`);
 
   document.getElementById('back-to-stats').addEventListener('click', showStats);
+  document.getElementById('sort-toggle').addEventListener('click', () => {
+    showWordStats(chapterNum, sortMode === 'section' ? 'worst' : 'section');
+  });
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
@@ -864,6 +901,7 @@ async function init() {
 
 // Header nav
 document.getElementById('nav-home').addEventListener('click', e => { e.preventDefault(); appState.session = null; showHome(); });
+document.getElementById('nav-practice').addEventListener('click', e => { e.preventDefault(); showPractice(); });
 document.getElementById('nav-stats').addEventListener('click', e => { e.preventDefault(); showStats(); });
 
 init();
