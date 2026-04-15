@@ -67,6 +67,11 @@ function addDays(n) {
   return d.toISOString().split('T')[0];
 }
 
+function daysSince(dateStr) {
+  if (!dateStr) return null;
+  return Math.round((new Date(todayStr()) - new Date(dateStr)) / 86400000);
+}
+
 function updateCard(state, cid, correct) {
   const card = state[cid] || { interval: 1, ease: 2.5, reps: 0, lapses: 0 };
   const quality = correct ? 4 : 1;
@@ -75,6 +80,7 @@ function updateCard(state, cid, correct) {
     card.interval = 1;
     card.lapses = (card.lapses || 0) + 1;
     card.reps = 0;
+    delete card.mastered_on;  // lapsed — reset mastered date
   } else {
     if (card.reps === 0) {
       card.interval = 1;
@@ -88,6 +94,16 @@ function updateCard(state, cid, correct) {
 
   card.ease = Math.max(1.3, card.ease + 0.1 - (5 - quality) * 0.08);
   card.due = addDays(card.interval);
+
+  // Attempt counters
+  card.total = (card.total || 0) + 1;
+  if (correct) card.correct = (card.correct || 0) + 1;
+
+  // Record when card first reaches (or re-reaches after lapse) mastered threshold
+  if (correct && card.reps >= MASTERED_REPS && !card.mastered_on) {
+    card.mastered_on = todayStr();
+  }
+
   state[cid] = card;
   return state;
 }
@@ -192,6 +208,25 @@ function getStats(allChapters, chaptersData) {
   const maxForecast = Math.max(...forecast.map(f => f.count), 1);
 
   return { total, notStarted, learning, mastered, forecast, maxForecast, chapters: chapterStats };
+}
+
+function getChapterWordStats(chapterNum, chapterData) {
+  const srsState = loadSrs();
+  const items = [];
+  for (const sec of chapterData.vocabulary) {
+    for (const item of sec.items) {
+      const fwd = srsState[cardId(chapterNum, sec.section, item.polish)] || {};
+      const rev = srsState[reverseCardId(chapterNum, sec.section, item.polish)] || {};
+      items.push({
+        english: item.english,
+        polish: item.polish,
+        section: sec.section,
+        fwd: { total: fwd.total||0, correct: fwd.correct||0, reps: fwd.reps||0, mastered_on: fwd.mastered_on||null },
+        rev: { total: rev.total||0, correct: rev.correct||0, reps: rev.reps||0, mastered_on: rev.mastered_on||null },
+      });
+    }
+  }
+  return items;
 }
 
 function getDueCards(activeChapters, chaptersData, extraDays = 0) {

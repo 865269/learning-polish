@@ -136,6 +136,67 @@ expect('American pair grouped',   groups['an american']?.length, 2);
 expect('English suffix pair',     groups['an english']?.length, 2);
 expect('single word not grouped', (groups['poland'] || []).length, 1);
 
+// ── updateCard — attempt counters and mastered_on ────────────────────────────
+
+// Inline the logic (no DOM/localStorage needed — just test the pure logic)
+const MASTERED_REPS = 3;
+function todayStr() { return new Date().toISOString().split('T')[0]; }
+function addDays(n) { const d = new Date(); d.setDate(d.getDate() + n); return d.toISOString().split('T')[0]; }
+function daysSince(dateStr) {
+  if (!dateStr) return null;
+  return Math.round((new Date(todayStr()) - new Date(dateStr)) / 86400000);
+}
+function updateCard(state, cid, correct) {
+  const card = state[cid] || { interval: 1, ease: 2.5, reps: 0, lapses: 0 };
+  const quality = correct ? 4 : 1;
+  if (quality < 3) {
+    card.interval = 1; card.lapses = (card.lapses||0)+1; card.reps = 0;
+    delete card.mastered_on;
+  } else {
+    if (card.reps === 0) card.interval = 1;
+    else if (card.reps === 1) card.interval = 6;
+    else card.interval = Math.round(card.interval * card.ease);
+    card.reps += 1;
+  }
+  card.ease = Math.max(1.3, card.ease + 0.1 - (5 - quality) * 0.08);
+  card.due = addDays(card.interval);
+  card.total = (card.total||0) + 1;
+  if (correct) card.correct = (card.correct||0) + 1;
+  if (correct && card.reps >= MASTERED_REPS && !card.mastered_on) card.mastered_on = todayStr();
+  state[cid] = card;
+  return state;
+}
+
+console.log('\nupdateCard — attempt counters');
+{
+  const state = {};
+  updateCard(state, 'x', true);
+  expect('total increments on correct', state.x.total, 1);
+  expect('correct increments', state.x.correct, 1);
+  updateCard(state, 'x', false);
+  expect('total increments on wrong', state.x.total, 2);
+  expect('correct unchanged on wrong', state.x.correct, 1);
+}
+
+console.log('\nupdateCard — mastered_on');
+{
+  const state = {};
+  updateCard(state, 'y', true); // reps=1
+  updateCard(state, 'y', true); // reps=2
+  expect('not mastered yet', state.y.mastered_on, undefined);
+  updateCard(state, 'y', true); // reps=3 = MASTERED_REPS
+  expect('mastered_on set on reaching threshold', state.y.mastered_on, todayStr());
+  updateCard(state, 'y', true); // reps=4, already set
+  expect('mastered_on not overwritten', state.y.mastered_on, todayStr());
+  updateCard(state, 'y', false); // lapse
+  expect('mastered_on cleared on lapse', state.y.mastered_on, undefined);
+  expect('reps reset on lapse', state.y.reps, 0);
+}
+
+console.log('\ndaysSince');
+expect('today = 0',     daysSince(todayStr()), 0);
+expect('null input',    daysSince(null), null);
+
 // ── Summary ───────────────────────────────────────────────────────────────────
 
 console.log(`\n${pass} passed, ${fail} failed`);

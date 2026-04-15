@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.13';
+const APP_VERSION = 'v3.14';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -727,13 +727,16 @@ function showStats() {
            <div class="mini-bar-amber" style="width:${Math.round(ch.learning/ch.total*100)}%"></div>
          </div>` : '';
     const dim = isActive ? '' : ' style="opacity:0.45"';
+    const detailBtn = isActive
+      ? `<button class="btn-detail" data-chapter="${ch.number}" style="font-size:0.78rem;padding:2px 8px;margin-top:4px">Details →</button>`
+      : '';
     return `<tr${dim}>
       <td>${nameHtml}</td>
       <td class="num">${ch.total}</td>
       <td class="num">${isActive ? ch.notStarted : '—'}</td>
       <td class="num">${isActive ? ch.learning : '—'}</td>
       <td class="num">${isActive ? ch.mastered : '—'}</td>
-      <td>${miniBar}</td>
+      <td>${miniBar}${detailBtn}</td>
     </tr>`;
   }).join('');
 
@@ -774,6 +777,78 @@ function showStats() {
       </table>
       <p style="font-size:0.8rem;color:#aaa;margin-top:12px">Green = mastered &nbsp;·&nbsp; Amber = learning &nbsp;·&nbsp; Grey = not started</p>
     </div>`);
+
+  document.querySelectorAll('.btn-detail').forEach(btn => {
+    btn.addEventListener('click', () => showWordStats(parseInt(btn.dataset.chapter)));
+  });
+}
+
+// ── Word stats screen ─────────────────────────────────────────────────────────
+
+function showWordStats(chapterNum) {
+  const cd = appState.chaptersData[chapterNum];
+  const words = getChapterWordStats(chapterNum, cd);
+
+  // Group rows by section
+  let lastSection = null;
+  const rows = words.map(w => {
+    let sectionRow = '';
+    if (w.section !== lastSection) {
+      lastSection = w.section;
+      const label = w.section.charAt(0).toUpperCase() + w.section.slice(1).replace(/_/g, ' ');
+      sectionRow = `<tr><td colspan="5" style="padding:10px 4px 4px;font-size:0.8rem;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.05em">${escHtml(label)}</td></tr>`;
+    }
+
+    const row = (prompt, answer, dir, s) => {
+      const wrong = s.total - s.correct;
+      const mastered = s.reps >= MASTERED_REPS;
+      const days = mastered ? daysSince(s.mastered_on) : null;
+      const daysCell = mastered
+        ? (days === null ? '—' : days === 0 ? 'today' : `${days}d`)
+        : (s.total > 0 ? '' : '');
+      const dimStyle = s.total === 0 ? ' style="opacity:0.35"' : '';
+      const masteredStyle = mastered ? ' style="color:#2d9e5f;font-weight:600"' : '';
+      return `<tr${dimStyle}>
+        <td style="font-size:0.85rem">${escHtml(prompt)}</td>
+        <td style="font-size:0.8rem;color:#666">${escHtml(answer)}</td>
+        <td class="num" style="font-size:0.75rem;color:#999">${dir}</td>
+        <td class="num">${s.total || '—'}</td>
+        <td class="num">${s.total ? `${s.correct}/${wrong}` : '—'}</td>
+        <td class="num"${masteredStyle}>${daysCell || '—'}</td>
+      </tr>`;
+    };
+
+    return sectionRow
+      + row(w.english, w.polish, 'EN→PL', w.fwd)
+      + row(w.polish, w.english, 'PL→EN', w.rev);
+  }).join('');
+
+  setMain(`
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+        <button class="btn btn-secondary" id="back-to-stats">← Stats</button>
+        <div>
+          <div style="font-size:0.8rem;color:#888">Chapter ${chapterNum}</div>
+          <strong>${escHtml(cd.topic)}</strong>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="ch-table" style="min-width:420px">
+          <thead><tr>
+            <th style="text-align:left">Prompt</th>
+            <th style="text-align:left">Answer</th>
+            <th>Dir</th>
+            <th>Tries</th>
+            <th title="Correct / Wrong">✓/✗</th>
+            <th title="Days since mastered">Held</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <p style="font-size:0.8rem;color:#aaa;margin-top:12px">Held = days since mastered &nbsp;·&nbsp; Dimmed = not yet attempted</p>
+    </div>`);
+
+  document.getElementById('back-to-stats').addEventListener('click', showStats);
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────
