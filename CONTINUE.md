@@ -7,7 +7,7 @@ No server, no build step. SRS state in `localStorage`.
 
 All 10 chapters extracted and complete (~700 vocab items). Full feature parity with the old Python/Flask version.
 
-## Last session (v3.16)
+## Last session (v3.17)
 
 ### What was done
 - **Contraction tolerance + whitespace fix (v3.13)**: `norm()` in `answersMatch` collapses whitespace and trims after PUNCT_RE, fixing "I'm from ..." → "i am from".
@@ -18,12 +18,13 @@ All 10 chapters extracted and complete (~700 vocab items). Full feature parity w
 - **Home page redesign (v3.16)**: Home shows current chapter card (mastery %, vocab breakdown, unlock progress) + review status only. Lesson chooser moved to new **Practice** nav tab.
 - **Flags (v3.16)**: 🇵🇱 shown top-left when answering in Polish (EN→PL), 🇬🇧 when answering in English (PL→EN).
 - **Word stats improvements (v3.16)**: Progress column shows `1/3`/`2/3` while learning, `✓ N` (mastered in N total tries) once mastered. Sort toggle: by section (default) or worst-first (by wrong count).
-- **Unit tests**: `test/run.js` — 43 tests covering `answersMatch`, `checkReverseAnswer`, `genderNormBase`, `buildGenderGroups`, `updateCard` lifecycle, `daysSince`.
+- **Unicode ellipsis fix (v3.17)**: Added `…` (U+2026) to `PUNCT_RE` so "on the dates…" answers match.
+- **Content-word phrase matching (v3.17)**: `checkReverseAnswer` falls back to `answersMatchContent` — extracts non-stop-words from expected, checks each appears in user's answer via prefix matching (≥4 chars). Paraphrases like "is breakfast included in the price" now match "Does the price include breakfast?".
+- **Unit tests**: `test/run.js` — 49 tests covering `answersMatch`, `checkReverseAnswer`, `genderNormBase`, `buildGenderGroups`, `updateCard` lifecycle, `daysSince`.
 
 ## Outstanding bugs
 
-- ~~**"on the dates…" never matched** (ch.3)~~: fixed in v3.17 — added `…` (U+2026) to `PUNCT_RE` so the Unicode ellipsis is stripped on both sides before comparison.
-- ~~**Phrase answers too strict**~~: fixed in v3.17 — `checkReverseAnswer` now falls back to content-word overlap (`answersMatchContent`). Extracts non-stop-words from expected, checks each appears in user's answer via prefix matching (≥4 chars). "is breakfast included in the price" now matches "Does the price include breakfast?".
+None currently known.
 
 ## Next steps (in order)
 
