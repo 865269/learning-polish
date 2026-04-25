@@ -80,7 +80,7 @@ Each `chapter{n}.json`:
 - **Service worker**: network-first for app shell (index.html, app.js, srs.js, manifest.json) using `cache: 'no-cache'` to bypass HTTP cache. Cache-first for chapter JSON data. Cache name is `polish-v3`. Update banner via `controllerchange` event.
 - **Mobile Go key**: inputs are wrapped in `<form id="answer-form">`. Form submit → `submitAnswer()`. Keydown Enter also calls `submitAnswer()` (needed for char-inputs). Double-fire guarded by checking `document.getElementById('answer-form')` exists at start of `submitAnswer`. `onEnterAdvance` has a 300ms debounce after submit to prevent residual keydown from skipping feedback.
 - **Question card layout**: Check button at top, prompt + input below, meta (progress count) at bottom, progress bar + score at very bottom. Next button is `position: fixed` bottom-right (FAB). Nav header hides on keyboard open via `visualViewport` resize.
-- **Versioning**: `APP_VERSION` in `app.js` displayed in nav header. Increment minor version (v3.x) on each push; major version for significant new features.
+- **Versioning**: `APP_VERSION` in `app.js` displayed in nav header. Always bump before committing: minor version (v3.x → v3.x+1) for bug fixes and small changes; major version (v3 → v4) for significant new features. Never forget — a mismatch between deployed code and the displayed version causes confusion.
 
 ## Feature Ideas
 
