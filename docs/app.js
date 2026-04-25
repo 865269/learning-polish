@@ -12,7 +12,7 @@ const appState = {
 // ── Utilities ────────────────────────────────────────────────────────────────
 
 const DIACRITIC_MAP = { ą:'a', ć:'c', ę:'e', ł:'l', ń:'n', ó:'o', ś:'s', ź:'z', ż:'z' };
-const PUNCT_RE = /[?!.,;:'"]/g;
+const PUNCT_RE = /[?!.,;:'"…]/g;
 
 // Common English contractions expanded to full form so "I'm" matches "I am" etc.
 const CONTRACTIONS = {
@@ -39,6 +39,34 @@ function expandContractions(text) {
 function answersMatch(user, expected) {
   const norm = s => expandContractions(stripDiacritics(s.trim().toLowerCase())).replace(PUNCT_RE, '').replace(/\s+/g, ' ').trim();
   return norm(user) === norm(expected);
+}
+
+const STOP_WORDS = new Set([
+  'a','an','the','in','on','at','to','for','of','and','or','but','with','from','by',
+  'is','are','was','were','be','been','being','am',
+  'do','does','did','have','has','had','will','would','can','could','should','may','might','shall',
+  'i','you','he','she','it','we','they','me','him','her','us','them',
+  'my','your','his','its','our','their',
+  'this','that','these','those','not','no','up','out','so','as','if',
+]);
+
+function contentWords(str) {
+  const norm = expandContractions(stripDiacritics(str.trim().toLowerCase())).replace(PUNCT_RE, '');
+  return norm.split(/\s+/).filter(w => w.length > 0 && !STOP_WORDS.has(w));
+}
+
+// Two words match if equal or one is a prefix of the other (for words ≥4 chars).
+function wordStemMatch(a, b) {
+  if (a === b) return true;
+  if (a.length >= 4 && b.length >= 4) return a.startsWith(b) || b.startsWith(a);
+  return false;
+}
+
+function answersMatchContent(user, expected) {
+  const expWords = contentWords(expected);
+  if (expWords.length < 2) return false; // too short to be meaningful
+  const userWords = contentWords(user);
+  return expWords.every(ew => userWords.some(uw => wordStemMatch(ew, uw)));
 }
 
 function shuffle(arr) {
@@ -161,6 +189,9 @@ function checkReverseAnswer(userAnswer, expected) {
       if (answersMatch(userAnswer, part)) return true;
     }
   }
+  // Content-word overlap: all non-trivial words from expected must appear in user's answer
+  // (allows paraphrasing like "is breakfast included" for "does the price include breakfast")
+  if (answersMatchContent(userAnswer, stripped || expected)) return true;
   return false;
 }
 

@@ -100,5 +100,8 @@ Each `chapter{n}.json`:
 - **Sentence mode**: fill-in-the-blank and short-answer exercises already have full sentences — surface as a dedicated mode with optional TTS audio.
 - **Conjugation tables**: full present/past conjugation view or fill-in exercise for heavily conjugating verbs.
 
+### Matching exercises
+- **Duolingo-style word matching**: show 5 Polish words on the left, 5 English translations on the right (order scrambled). User taps a left item then a right item to pair them. When all pairs are matched correctly the round is complete. New question type `matching`; could appear in practice sessions and SRS review. Cards for the round drawn from the current chapter's vocab.
+
 ### Polish keyboard
 - **On-screen diacritic picker**: since diacritic tolerance means it's not required, this is low priority — but a small toolbar of ą ć ę ł ń ó ś ź ż could help users learn correct spelling over time.

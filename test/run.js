@@ -8,7 +8,7 @@ const path = require('path');
 // ── Functions under test (pure, no DOM) ──────────────────────────────────────
 
 const DIACRITIC_MAP = { ą:'a', ć:'c', ę:'e', ł:'l', ń:'n', ó:'o', ś:'s', ź:'z', ż:'z' };
-const PUNCT_RE = /[?!.,;:'"]/g;
+const PUNCT_RE = /[?!.,;:'"…]/g;
 const CONTRACTIONS = {
   "i'm":"i am", "it's":"it is", "he's":"he is", "she's":"she is",
   "we're":"we are", "you're":"you are", "they're":"they are",
@@ -31,6 +31,29 @@ function answersMatch(user, expected) {
   const norm = s => expandContractions(stripDiacritics(s.trim().toLowerCase())).replace(PUNCT_RE, '').replace(/\s+/g, ' ').trim();
   return norm(user) === norm(expected);
 }
+const STOP_WORDS = new Set([
+  'a','an','the','in','on','at','to','for','of','and','or','but','with','from','by',
+  'is','are','was','were','be','been','being','am',
+  'do','does','did','have','has','had','will','would','can','could','should','may','might','shall',
+  'i','you','he','she','it','we','they','me','him','her','us','them',
+  'my','your','his','its','our','their',
+  'this','that','these','those','not','no','up','out','so','as','if',
+]);
+function contentWords(str) {
+  const norm = expandContractions(stripDiacritics(str.trim().toLowerCase())).replace(PUNCT_RE, '');
+  return norm.split(/\s+/).filter(w => w.length > 0 && !STOP_WORDS.has(w));
+}
+function wordStemMatch(a, b) {
+  if (a === b) return true;
+  if (a.length >= 4 && b.length >= 4) return a.startsWith(b) || b.startsWith(a);
+  return false;
+}
+function answersMatchContent(user, expected) {
+  const expWords = contentWords(expected);
+  if (expWords.length < 2) return false;
+  const userWords = contentWords(user);
+  return expWords.every(ew => userWords.some(uw => wordStemMatch(ew, uw)));
+}
 function checkReverseAnswer(userAnswer, expected) {
   if (answersMatch(userAnswer, expected)) return true;
   const stripped = expected.replace(/\s*\([^)]*\)/g, '').trim();
@@ -43,6 +66,7 @@ function checkReverseAnswer(userAnswer, expected) {
       if (answersMatch(userAnswer, part)) return true;
     }
   }
+  if (answersMatchContent(userAnswer, stripped || expected)) return true;
   return false;
 }
 function genderNormBase(english) {
@@ -96,6 +120,7 @@ expect("don't → do not",             answersMatch("don't go", "do not go"), tr
 
 console.log('\nanswersMatch — whitespace / punctuation');
 expect('trailing space after ellipsis strip', answersMatch("i am from", "I'm from ..."), true);
+expect('unicode ellipsis stripped',          answersMatch("on the dates", "on the dates…"), true);
 expect('leading/trailing whitespace', answersMatch("  żółty  ", "żółty"), true);
 expect('punctuation stripped',       answersMatch("jak się masz", "Jak się masz?"), true);
 
@@ -112,6 +137,13 @@ expect('first alternative',          checkReverseAnswer('Hi', 'Hi / Hello (infor
 expect('second alternative',         checkReverseAnswer('Hello', 'Hi / Hello (informal)'), true);
 expect('phrase first alternative',   checkReverseAnswer("Hi, I'm ...",  "Hi, I'm ... / Hello, I'm ..."), true);
 expect('phrase second alternative',  checkReverseAnswer("Hello, I'm ...", "Hi, I'm ... / Hello, I'm ..."), true);
+
+console.log('\ncheckReverseAnswer — content word overlap');
+expect('paraphrase accepted',        checkReverseAnswer('is breakfast included in the price', 'Does the price include breakfast?'), true);
+expect('word order change',          checkReverseAnswer('the room has a bathroom', 'Does the room have a bathroom?'), true);
+expect('inflection tolerance',       checkReverseAnswer('I checked in yesterday', 'I check in yesterday'), true);
+expect('wrong answer rejected',      checkReverseAnswer('I want to eat dinner', 'Does the price include breakfast?'), false);
+expect('single content word no-op',  checkReverseAnswer('wrong', 'yellow'), false);
 
 // ── genderNormBase ────────────────────────────────────────────────────────────
 

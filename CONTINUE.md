@@ -22,7 +22,8 @@ All 10 chapters extracted and complete (~700 vocab items). Full feature parity w
 
 ## Outstanding bugs
 
-None currently known.
+- ~~**"on the dates…" never matched** (ch.3)~~: fixed in v3.17 — added `…` (U+2026) to `PUNCT_RE` so the Unicode ellipsis is stripped on both sides before comparison.
+- ~~**Phrase answers too strict**~~: fixed in v3.17 — `checkReverseAnswer` now falls back to content-word overlap (`answersMatchContent`). Extracts non-stop-words from expected, checks each appears in user's answer via prefix matching (≥4 chars). "is breakfast included in the price" now matches "Does the price include breakfast?".
 
 ## Next steps (in order)
 
@@ -31,7 +32,7 @@ None currently known.
 ## Running tests
 
 ```
-/home/matt/.vscode-server/bin/41dd792b5e652393e7787322889ed5fdc58bd75b/node test/run.js
+/home/matt/.vscode-server/bin/560a9dba96f961efea7b1612916f89e5d5d4d679/node test/run.js
 ```
 
 (No `node` on PATH in this WSL environment — use the VS Code binary above.)
