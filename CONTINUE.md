@@ -22,7 +22,5 @@ None currently known.
 ## Running tests
 
 ```
-/home/matt/.vscode-server/bin/034f571df509819cc10b0c8129f66ef77a542f0e/node test/run.js
+node test/run.js
 ```
-
-(No `node` on PATH in this WSL environment — use the VS Code binary above.)
