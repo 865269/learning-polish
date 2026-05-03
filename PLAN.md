@@ -21,7 +21,7 @@ Work through these in order; discard anything that doesn't add value after tryin
 ### Content & Modes
 - [ ] Sentence mode — fill-in-the-blank and short-answer exercises surfaced as a dedicated mode with optional TTS audio
 - [ ] Conjugation tables — full present/past conjugation view or fill-in exercise for heavily conjugating verbs
-- [ ] Duolingo-style word matching — 5 Polish/English pairs, tap to match. New question type `matching`; drawn from current chapter vocab.
+- [x] Duolingo-style word matching — 5 Polish/English pairs, tap to match. New question type `matching`; drawn from current chapter vocab.
 
 ### Input
 - [ ] On-screen diacritic picker — small toolbar of ą ć ę ł ń ó ś ź ż. Low priority since diacritic tolerance means it's not required for correct answers.

@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.17';
+const APP_VERSION = 'v3.18';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -75,6 +75,44 @@ function shuffle(arr) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
+}
+
+function isSingleWord(str) {
+  return !str.includes(' ');
+}
+
+// Groups consecutive single-word flashcard_reverse questions into matching groups of 2–5.
+// A lone leftover (can't form a pair) stays as a regular flashcard_reverse.
+function groupMatchingCards(questions) {
+  const result = [];
+  let pending = [];
+
+  function flush() {
+    if (!pending.length) return;
+    for (let i = 0; i < pending.length; i += 5) {
+      const group = pending.slice(i, i + 5);
+      if (group.length === 1) {
+        result.push(group[0]);
+      } else {
+        result.push({
+          type: 'matching',
+          pairs: group.map(q => ({ polish: q.prompt, english: q.answer, cardId: q.cardId, hint: q.hint })),
+        });
+      }
+    }
+    pending = [];
+  }
+
+  for (const q of questions) {
+    if (q.type === 'flashcard_reverse' && isSingleWord(q.prompt)) {
+      pending.push(q);
+    } else {
+      flush();
+      result.push(q);
+    }
+  }
+  flush();
+  return result;
 }
 
 function escHtml(str) {
@@ -411,6 +449,7 @@ function startReview(extraDays) {
   if (!questions.length) { showHome(); return; }
 
   annotatePartialAnswers(questions, 0);
+  questions = groupMatchingCards(questions);
 
   appState.session = {
     questions,
@@ -437,6 +476,8 @@ function showQuestion(feedback = null) {
   if (q.type === 'flashcard' || q.type === 'flashcard_reverse') {
     const dirLabel = q.type === 'flashcard_reverse' ? 'PL→EN' : 'EN→PL';
     metaText = `${escHtml(q.section)} · ${dirLabel} · ${index + 1} of ${total}`;
+  } else if (q.type === 'matching') {
+    metaText = `matching · ${index + 1} of ${total}`;
   } else {
     metaText = `exercise ${escHtml(q.exercise)} · ${index + 1} of ${total}`;
   }
@@ -461,6 +502,8 @@ function showQuestion(feedback = null) {
     body = renderTextQuestion(q, index, total, feedback);
   } else if (q.type === 'multiple_choice') {
     body = renderMultipleChoice(q, index, total, feedback);
+  } else if (q.type === 'matching') {
+    body = renderMatching(q);
   }
 
   setMain(`<div class="card">${body}${footer}</div>`);
@@ -576,7 +619,30 @@ function renderMultipleChoice(q, index, total, feedback) {
     <a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
 }
 
+function renderMatching(q) {
+  if (!q.rightOrder) {
+    q.rightOrder = shuffle(Array.from({length: q.pairs.length}, (_, i) => i));
+  }
+  const leftCards = q.pairs.map((pair, i) =>
+    `<div class="match-card match-left" data-idx="${i}">${escHtml(pair.polish)}</div>`
+  ).join('');
+  const rightCards = q.rightOrder.map((pairIdx, j) =>
+    `<div class="match-card match-right" data-idx="${j}">${escHtml(q.pairs[pairIdx].english)}</div>`
+  ).join('');
+  return `
+    <div class="match-instruction">Match each Polish word to its translation</div>
+    <div class="matching-grid">
+      <div class="matching-col">${leftCards}</div>
+      <div class="matching-col">${rightCards}</div>
+    </div>`;
+}
+
 function setupQuestionEvents(q, feedback) {
+  if (q.type === 'matching') {
+    setupMatchingEvents(q);
+    return;
+  }
+
   if (feedback) {
     // Feedback shown — Next button and Enter key advance
     const nextBtn = document.getElementById('next-btn');
@@ -634,6 +700,72 @@ function setupQuestionEvents(q, feedback) {
   // Multiple choice options
   document.querySelectorAll('.option-btn[data-value]').forEach(btn => {
     btn.addEventListener('click', () => processAnswer(btn.dataset.value));
+  });
+}
+
+function setupMatchingEvents(q) {
+  const pairs = q.pairs;
+  let selectedLeftIdx = null;
+  const matched = new Set();
+  let hadWrong = false;
+  const srsState = loadSrs();
+
+  document.querySelectorAll('.match-left').forEach(card => {
+    card.addEventListener('click', () => {
+      const idx = parseInt(card.dataset.idx);
+      if (matched.has(idx)) return;
+      document.querySelectorAll('.match-left.selected').forEach(c => c.classList.remove('selected'));
+      selectedLeftIdx = idx;
+      card.classList.add('selected');
+    });
+  });
+
+  document.querySelectorAll('.match-right').forEach(card => {
+    card.addEventListener('click', () => {
+      if (selectedLeftIdx === null) return;
+      const rightPos = parseInt(card.dataset.idx);
+      const pairIdx = q.rightOrder[rightPos];
+      if (matched.has(pairIdx)) return;
+
+      const leftCard = document.querySelector(`.match-left[data-idx="${selectedLeftIdx}"]`);
+
+      if (pairIdx === selectedLeftIdx) {
+        leftCard.classList.remove('selected');
+        leftCard.classList.add('matched');
+        leftCard.textContent = '✓ ' + pairs[selectedLeftIdx].polish;
+        card.classList.add('matched');
+        card.textContent = '✓ ' + pairs[pairIdx].english;
+        matched.add(pairIdx);
+        updateCard(srsState, pairs[selectedLeftIdx].cardId, true);
+        saveSrs(srsState);
+        selectedLeftIdx = null;
+
+        if (matched.size === pairs.length) {
+          if (!hadWrong) appState.session.score++;
+          const nextBtn = document.createElement('a');
+          nextBtn.className = 'btn btn-primary next-fab';
+          nextBtn.id = 'next-btn';
+          nextBtn.textContent = 'Next →';
+          document.querySelector('.card').appendChild(nextBtn);
+          nextBtn.addEventListener('click', () => {
+            document.removeEventListener('keydown', onEnterAdvance);
+            advanceQuestion();
+          });
+          document.addEventListener('keydown', onEnterAdvance);
+        }
+      } else {
+        hadWrong = true;
+        leftCard.classList.add('wrong');
+        card.classList.add('wrong');
+        updateCard(srsState, pairs[selectedLeftIdx].cardId, false);
+        saveSrs(srsState);
+        selectedLeftIdx = null;
+        setTimeout(() => {
+          leftCard.classList.remove('wrong', 'selected');
+          card.classList.remove('wrong');
+        }, 600);
+      }
+    });
   });
 }
 

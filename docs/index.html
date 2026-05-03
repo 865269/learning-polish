@@ -285,6 +285,28 @@
       box-shadow: 0 4px 20px rgba(230,57,70,0.45);
     }
 
+    /* Matching exercise */
+    .match-instruction { font-size: 0.85rem; color: #888; margin-bottom: 12px; }
+    .matching-grid { display: flex; gap: 10px; margin: 4px 0 16px; }
+    .matching-col { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .match-card {
+      padding: 14px 10px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1.3;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .match-card:active { transform: scale(0.97); }
+    .match-left.selected { border-color: #e63946; background: #fff5f5; }
+    .match-card.matched { border-color: #2d9e5f; background: #e8f5e9; color: #2d9e5f; font-weight: 600; cursor: default; }
+    .match-card.wrong { border-color: #e63946; background: #f8d7da; }
+
     /* Hide nav header when mobile keyboard is open to free up vertical space */
     .keyboard-open header {
       display: none;
