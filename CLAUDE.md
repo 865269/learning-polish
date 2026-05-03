@@ -64,6 +64,12 @@ Each `chapter{n}.json`:
 
 **Total: ~700 vocab items across chapters 1–10.**
 
+## Running tests
+
+```
+node test/run.js
+```
+
 ## Key Constants (`srs.js`)
 
 - `MASTERED_REPS = 3` — consecutive correct answers to count as mastered (used in stats, gapped-answer scaffold, and unlock logic)

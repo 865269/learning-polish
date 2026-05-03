@@ -18,9 +18,3 @@ None currently known.
 ## Next steps (in order)
 
 1. **Master a chapter button** — Stats → By chapter table, per-row "✓ Master" button. Confirm via `window.confirm()`. Write `{ reps: 3, interval: 6, ease: 2.5, due: todayStr() }` directly into srsState for all forward + reverse card IDs in the chapter. Re-render stats after.
-
-## Running tests
-
-```
-node test/run.js
-```
