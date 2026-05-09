@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.18';
+const APP_VERSION = 'v3.19';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -77,43 +77,6 @@ function shuffle(arr) {
   return arr;
 }
 
-function isSingleWord(str) {
-  return !str.includes(' ');
-}
-
-// Groups consecutive single-word flashcard_reverse questions into matching groups of 2–5.
-// A lone leftover (can't form a pair) stays as a regular flashcard_reverse.
-function groupMatchingCards(questions) {
-  const result = [];
-  let pending = [];
-
-  function flush() {
-    if (!pending.length) return;
-    for (let i = 0; i < pending.length; i += 5) {
-      const group = pending.slice(i, i + 5);
-      if (group.length === 1) {
-        result.push(group[0]);
-      } else {
-        result.push({
-          type: 'matching',
-          pairs: group.map(q => ({ polish: q.prompt, english: q.answer, cardId: q.cardId, hint: q.hint })),
-        });
-      }
-    }
-    pending = [];
-  }
-
-  for (const q of questions) {
-    if (q.type === 'flashcard_reverse' && isSingleWord(q.prompt)) {
-      pending.push(q);
-    } else {
-      flush();
-      result.push(q);
-    }
-  }
-  flush();
-  return result;
-}
 
 function escHtml(str) {
   return String(str)
@@ -137,17 +100,10 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
   const questions = [];
 
   if (mode === 'flashcards') {
-    // Group all items in the chapter by normalised base English to detect gender/form
-    // pairs like "a Pole (male)"/"a Pole (female)" and suffix pairs like
-    // "an Englishman"/"an Englishwoman". Reverse questions for ambiguous groups
-    // become multiple-choice instead of free-text.
-    const genderGroups = buildGenderGroups(chapterData);
-
     for (const sec of chapterData.vocabulary) {
       if (section !== 'all' && sec.section !== section) continue;
       for (const item of sec.items) {
         const chNum = chapterData.chapter;
-        // Forward: EN → PL
         questions.push({
           type: 'flashcard',
           prompt: item.english,
@@ -156,22 +112,40 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
           section: sec.section,
           cardId: cardId(chNum, sec.section, item.polish),
         });
-        // Reverse: PL → EN
-        const group = genderGroups[genderNormBase(item.english)];
-        const revQ = {
+        questions.push({
           type: 'flashcard_reverse',
           prompt: item.polish,
           answer: item.english,
           hint: item.pronunciation,
           section: sec.section,
           cardId: reverseCardId(chNum, sec.section, item.polish),
-        };
-        if (group.length > 1) {
-          revQ.choices = group;
-        }
-        questions.push(revQ);
+        });
       }
     }
+  } else if (mode === 'matching') {
+    const allPairs = [];
+    for (const sec of chapterData.vocabulary) {
+      if (section !== 'all' && sec.section !== section) continue;
+      for (const item of sec.items) {
+        allPairs.push({
+          polish: item.polish,
+          english: item.english,
+          cardId: reverseCardId(chapterData.chapter, sec.section, item.polish),
+          hint: item.pronunciation,
+        });
+      }
+    }
+    shuffle(allPairs);
+    const limited = maxQuestions && maxQuestions < allPairs.length ? allPairs.slice(0, maxQuestions) : allPairs;
+    for (let i = 0; i < limited.length; i += 5) {
+      const group = limited.slice(i, i + 5);
+      if (group.length < 2) {
+        if (questions.length > 0) questions[questions.length - 1].pairs.push(...group);
+      } else {
+        questions.push({ type: 'matching', pairs: group });
+      }
+    }
+    return questions;
   } else if (mode === 'fill_in') {
     for (const ex of chapterData.exercises) {
       if (ex.type !== 'fill_in_the_blank') continue;
@@ -366,6 +340,8 @@ function showPractice() {
         <label for="m3">☑️ Multiple choice<br><small style="font-weight:400;color:#666">Pick the right answer</small></label>
         <input class="mode-option" type="radio" name="mode" id="m4" value="short_answer">
         <label for="m4">💬 Short answer<br><small style="font-weight:400;color:#666">Grammar facts</small></label>
+        <input class="mode-option" type="radio" name="mode" id="m5" value="matching">
+        <label for="m5">🔗 Matching<br><small style="font-weight:400;color:#666">Tap pairs to match</small></label>
       </div>
 
       <div id="section-row">
@@ -403,7 +379,8 @@ function showPractice() {
   }
 
   function updateSectionVisibility() {
-    sectionRow.style.display = document.querySelector('.mode-option:checked').value === 'flashcards' ? '' : 'none';
+    const mode = document.querySelector('.mode-option:checked').value;
+    sectionRow.style.display = (mode === 'flashcards' || mode === 'matching') ? '' : 'none';
   }
 
   chapterEl.addEventListener('change', updateSections);
@@ -449,7 +426,6 @@ function startReview(extraDays) {
   if (!questions.length) { showHome(); return; }
 
   annotatePartialAnswers(questions, 0);
-  questions = groupMatchingCards(questions);
 
   appState.session = {
     questions,
@@ -513,25 +489,6 @@ function showQuestion(feedback = null) {
 function renderFlashcard(q, index, total, feedback) {
   const flag = q.type === 'flashcard_reverse' ? '🇬🇧' : '🇵🇱';
   const prompt = `<div class="prompt">${escHtml(q.prompt)}</div>`;
-
-  // Choice-based reverse flashcard (gender/form pairs detected in buildQuestions)
-  if (q.choices) {
-    if (!feedback) {
-      const btns = q.choices.map(opt =>
-        `<button class="option-btn" data-value="${escHtml(opt)}">${escHtml(opt)}</button>`
-      ).join('');
-      return `<span class="lang-flag">${flag}</span>${prompt}<div class="options">${btns}</div>`;
-    }
-    const opts = q.choices.map(opt => {
-      if (opt === q.answer && feedback.correct)    return `<div class="option-btn selected-correct">✓ ${escHtml(opt)}</div>`;
-      if (opt === feedback.userAnswer && !feedback.correct) return `<div class="option-btn selected-wrong">✗ ${escHtml(opt)}</div>`;
-      if (opt === q.answer && !feedback.correct)   return `<div class="option-btn reveal-correct">✓ ${escHtml(opt)}</div>`;
-      return `<div class="option-btn" style="opacity:0.5">${escHtml(opt)}</div>`;
-    }).join('');
-    return `<span class="lang-flag">${flag}</span>${prompt}<div class="options">${opts}</div>
-      <div style="margin-top:12px;font-size:0.9rem;color:#666">${escHtml(q.hint)}</div>
-      <a class="btn btn-primary next-fab" id="next-btn">Next →</a>`;
-  }
 
   if (!feedback) {
     let inputHtml;
