@@ -1,9 +1,5 @@
 # Polish App — Plan
 
-## Active
-
-- [ ] Master a chapter button — Stats → By chapter table, per-row "✓ Master" button. Confirm via `window.confirm()`. Write `{ reps: 3, interval: 6, ease: 2.5, due: todayStr() }` directly into srsState for all forward + reverse card IDs in the chapter. Re-render stats after.
-
 ## Backlog
 
 Work through these in order; discard anything that doesn't add value after trying it.
@@ -21,9 +17,14 @@ Work through these in order; discard anything that doesn't add value after tryin
 ### Content & Modes
 - [ ] Sentence mode — fill-in-the-blank and short-answer exercises surfaced as a dedicated mode with optional TTS audio
 - [ ] Conjugation tables — full present/past conjugation view or fill-in exercise for heavily conjugating verbs
-- [x] Duolingo-style word matching — 5 Polish/English pairs, tap to match. New question type `matching`; drawn from current chapter vocab.
+
+### Settings (future)
+- [ ] Difficulty setting — adjust MASTERED_REPS or ease starting value; placeholder already in Settings tab
 
 ### Input
 - [ ] On-screen diacritic picker — small toolbar of ą ć ę ł ń ó ś ź ż. Low priority since diacritic tolerance means it's not required for correct answers.
 
 ## Archived
+
+- [x] Duolingo-style word matching — tap-to-match grid in Practice mode. Counts toward both EN→PL and PL→EN card mastery. Removed from daily review (wasn't working well there).
+- [x] Master a chapter button — replaced by Settings → Restore progress with multi-chapter staggered scheduling.
