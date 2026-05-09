@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.21';
+const APP_VERSION = 'v3.22';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -131,6 +131,7 @@ function buildQuestions(chapterData, mode, section = 'all', maxQuestions = 0) {
           polish: item.polish,
           english: item.english,
           cardId: reverseCardId(chapterData.chapter, sec.section, item.polish),
+          fwdCardId: cardId(chapterData.chapter, sec.section, item.polish),
           hint: item.pronunciation,
         });
       }
@@ -332,16 +333,16 @@ function showPractice() {
 
       <label>Mode</label>
       <div class="mode-grid">
-        <input class="mode-option" type="radio" name="mode" id="m1" value="flashcards" checked>
-        <label for="m1">🗂 Flashcards<br><small style="font-weight:400;color:#666">Type the translation</small></label>
-        <input class="mode-option" type="radio" name="mode" id="m2" value="fill_in">
-        <label for="m2">✏️ Fill in blank<br><small style="font-weight:400;color:#666">Complete the phrase</small></label>
-        <input class="mode-option" type="radio" name="mode" id="m3" value="multiple_choice">
-        <label for="m3">☑️ Multiple choice<br><small style="font-weight:400;color:#666">Pick the right answer</small></label>
-        <input class="mode-option" type="radio" name="mode" id="m4" value="short_answer">
-        <label for="m4">💬 Short answer<br><small style="font-weight:400;color:#666">Grammar facts</small></label>
-        <input class="mode-option" type="radio" name="mode" id="m5" value="matching">
-        <label for="m5">🔗 Matching<br><small style="font-weight:400;color:#666">Tap pairs to match</small></label>
+        <input class="mode-option" type="radio" name="mode" id="m1" value="matching" checked>
+        <label for="m1">🔗 Matching<br><small style="font-weight:400;color:#666">Tap pairs to match</small></label>
+        <input class="mode-option" type="radio" name="mode" id="m2" value="flashcards">
+        <label for="m2">🗂 Flashcards<br><small style="font-weight:400;color:#666">Type the translation</small></label>
+        <input class="mode-option" type="radio" name="mode" id="m3" value="fill_in">
+        <label for="m3">✏️ Fill in blank<br><small style="font-weight:400;color:#666">Complete the phrase</small></label>
+        <input class="mode-option" type="radio" name="mode" id="m4" value="multiple_choice">
+        <label for="m4">☑️ Multiple choice<br><small style="font-weight:400;color:#666">Pick the right answer</small></label>
+        <input class="mode-option" type="radio" name="mode" id="m5" value="short_answer">
+        <label for="m5">💬 Short answer<br><small style="font-weight:400;color:#666">Grammar facts</small></label>
       </div>
 
       <div id="section-row">
@@ -690,6 +691,7 @@ function setupMatchingEvents(q) {
         card.textContent = pairs[pairIdx].english;
         matched.add(pairIdx);
         updateCard(srsState, pairs[selectedLeftIdx].cardId, true);
+        updateCard(srsState, pairs[selectedLeftIdx].fwdCardId, true);
         saveSrs(srsState);
         selectedLeftIdx = null;
 
@@ -711,6 +713,7 @@ function setupMatchingEvents(q) {
         leftCard.classList.add('wrong');
         card.classList.add('wrong');
         updateCard(srsState, pairs[selectedLeftIdx].cardId, false);
+        updateCard(srsState, pairs[selectedLeftIdx].fwdCardId, false);
         saveSrs(srsState);
         selectedLeftIdx = null;
         setTimeout(() => {
@@ -909,10 +912,14 @@ function showStats() {
       const chData = appState.chaptersData[n];
       if (!window.confirm(`Mark all cards in Chapter ${n}: ${chData.topic} as mastered?`)) return;
       const srsState = loadSrs();
+      const masterCard = id => {
+        const existing = srsState[id] || {};
+        srsState[id] = { ...existing, reps: 3, interval: 6, ease: 2.5, due: todayStr(), mastered_on: existing.mastered_on || todayStr() };
+      };
       for (const sec of chData.vocabulary) {
         for (const item of sec.items) {
-          srsState[cardId(n, sec.section, item.polish)] = { reps: 3, interval: 6, ease: 2.5, due: todayStr() };
-          srsState[reverseCardId(n, sec.section, item.polish)] = { reps: 3, interval: 6, ease: 2.5, due: todayStr() };
+          masterCard(cardId(n, sec.section, item.polish));
+          masterCard(reverseCardId(n, sec.section, item.polish));
         }
       }
       saveSrs(srsState);
