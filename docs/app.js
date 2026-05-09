@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.19';
+const APP_VERSION = 'v3.20';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -580,18 +580,14 @@ function renderMatching(q) {
   if (!q.rightOrder) {
     q.rightOrder = shuffle(Array.from({length: q.pairs.length}, (_, i) => i));
   }
-  const leftCards = q.pairs.map((pair, i) =>
-    `<div class="match-card match-left" data-idx="${i}">${escHtml(pair.polish)}</div>`
-  ).join('');
-  const rightCards = q.rightOrder.map((pairIdx, j) =>
-    `<div class="match-card match-right" data-idx="${j}">${escHtml(q.pairs[pairIdx].english)}</div>`
-  ).join('');
+  const rows = q.pairs.map((pair, i) => {
+    const rightPairIdx = q.rightOrder[i];
+    return `<div class="match-card match-left" data-idx="${i}">${escHtml(pair.polish)}</div>
+      <div class="match-card match-right" data-idx="${i}">${escHtml(q.pairs[rightPairIdx].english)}</div>`;
+  }).join('');
   return `
     <div class="match-instruction">Match each Polish word to its translation</div>
-    <div class="matching-grid">
-      <div class="matching-col">${leftCards}</div>
-      <div class="matching-col">${rightCards}</div>
-    </div>`;
+    <div class="matching-grid">${rows}</div>`;
 }
 
 function setupQuestionEvents(q, feedback) {
@@ -689,9 +685,9 @@ function setupMatchingEvents(q) {
       if (pairIdx === selectedLeftIdx) {
         leftCard.classList.remove('selected');
         leftCard.classList.add('matched');
-        leftCard.textContent = '✓ ' + pairs[selectedLeftIdx].polish;
+        leftCard.textContent = pairs[selectedLeftIdx].polish;
         card.classList.add('matched');
-        card.textContent = '✓ ' + pairs[pairIdx].english;
+        card.textContent = pairs[pairIdx].english;
         matched.add(pairIdx);
         updateCard(srsState, pairs[selectedLeftIdx].cardId, true);
         saveSrs(srsState);
