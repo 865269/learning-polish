@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.20';
+const APP_VERSION = 'v3.21';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -845,8 +845,11 @@ function showStats() {
            <div class="mini-bar-amber" style="width:${Math.round(ch.learning/ch.total*100)}%"></div>
          </div>` : '';
     const dim = isActive ? '' : ' style="opacity:0.45"';
-    const detailBtn = isActive
-      ? `<button class="btn-detail" data-chapter="${ch.number}" style="font-size:0.78rem;padding:2px 8px;margin-top:4px">Details →</button>`
+    const btns = isActive
+      ? `<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">
+           <button class="btn-detail" data-chapter="${ch.number}">Details →</button>
+           <button class="btn-master" data-chapter="${ch.number}">✓ Master</button>
+         </div>`
       : '';
     return `<tr${dim}>
       <td>${nameHtml}</td>
@@ -854,7 +857,7 @@ function showStats() {
       <td class="num">${isActive ? ch.notStarted : '—'}</td>
       <td class="num">${isActive ? ch.learning : '—'}</td>
       <td class="num">${isActive ? ch.mastered : '—'}</td>
-      <td>${miniBar}${detailBtn}</td>
+      <td>${miniBar}${btns}</td>
     </tr>`;
   }).join('');
 
@@ -898,6 +901,23 @@ function showStats() {
 
   document.querySelectorAll('.btn-detail').forEach(btn => {
     btn.addEventListener('click', () => showWordStats(parseInt(btn.dataset.chapter)));
+  });
+
+  document.querySelectorAll('.btn-master').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const n = parseInt(btn.dataset.chapter);
+      const chData = appState.chaptersData[n];
+      if (!window.confirm(`Mark all cards in Chapter ${n}: ${chData.topic} as mastered?`)) return;
+      const srsState = loadSrs();
+      for (const sec of chData.vocabulary) {
+        for (const item of sec.items) {
+          srsState[cardId(n, sec.section, item.polish)] = { reps: 3, interval: 6, ease: 2.5, due: todayStr() };
+          srsState[reverseCardId(n, sec.section, item.polish)] = { reps: 3, interval: 6, ease: 2.5, due: todayStr() };
+        }
+      }
+      saveSrs(srsState);
+      showStats();
+    });
   });
 }
 
