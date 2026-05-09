@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.22';
+const APP_VERSION = 'v3.23';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -848,11 +848,8 @@ function showStats() {
            <div class="mini-bar-amber" style="width:${Math.round(ch.learning/ch.total*100)}%"></div>
          </div>` : '';
     const dim = isActive ? '' : ' style="opacity:0.45"';
-    const btns = isActive
-      ? `<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px">
-           <button class="btn-detail" data-chapter="${ch.number}">Details →</button>
-           <button class="btn-master" data-chapter="${ch.number}">✓ Master</button>
-         </div>`
+    const detailBtn = isActive
+      ? `<button class="btn-detail" data-chapter="${ch.number}" style="margin-top:4px">Details →</button>`
       : '';
     return `<tr${dim}>
       <td>${nameHtml}</td>
@@ -860,7 +857,7 @@ function showStats() {
       <td class="num">${isActive ? ch.notStarted : '—'}</td>
       <td class="num">${isActive ? ch.learning : '—'}</td>
       <td class="num">${isActive ? ch.mastered : '—'}</td>
-      <td>${miniBar}${btns}</td>
+      <td>${miniBar}${detailBtn}</td>
     </tr>`;
   }).join('');
 
@@ -904,27 +901,6 @@ function showStats() {
 
   document.querySelectorAll('.btn-detail').forEach(btn => {
     btn.addEventListener('click', () => showWordStats(parseInt(btn.dataset.chapter)));
-  });
-
-  document.querySelectorAll('.btn-master').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const n = parseInt(btn.dataset.chapter);
-      const chData = appState.chaptersData[n];
-      if (!window.confirm(`Mark all cards in Chapter ${n}: ${chData.topic} as mastered?`)) return;
-      const srsState = loadSrs();
-      const masterCard = id => {
-        const existing = srsState[id] || {};
-        srsState[id] = { ...existing, reps: 3, interval: 6, ease: 2.5, due: todayStr(), mastered_on: existing.mastered_on || todayStr() };
-      };
-      for (const sec of chData.vocabulary) {
-        for (const item of sec.items) {
-          masterCard(cardId(n, sec.section, item.polish));
-          masterCard(reverseCardId(n, sec.section, item.polish));
-        }
-      }
-      saveSrs(srsState);
-      showStats();
-    });
   });
 }
 
@@ -1033,6 +1009,82 @@ function showWordStats(chapterNum, sortMode = 'section') {
   });
 }
 
+// ── Settings screen ───────────────────────────────────────────────────────────
+
+function showSettings() {
+  const cd = appState.chaptersData;
+
+  const chapterCheckboxes = ALL_CHAPTERS.map(n => `
+    <label class="chapter-check-label">
+      <input type="checkbox" class="chapter-check" value="${n}">
+      <span>Chapter ${n}: ${escHtml(cd[n].topic)}</span>
+    </label>`
+  ).join('');
+
+  setMain(`
+    <div class="card" style="margin-bottom:16px">
+      <h1>Settings</h1>
+      <h2 style="margin-top:8px">Restore progress</h2>
+      <p style="color:#555;font-size:0.95rem;margin-bottom:20px">
+        Select the chapters you've already studied. The most recently selected chapter
+        will be due in 5 days; each older chapter adds another 5 days, so your current
+        chapter stays front and centre in daily reviews.
+      </p>
+      <div id="chapter-checks" style="display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+        ${chapterCheckboxes}
+      </div>
+      <button class="btn btn-primary" id="apply-restore" disabled>Apply →</button>
+    </div>
+
+    <div class="card" style="opacity:0.5;pointer-events:none">
+      <h2>Difficulty</h2>
+      <p style="color:#888;font-size:0.95rem;margin-top:8px">Coming soon</p>
+    </div>`);
+
+  const applyBtn = document.getElementById('apply-restore');
+  const checks = Array.from(document.querySelectorAll('.chapter-check'));
+
+  checks.forEach(cb => cb.addEventListener('change', () => {
+    applyBtn.disabled = !checks.some(c => c.checked);
+  }));
+
+  applyBtn.addEventListener('click', () => {
+    const selected = checks
+      .filter(c => c.checked)
+      .map(c => parseInt(c.value))
+      .sort((a, b) => a - b);
+    if (!selected.length) return;
+
+    const names = selected.map(n => `Ch ${n}: ${cd[n].topic}`).join('\n');
+    if (!window.confirm(`Mark as mastered with staggered reviews?\n\n${names}`)) return;
+
+    const srsState = loadSrs();
+    const total = selected.length;
+
+    selected.forEach((chNum, i) => {
+      const fromEnd = total - 1 - i; // 0 = most recent chapter
+      const interval = (fromEnd + 1) * 5;
+      const chData = cd[chNum];
+
+      for (const sec of chData.vocabulary) {
+        for (const item of sec.items) {
+          const jitter = Math.floor(Math.random() * 5) - 2; // -2 to +2 days
+          const due = addDays(Math.max(1, interval + jitter));
+          const applyMaster = id => {
+            const existing = srsState[id] || {};
+            srsState[id] = { ...existing, reps: 3, ease: 2.5, interval, due, mastered_on: existing.mastered_on || todayStr() };
+          };
+          applyMaster(cardId(chNum, sec.section, item.polish));
+          applyMaster(reverseCardId(chNum, sec.section, item.polish));
+        }
+      }
+    });
+
+    saveSrs(srsState);
+    showSettings();
+  });
+}
+
 // ── Boot ──────────────────────────────────────────────────────────────────────
 
 async function init() {
@@ -1046,6 +1098,7 @@ async function init() {
 document.getElementById('nav-home').addEventListener('click', e => { e.preventDefault(); appState.session = null; showHome(); });
 document.getElementById('nav-practice').addEventListener('click', e => { e.preventDefault(); showPractice(); });
 document.getElementById('nav-stats').addEventListener('click', e => { e.preventDefault(); showStats(); });
+document.getElementById('nav-settings').addEventListener('click', e => { e.preventDefault(); showSettings(); });
 
 init();
 

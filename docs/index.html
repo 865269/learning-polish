@@ -257,15 +257,27 @@
     .mini-bar-green { background: #2d9e5f; height: 100%; }
     .mini-bar-amber { background: #f59e0b; height: 100%; }
 
-    .btn-detail, .btn-master {
+    .btn-detail {
       display: inline-block;
       padding: 3px 10px; font-size: 0.78rem; font-weight: 600;
       border: 1px solid #ddd; border-radius: 8px;
       background: white; color: #555; cursor: pointer;
     }
     .btn-detail:hover { border-color: #e63946; color: #e63946; }
-    .btn-master { border-color: #2d9e5f; color: #2d9e5f; }
-    .btn-master:hover { background: #e8f5e9; }
+
+    .chapter-check-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .chapter-check-label:hover { border-color: #e63946; background: #fff5f5; }
+    .chapter-check-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: #e63946; cursor: pointer; flex-shrink: 0; }
 
     .lang-flag { font-size: 1.5rem; margin-right: auto; line-height: 1; }
 
@@ -336,6 +348,7 @@
     <div style="display:flex;gap:16px;margin-left:auto">
       <a href="#" id="nav-practice" style="color:white;text-decoration:none;font-size:0.95rem;opacity:0.85">Practice</a>
       <a href="#" id="nav-stats" style="color:white;text-decoration:none;font-size:0.95rem;opacity:0.85">Stats</a>
+      <a href="#" id="nav-settings" style="color:white;text-decoration:none;font-size:0.95rem;opacity:0.85">Settings</a>
     </div>
   </header>
   <main id="main"></main>
