@@ -7,9 +7,10 @@ No server, no build step. SRS state in `localStorage`.
 
 All 10 chapters extracted and complete (~700 vocab items). Full feature parity with the old Python/Flask version.
 
-## Last session (v3.18)
+## Last session (v3.19)
 
-- **Matching exercise (v3.18)**: Single-word PL→EN reverse cards in daily review now appear as a tap-to-match grid instead of a typing input. `groupMatchingCards()` in `app.js` bundles consecutive single-word `flashcard_reverse` questions into groups of 2–5. Left column = Polish, right column = shuffled English. Tap left to select, tap right to match. Correct = green tick; wrong = red flash, try again. Each wrong tap fires `updateCard(false)`, each correct tap fires `updateCard(true)`. Score +1 if all pairs matched on first try. Polish phrases (prompt contains a space) still use typing mode.
+- **Matching moved to practice mode**: Removed from daily review. Now a dedicated "Matching" option in the Practice screen. Builds groups of 5 pairs from chapter vocab (filterable by section). `buildQuestions` handles the `matching` mode directly.
+- **Multiple choice removed from flashcards**: All EN→PL and PL→EN cards now require typed answers. The gender/form pair detection (`buildGenderGroups`, `genderNormBase`, `q.choices`) and `groupMatchingCards`/`isSingleWord` are all removed. `checkReverseAnswer` already handles gender variants via paren-stripping fuzzy match.
 
 ## Outstanding bugs
 
