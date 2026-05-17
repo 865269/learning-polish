@@ -1,7 +1,13 @@
 // SM-2 Spaced Repetition – port of srs.py
 
-const MASTERED_REPS = 3;
+const MASTERED_REPS = 3;        // consecutive correct reps to count as mastered (unlock threshold)
 const UNLOCK_THRESHOLD = 0.9;
+
+// Gapping is removed once reps reaches the card's threshold.
+// Thresholds vary by word count (medium mode) or are overridden globally.
+const GAPPING_REPS_EASY = 3;    // single-word cards
+const GAPPING_REPS_MEDIUM = 6;  // 2–3 word phrases
+const GAPPING_REPS_HARD = 10;   // 4+ word phrases
 
 function cardId(chapterNum, section, polish) {
   return `${chapterNum}:${section}:${polish}`;
@@ -44,6 +50,27 @@ function buildGenderGroups(chapterData) {
     }
   }
   return groups;
+}
+
+function loadDifficultyMode() {
+  return localStorage.getItem('difficulty_mode') || 'medium';
+}
+
+function saveDifficultyMode(mode) {
+  localStorage.setItem('difficulty_mode', mode);
+}
+
+// Returns the reps threshold at which gapping is removed for a given Polish answer.
+// Mastery for unlock purposes stays at MASTERED_REPS regardless of this value.
+function cardGappingThreshold(polishText) {
+  const mode = loadDifficultyMode();
+  if (mode === 'hard') return GAPPING_REPS_EASY;
+  if (mode === 'easy') return GAPPING_REPS_HARD;
+  // medium: classify by word count
+  const words = polishText.trim().split(/\s+/).filter(Boolean).length;
+  if (words <= 1) return GAPPING_REPS_EASY;
+  if (words <= 3) return GAPPING_REPS_MEDIUM;
+  return GAPPING_REPS_HARD;
 }
 
 function loadSrs() {

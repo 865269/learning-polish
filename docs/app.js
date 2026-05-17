@@ -1,7 +1,7 @@
 // Polish Practice – main app logic
 
 const ALL_CHAPTERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const APP_VERSION = 'v3.23';
+const APP_VERSION = 'v3.24';
 const REVIEW_BATCH = 20;
 
 const appState = {
@@ -181,7 +181,7 @@ function annotatePartialAnswers(questions, chapterNum) {
     const cid = q.cardId || cardId(chapterNum, q.section, q.answer);
     const card = srsState[cid];
     const reps = card ? (card.reps || 0) : 0;
-    if (reps < MASTERED_REPS) {
+    if (reps < cardGappingThreshold(q.answer)) {
       q.answerChars = makeAnswerChars(q.answer);
     }
   }
@@ -1036,10 +1036,34 @@ function showSettings() {
       <button class="btn btn-primary" id="apply-restore" disabled>Apply →</button>
     </div>
 
-    <div class="card" style="opacity:0.5;pointer-events:none">
+    <div class="card">
       <h2>Difficulty</h2>
-      <p style="color:#888;font-size:0.95rem;margin-top:8px">Coming soon</p>
+      <p style="color:#555;font-size:0.95rem;margin:8px 0 16px">
+        Controls when letter gaps are removed. <em>Easy</em> keeps gaps longer so you build up muscle memory before typing full answers. A lapsed card always re-enables gaps regardless of this setting.
+      </p>
+      <div class="mode-grid" style="margin-bottom:20px">
+        <input class="mode-option" type="radio" name="difficulty" id="d-easy" value="easy">
+        <label for="d-easy">Easy<br><small style="font-weight:400;color:#666">All cards: gaps until 10 correct answers</small></label>
+        <input class="mode-option" type="radio" name="difficulty" id="d-medium" value="medium">
+        <label for="d-medium">Medium<br><small style="font-weight:400;color:#666">1 word → 3 · 2–3 words → 6 · 4+ words → 10</small></label>
+        <input class="mode-option" type="radio" name="difficulty" id="d-hard" value="hard">
+        <label for="d-hard">Hard<br><small style="font-weight:400;color:#666">All cards: gaps until 3 correct answers</small></label>
+      </div>
+      <button class="btn btn-primary" id="apply-difficulty">Save difficulty →</button>
     </div>`);
+
+  // Difficulty setting
+  const currentMode = loadDifficultyMode();
+  const difficultyRadio = document.querySelector(`input[name="difficulty"][value="${currentMode}"]`);
+  if (difficultyRadio) difficultyRadio.checked = true;
+  document.getElementById('apply-difficulty').addEventListener('click', () => {
+    const selected = document.querySelector('input[name="difficulty"]:checked');
+    if (selected) {
+      saveDifficultyMode(selected.value);
+      document.getElementById('apply-difficulty').textContent = 'Saved ✓';
+      setTimeout(() => { document.getElementById('apply-difficulty').textContent = 'Save difficulty →'; }, 1500);
+    }
+  });
 
   const applyBtn = document.getElementById('apply-restore');
   const checks = Array.from(document.querySelectorAll('.chapter-check'));
